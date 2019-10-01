@@ -74,7 +74,7 @@ module.exports = ".map {\n  height: 50vh;\n  padding: 0;\n}\n\n.mat-elevation-z8
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n\n\n<div> \n<mat-toolbar>\n  <mat-toolbar-row>\n    <div fxShow=\"true\" fxHide.gt-sm=\"true\">\n      <button mat-icon-button (click)=\"sidenav.toggle()\">\n        <mat-icon>menu</mat-icon>\n      </button>\n    </div>\n\n    <a href=\"./\">\n      <span>\n        <img src=\"./assets/header_green.png\" style=\"width: 300px;\">\n      </span>\n    </a>\n    \n    <span class=\"filter-spacer\"></span>\n\n    <div  fxShow=\"true\" fxHide.lt-md=\"true\">\n      \n      <span>\n        <button mat-button>About Us</button>\n\n        <button mat-button>SARAi Community</button>\n\n        <button mat-button [matMenuTriggerFor]=\"beforeMenu\">Crops</button>\n        <mat-menu #beforeMenu=\"matMenu\" xPosition=\"before\">\n          <button mat-menu-item>Item 1</button>\n          <button mat-menu-item>Item 2</button>\n        </mat-menu>\n\n        <button mat-button [matMenuTriggerFor]=\"beforeMenu\">Maps</button>\n        <mat-menu #beforeMenu=\"matMenu\" xPosition=\"before\">\n          <button mat-menu-item>Item 1</button>\n          <button mat-menu-item>Item 2</button>\n        </mat-menu>\n\n        <button mat-button [matMenuTriggerFor]=\"afterMenu\">Services</button>\n        <mat-menu #afterMenu=\"matMenu\" xPosition=\"after\">\n          <button mat-menu-item>Item 1</button>\n          <button mat-menu-item>Item 2</button>\n        </mat-menu>\n        </span>\n    </div>\n    <span><img src=\"./assets/dost-pcaarrd-uplb.png\" style=\"width: 110px;\"></span>\n \n  </mat-toolbar-row>\n</mat-toolbar>\n\n  <mat-sidenav-container fxFlexFill class=\"example-container\">\n\n    <mat-sidenav color=\"primary\" #sidenav fxLayout=\"column\" mode=\"over\"  opened=\"false\" fxHide.gt-sm=\"true\">\n      <div fxLayout=\"column\">\n        <a mat-button routerLink=\"/about-us\">About us</a>\n        <a mat-button routerLink=\"/prices\">SARAi Community</a>\n        <a mat-button routerLink=\"/start-page\">Crops</a>\n        <a mat-button routerLink=\"/offer\">Maps</a>\n        <a mat-button routerLink=\"/contact\">Services</a>\n      </div>\n    </mat-sidenav>\n    <mat-sidenav-content fxFlexFill>\n\n\n<div>\n\n\n\n\n\n\n\n\n\n<div id=\"boundary\" style=\"background: red;\">\n\n  <div  class=\"map\"\n        leaflet\n        [leafletOptions]=\"options\"\n        (leafletMapReady)=\"onMapReady($event)\"\n        >\n\n  <div class=\"filter-box\" cdkDrag cdkDragBoundary='#boundary' (mouseenter) =\"mouseEnter()\" (mouseleave)=\"mouseLeave()\">\n\n    <div class=\"hide-button\">\n      <mat-icon>home</mat-icon>\n      \n    </div>\n    \n    <div class=\"filter-handle\" cdkDragHandle>\n      <svg width=\"24px\" fill=\"currentColor\" viewBox=\"0 0 24 24\">\n        <path d=\"M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z\"></path>\n        <path d=\"M0 0h24v24H0z\" fill=\"none\"></path>\n      </svg>\n    </div>\n  \n    <div class=\"filter-forms\" style=\"width: 100%;height:100%;\">\n\n    <span style=\"font-size:1.2em\">Soil Physical and Chemical Characteristics Database</span>\n    <mat-form-field class=\"filter-control\" >\n      <mat-label>Filter by crop</mat-label>\n      <mat-select [formControl]=\"crops\" multiple id=\"cropselect\">\n        <mat-option *ngFor=\"let crop of cropList\" [value]=\"crop\" checked>{{crop}}</mat-option>\n      </mat-select>\n    </mat-form-field>\n\n\n    <mat-form-field class=\"filter-control\">\n      <mat-label>Filter by province</mat-label>\n      <mat-select [formControl]=\"sites\" multiple>\n        <mat-option *ngFor=\"let site of siteList\" [value]=\"site\" checked>{{site}}</mat-option>\n      </mat-select>\n    </mat-form-field>\n\n  <button (click)=\"filterSelection()\">Filter</button>\n\n\n    </div>\n  \n  \n  \n  </div>\n  </div>\n\n\n\n\n</div>\n\n\n\n<div class=\"mat-elevation-z8\">\n  <div style=\"width: 70%; padding-top: 20px; margin: auto;text-align:center;font-weight:300px;\">\n    <span style=\"font-size:1.5em;\">Soil Physical and Chemical Characteristics Database</span><br>\n    <span  style=\"font-size: 0.9em; font-weight: 300;\">Soil samples were sent to the laboratory for physical, chemical, and mineralogical analyses. The results obtained from the lab will be the baseline data that researchers will utilize for their fertilizer application and water and crop management. The same lab results will be utilized as baseline data by crop modelers for their crop model development.\n    </span>\n  </div>\n\n  <div id=\"tsetsetse\" style=\"width: 40%; padding-top: 20px; margin: auto;\">\n    <mat-form-field style=\"width: 100%;\">\n      <input  matInput (keyup)=\"applyFilter($event.target.value)\" placeholder=\"Type here to search\">\n    </mat-form-field>\n  </div>\n\n\n\n<table  mat-table\n        matSort\n        [dataSource]=\"dataSource1\" multiTemplateDataRows\n       >\n\n\n\n\n  <ng-container matColumnDef=\"barangay\">\n    <th mat-header-cell *matHeaderCellDef mat-sort-header> Location </th>\n    <td mat-cell *matCellDef=\"let element\"> {{element.barangay}}, {{element.province}} </td>\n  </ng-container>\n\n  <ng-container matColumnDef=\"crop\">\n    <th mat-header-cell *matHeaderCellDef mat-sort-header> Crop </th>\n    <td mat-cell *matCellDef=\"let element\"> {{element.crop}} </td>\n  </ng-container>\n\n  <ng-container matColumnDef=\"ph\">\n    <th mat-header-cell *matHeaderCellDef mat-sort-header> pH </th>\n    <td mat-cell *matCellDef=\"let element\"> {{element.ph}} </td>\n  </ng-container>\n\n  <ng-container matColumnDef=\"om\">\n    <th mat-header-cell *matHeaderCellDef mat-sort-header> Organic Matter (OM) </th>\n    <td mat-cell *matCellDef=\"let element\"> {{element.om}} </td>\n  </ng-container>\n\n  <ng-container matColumnDef=\"n\">\n    <th mat-header-cell *matHeaderCellDef mat-sort-header> Nitrogen (N) </th>\n    <td mat-cell *matCellDef=\"let element\"> {{element.n}} </td>\n  </ng-container>\n\n  <ng-container matColumnDef=\"p\">\n    <th mat-header-cell *matHeaderCellDef mat-sort-header> Phosphorus (P) </th>\n    <td mat-cell *matCellDef=\"let element\"> {{element.p}} </td>\n  </ng-container>\n\n  <ng-container matColumnDef=\"k\">\n    <th mat-header-cell *matHeaderCellDef mat-sort-header> Potassium (K) </th>\n    <td mat-cell *matCellDef=\"let element\"> {{element.k}} </td>\n  </ng-container>\n\n\n  <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->\n  <ng-container matColumnDef=\"expandedDetail\">\n    <td mat-cell *matCellDef=\"let element\" [attr.colspan]=\"displayedColumns.length\">\n      <div class=\"example-element-detail\"\n           [@detailExpand]=\"element == expandedElement ? 'expanded' : 'collapsed'\">\n\n        <table id=\"tdesc\" style=\"border:1px solid black;\">\n          <tr>\n            <td class=\"desc-label\">\n              Sampling Date\n            </td>\n            <td colspan=\"5\">\n              {{element.date | date: 'mediumDate'}}\n            </td>\n          </tr>\n\n          <tr>\n            <td class=\"desc-label\">\n              Collaborator\n            </td>\n            <td class=\"desc-content\">\n             {{element.collaborator}}\n            </td>\n            <td class=\"desc-label\">\n              Longitude              \n            </td>\n            <td class=\"desc-content\">\n              {{element.long}}\n            </td>\n            <td class=\"desc-label\">\n              Latitude\n            </td>\n            <td class=\"desc-content\">\n              {{element.lat}}\n            </td>\n          </tr>\n\n          <tr>\n            <td class=\"desc-label\">\n              Barangay/Site              \n            </td>\n            <td class=\"desc-content\">\n\n             {{element.barangay}}\n            </td>\n\n            <td class=\"desc-label\">\n              Municipality\n            </td>\n            <td class=\"desc-content\">\n              {{element.municipality}}\n            </td>\n\n            <td class=\"desc-label\">\n              Province\n            </td>\n            <td class=\"desc-content\">\n              {{element.province}}\n            </td>\n          </tr>\n\n          <tr>\n            <td class=\"desc-label\">\n              Textual Grade\n            </td>\n            <td class=\"desc-content\">\n\n              {{element.textual_grade}}\n            </td>\n\n            <td class=\"desc-label\">\n              Remarks\n            </td>\n            <td colspan=\"3\" class=\"desc-content\">\n              {{element.remarks}}\n            </td>\n          </tr>\n\n        </table>\n      \n      </div>\n    </td>\n  </ng-container>\n\n  <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\n  <tr mat-row *matRowDef=\"let element; columns: displayedColumns;\"\n      class=\"example-element-row\"\n      [class.example-expanded-row]=\"expandedElement === element\"\n      (click)=\"flyToMarker(element.lat, element.long); expandedElement = expandedElement === element ? null : element\">\n  </tr>\n  <tr mat-row *matRowDef=\"let row; columns: ['expandedDetail']\" class=\"example-detail-row\"></tr>\n</table>\n\n  <mat-paginator [pageSizeOptions]=\"[10, 20, 50, 100]\" showFirstLastButtons></mat-paginator>\n\n</div>\n\n\n\n</div>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n    </mat-sidenav-content>\n  </mat-sidenav-container>\n</div>"
+module.exports = "\n\n\n<div> \n<mat-toolbar>\n  <mat-toolbar-row>\n    <div fxShow=\"true\" fxHide.gt-sm=\"true\">\n      <button mat-icon-button (click)=\"sidenav.toggle()\">\n        <mat-icon>menu</mat-icon>\n      </button>\n    </div>\n\n    <a href=\"./\">\n      <span>\n        <img src=\"./assets/header_green.png\" style=\"width: 300px;\">\n      </span>\n    </a>\n    \n    <span class=\"filter-spacer\"></span>\n\n    <div  fxShow=\"true\" fxHide.lt-md=\"true\">\n      \n      <span>\n        <button mat-button>About Us</button>\n\n        <button mat-button>SARAi Community</button>\n\n        <button mat-button [matMenuTriggerFor]=\"beforeMenu\">Crops</button>\n        <mat-menu #beforeMenu=\"matMenu\" xPosition=\"before\">\n          <button mat-menu-item>Item 1</button>\n          <button mat-menu-item>Item 2</button>\n        </mat-menu>\n\n        <button mat-button [matMenuTriggerFor]=\"beforeMenu\">Maps</button>\n        <mat-menu #beforeMenu=\"matMenu\" xPosition=\"before\">\n          <button mat-menu-item>Item 1</button>\n          <button mat-menu-item>Item 2</button>\n        </mat-menu>\n\n        <button mat-button [matMenuTriggerFor]=\"afterMenu\">Services</button>\n        <mat-menu #afterMenu=\"matMenu\" xPosition=\"after\">\n          <button mat-menu-item>Item 1</button>\n          <button mat-menu-item>Item 2</button>\n        </mat-menu>\n        </span>\n    </div>\n    <span><img src=\"./assets/dost-pcaarrd-uplb.png\" style=\"width: 110px;\"></span>\n \n  </mat-toolbar-row>\n</mat-toolbar>\n\n  <mat-sidenav-container fxFlexFill class=\"example-container\">\n\n    <mat-sidenav color=\"primary\" #sidenav fxLayout=\"column\" mode=\"over\"  opened=\"false\" fxHide.gt-sm=\"true\">\n      <div fxLayout=\"column\">\n        <a mat-button routerLink=\"/about-us\">About us</a>\n        <a mat-button routerLink=\"/prices\">SARAi Community</a>\n        <a mat-button routerLink=\"/start-page\">Crops</a>\n        <a mat-button routerLink=\"/offer\">Maps</a>\n        <a mat-button routerLink=\"/contact\">Services</a>\n      </div>\n    </mat-sidenav>\n    <mat-sidenav-content fxFlexFill>\n\n\n<div>\n\n\n\n\n\n\n\n\n\n<div id=\"boundary\" style=\"background: red;\">\n\n  <div  class=\"map\"\n        leaflet\n        [leafletOptions]=\"options\"\n        (leafletMapReady)=\"onMapReady($event)\"\n        >\n\n  <div class=\"filter-box\" cdkDrag cdkDragBoundary='#boundary' (mouseenter) =\"mouseEnter()\" (mouseleave)=\"mouseLeave()\">\n\n    <div class=\"hide-button\">\n      <mat-icon>home</mat-icon>\n      \n    </div>\n    \n    <div class=\"filter-handle\" cdkDragHandle>\n      <svg width=\"24px\" fill=\"currentColor\" viewBox=\"0 0 24 24\">\n        <path d=\"M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z\"></path>\n        <path d=\"M0 0h24v24H0z\" fill=\"none\"></path>\n      </svg>\n    </div>\n  \n    <div class=\"filter-forms\" style=\"width: 100%;height:100%;\">\n\n    <span style=\"font-size:1.2em\">Soil Physical and Chemical Characteristics Database</span>\n    <mat-form-field class=\"filter-control\" >\n      <mat-label>Filter by crop</mat-label>\n      <mat-select [formControl]=\"crops\" multiple id=\"cropselect\">\n        <mat-option *ngFor=\"let crop of cropList\" [value]=\"crop\" checked>{{crop}}</mat-option>\n      </mat-select>\n    </mat-form-field>\n\n\n    <mat-form-field class=\"filter-control\">\n      <mat-label>Filter by province</mat-label>\n      <mat-select [formControl]=\"sites\" multiple>\n        <mat-option *ngFor=\"let site of siteList\" [value]=\"site\" checked>{{site}}</mat-option>\n      </mat-select>\n    </mat-form-field>\n\n  <button (click)=\"filterSelection()\">Filter</button>\n\n\n    </div>\n  \n  \n  \n  </div>\n  </div>\n\n\n\n\n</div>\n\n\n\n<div class=\"mat-elevation-z8\">\n  <div style=\"width: 70%; padding-top: 20px; margin: auto;text-align:center;font-weight:300px;\">\n    <span style=\"font-size:1.5em;\">Soil Physical and Chemical Characteristics Database</span><br>\n    <span  style=\"font-size: 0.9em; font-weight: 300;\">Soil samples were sent to the laboratory for physical, chemical, and mineralogical analyses. The results obtained from the lab will be the baseline data that researchers will utilize for their fertilizer application and water and crop management. The same lab results will be utilized as baseline data by crop modelers for their crop model development.\n    </span>\n  </div>\n\n  <div id=\"tsetsetse\" style=\"width: 40%; padding-top: 20px; margin: auto;\">\n    <mat-form-field style=\"width: 100%;\">\n      <input  matInput (keyup)=\"applyFilter($event.target.value)\" placeholder=\"Type here to search\">\n    </mat-form-field>\n  </div>\n\n\n\n<table  mat-table\n        matSort\n        [dataSource]=\"dataSource1\" multiTemplateDataRows\n       >\n\n\n\n\n  <ng-container matColumnDef=\"barangay\">\n    <th mat-header-cell *matHeaderCellDef mat-sort-header> Location </th>\n    <td mat-cell *matCellDef=\"let element\"> {{element.barangay}}, {{element.province}} </td>\n  </ng-container>\n\n  <ng-container matColumnDef=\"crop\">\n    <th mat-header-cell *matHeaderCellDef mat-sort-header> Crop </th>\n    <td mat-cell *matCellDef=\"let element\"> {{element.crop}} </td>\n  </ng-container>\n\n  <ng-container matColumnDef=\"ph\">\n    <th mat-header-cell *matHeaderCellDef mat-sort-header> pH </th>\n    <td mat-cell *matCellDef=\"let element\"> {{element.ph}} </td>\n  </ng-container>\n\n  <ng-container matColumnDef=\"om\">\n    <th mat-header-cell *matHeaderCellDef mat-sort-header> Organic Matter (OM) </th>\n    <td mat-cell *matCellDef=\"let element\"> {{element.om}} </td>\n  </ng-container>\n\n  <ng-container matColumnDef=\"n\">\n    <th mat-header-cell *matHeaderCellDef mat-sort-header> Nitrogen (N) </th>\n    <td mat-cell *matCellDef=\"let element\"> {{element.n}} </td>\n  </ng-container>\n\n  <ng-container matColumnDef=\"p\">\n    <th mat-header-cell *matHeaderCellDef mat-sort-header> Phosphorus (P) </th>\n    <td mat-cell *matCellDef=\"let element\"> {{element.p}} </td>\n  </ng-container>\n\n  <ng-container matColumnDef=\"k\">\n    <th mat-header-cell *matHeaderCellDef mat-sort-header> Potassium (K) </th>\n    <td mat-cell *matCellDef=\"let element\"> {{element.k}} </td>\n  </ng-container>\n\n\n  <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->\n  <ng-container matColumnDef=\"expandedDetail\">\n    <td mat-cell *matCellDef=\"let element\" [attr.colspan]=\"displayedColumns.length\">\n      <div class=\"example-element-detail\"\n           [@detailExpand]=\"element == expandedElement ? 'expanded' : 'collapsed'\">\n\n        <table id=\"tdesc\" style=\"border:1px solid black;\">\n          <tr>\n            <td class=\"desc-label\">\n              Sampling Date\n            </td>\n            <td colspan=\"5\">\n              {{element.date | date: 'mediumDate'}}\n            </td>\n          </tr>\n\n          <tr>\n            <td class=\"desc-label\">\n              Collaborator\n            </td>\n            <td class=\"desc-content\">\n             {{element.collaborator}}\n            </td>\n            <td class=\"desc-label\">\n              Longitude              \n            </td>\n            <td class=\"desc-content\">\n              {{element.long}}\n            </td>\n            <td class=\"desc-label\">\n              Latitude\n            </td>\n            <td class=\"desc-content\">\n              {{element.lat}}\n            </td>\n          </tr>\n\n          <tr>\n            <td class=\"desc-label\">\n              Barangay/Site              \n            </td>\n            <td class=\"desc-content\">\n\n             {{element.barangay}}\n            </td>\n\n            <td class=\"desc-label\">\n              Municipality\n            </td>\n            <td class=\"desc-content\">\n              {{element.municipality}}\n            </td>\n\n            <td class=\"desc-label\">\n              Province\n            </td>\n            <td class=\"desc-content\">\n              {{element.province}}\n            </td>\n          </tr>\n\n          <tr>\n            <td class=\"desc-label\">\n              Textual Grade\n            </td>\n            <td class=\"desc-content\">\n\n              {{element.textual_grade}}\n            </td>\n            <td class=\"desc-label\" *ngIf=\"element.hasUrl\">\n              Soil Profile\n            </td>\n            <td class=\"desc-content\" *ngIf=\"element.hasUrl\">\n              \n                <a target=\"new\" href={{element.url}} >View Soil Profile</a>\n              \n            </td>\n\n          </tr>\n          <tr>\n            <td class=\"desc-label\">\n              Remarks\n            </td>\n            <td colspan=\"3\" class=\"desc-content\">\n              {{element.remarks}}\n            </td>\n          </tr>\n\n        </table>\n      \n      </div>\n    </td>\n  </ng-container>\n\n  <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\n  <tr mat-row *matRowDef=\"let element; columns: displayedColumns;\"\n      class=\"example-element-row\"\n      [class.example-expanded-row]=\"expandedElement === element\"\n      (click)=\"flyToMarker(element.lat, element.long); expandedElement = expandedElement === element ? null : element\">\n  </tr>\n  <tr mat-row *matRowDef=\"let row; columns: ['expandedDetail']\" class=\"example-detail-row\"></tr>\n</table>\n\n  <mat-paginator [pageSizeOptions]=\"[10, 20, 50, 100]\" showFirstLastButtons></mat-paginator>\n\n</div>\n\n\n\n</div>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n    </mat-sidenav-content>\n  </mat-sidenav-container>\n</div>"
 
 /***/ }),
 
@@ -158,6 +158,11 @@ var AppComponent = /** @class */ (function () {
         var myObserver = {
             next: function (x) {
                 x.forEach(function (sample) {
+                    var flag = false;
+                    if (sample.url.length > 0) {
+                        flag = true;
+                    }
+                    ;
                     var tempObject = {
                         // insert the id too
                         id: sample.id,
@@ -177,6 +182,8 @@ var AppComponent = /** @class */ (function () {
                         long: sample.long,
                         lat: sample.lat,
                         date: sample.date,
+                        url: sample.url,
+                        hasUrl: flag
                     };
                     _this.SOIL_DATA.push(tempObject);
                 });
@@ -199,7 +206,7 @@ var AppComponent = /** @class */ (function () {
             // tslint:disable-next-line:max-line-length
             var tempMarker = Object(leaflet__WEBPACK_IMPORTED_MODULE_2__["marker"])([samplepoint.lat, samplepoint.long], { icon: regularIcon });
             // tslint:disable-next-line:max-line-length
-            var popupContent = samplepoint.crop + '<br>' + samplepoint.barangay + '<br>N: ' + samplepoint.n + '<br>P: ' + samplepoint.p + '<br>K: ' + samplepoint.k + '<br>Organic Matter: ' + samplepoint.om;
+            var popupContent = '<span style=\'font-size:1.5em;font-weight:500;\'>' + samplepoint.crop + '</span><br>' + samplepoint.barangay + '<br>N: ' + samplepoint.n + '<br>P: ' + samplepoint.p + '<br>K: ' + samplepoint.k + '<br>Organic Matter: ' + samplepoint.om;
             tempMarker.bindPopup(popupContent);
             tempMarker.on('mouseover', function (e) {
                 e.target.setIcon(biggerIcon);
@@ -327,52 +334,54 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AppModule", function() { return AppModule; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _asymmetrik_ngx_leaflet__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @asymmetrik/ngx-leaflet */ "./node_modules/@asymmetrik/ngx-leaflet/dist/index.js");
-/* harmony import */ var _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/platform-browser/animations */ "./node_modules/@angular/platform-browser/fesm5/animations.js");
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
-/* harmony import */ var _angular_fire__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/fire */ "./node_modules/@angular/fire/index.js");
-/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../environments/environment */ "./src/environments/environment.ts");
-/* harmony import */ var _angular_fire_firestore__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/fire/firestore */ "./node_modules/@angular/fire/firestore/index.js");
-/* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./app-routing.module */ "./src/app/app-routing.module.ts");
-/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
-/* harmony import */ var _angular_cdk_drag_drop__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @angular/cdk/drag-drop */ "./node_modules/@angular/cdk/esm5/drag-drop.es5.js");
-/* harmony import */ var _angular_material_autocomplete__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @angular/material/autocomplete */ "./node_modules/@angular/material/esm5/autocomplete.es5.js");
-/* harmony import */ var _angular_material_badge__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @angular/material/badge */ "./node_modules/@angular/material/esm5/badge.es5.js");
-/* harmony import */ var _angular_material_bottom_sheet__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @angular/material/bottom-sheet */ "./node_modules/@angular/material/esm5/bottom-sheet.es5.js");
-/* harmony import */ var _angular_material_button__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @angular/material/button */ "./node_modules/@angular/material/esm5/button.es5.js");
-/* harmony import */ var _angular_material_button_toggle__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @angular/material/button-toggle */ "./node_modules/@angular/material/esm5/button-toggle.es5.js");
-/* harmony import */ var _angular_material_card__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @angular/material/card */ "./node_modules/@angular/material/esm5/card.es5.js");
-/* harmony import */ var _angular_material_checkbox__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @angular/material/checkbox */ "./node_modules/@angular/material/esm5/checkbox.es5.js");
-/* harmony import */ var _angular_material_chips__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! @angular/material/chips */ "./node_modules/@angular/material/esm5/chips.es5.js");
-/* harmony import */ var _angular_material_stepper__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! @angular/material/stepper */ "./node_modules/@angular/material/esm5/stepper.es5.js");
-/* harmony import */ var _angular_material_datepicker__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! @angular/material/datepicker */ "./node_modules/@angular/material/esm5/datepicker.es5.js");
-/* harmony import */ var _angular_material_dialog__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! @angular/material/dialog */ "./node_modules/@angular/material/esm5/dialog.es5.js");
-/* harmony import */ var _angular_material_divider__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! @angular/material/divider */ "./node_modules/@angular/material/esm5/divider.es5.js");
-/* harmony import */ var _angular_material_expansion__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! @angular/material/expansion */ "./node_modules/@angular/material/esm5/expansion.es5.js");
-/* harmony import */ var _angular_material_grid_list__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! @angular/material/grid-list */ "./node_modules/@angular/material/esm5/grid-list.es5.js");
-/* harmony import */ var _angular_material_icon__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! @angular/material/icon */ "./node_modules/@angular/material/esm5/icon.es5.js");
-/* harmony import */ var _angular_material_input__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! @angular/material/input */ "./node_modules/@angular/material/esm5/input.es5.js");
-/* harmony import */ var _angular_material_list__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! @angular/material/list */ "./node_modules/@angular/material/esm5/list.es5.js");
-/* harmony import */ var _angular_material_menu__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! @angular/material/menu */ "./node_modules/@angular/material/esm5/menu.es5.js");
-/* harmony import */ var _angular_material_core__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! @angular/material/core */ "./node_modules/@angular/material/esm5/core.es5.js");
-/* harmony import */ var _angular_material_paginator__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! @angular/material/paginator */ "./node_modules/@angular/material/esm5/paginator.es5.js");
-/* harmony import */ var _angular_material_progress_bar__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! @angular/material/progress-bar */ "./node_modules/@angular/material/esm5/progress-bar.es5.js");
-/* harmony import */ var _angular_material_progress_spinner__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! @angular/material/progress-spinner */ "./node_modules/@angular/material/esm5/progress-spinner.es5.js");
-/* harmony import */ var _angular_material_radio__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! @angular/material/radio */ "./node_modules/@angular/material/esm5/radio.es5.js");
-/* harmony import */ var _angular_material_select__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! @angular/material/select */ "./node_modules/@angular/material/esm5/select.es5.js");
-/* harmony import */ var _angular_material_sidenav__WEBPACK_IMPORTED_MODULE_36__ = __webpack_require__(/*! @angular/material/sidenav */ "./node_modules/@angular/material/esm5/sidenav.es5.js");
-/* harmony import */ var _angular_material_slider__WEBPACK_IMPORTED_MODULE_37__ = __webpack_require__(/*! @angular/material/slider */ "./node_modules/@angular/material/esm5/slider.es5.js");
-/* harmony import */ var _angular_material_slide_toggle__WEBPACK_IMPORTED_MODULE_38__ = __webpack_require__(/*! @angular/material/slide-toggle */ "./node_modules/@angular/material/esm5/slide-toggle.es5.js");
-/* harmony import */ var _angular_material_snack_bar__WEBPACK_IMPORTED_MODULE_39__ = __webpack_require__(/*! @angular/material/snack-bar */ "./node_modules/@angular/material/esm5/snack-bar.es5.js");
-/* harmony import */ var _angular_material_sort__WEBPACK_IMPORTED_MODULE_40__ = __webpack_require__(/*! @angular/material/sort */ "./node_modules/@angular/material/esm5/sort.es5.js");
-/* harmony import */ var _angular_material_table__WEBPACK_IMPORTED_MODULE_41__ = __webpack_require__(/*! @angular/material/table */ "./node_modules/@angular/material/esm5/table.es5.js");
-/* harmony import */ var _angular_material_tabs__WEBPACK_IMPORTED_MODULE_42__ = __webpack_require__(/*! @angular/material/tabs */ "./node_modules/@angular/material/esm5/tabs.es5.js");
-/* harmony import */ var _angular_material_toolbar__WEBPACK_IMPORTED_MODULE_43__ = __webpack_require__(/*! @angular/material/toolbar */ "./node_modules/@angular/material/esm5/toolbar.es5.js");
-/* harmony import */ var _angular_material_tooltip__WEBPACK_IMPORTED_MODULE_44__ = __webpack_require__(/*! @angular/material/tooltip */ "./node_modules/@angular/material/esm5/tooltip.es5.js");
-/* harmony import */ var _angular_material_tree__WEBPACK_IMPORTED_MODULE_45__ = __webpack_require__(/*! @angular/material/tree */ "./node_modules/@angular/material/esm5/tree.es5.js");
-/* harmony import */ var _angular_fire_database__WEBPACK_IMPORTED_MODULE_46__ = __webpack_require__(/*! @angular/fire/database */ "./node_modules/@angular/fire/database/index.js");
-/* harmony import */ var _angular_flex_layout__WEBPACK_IMPORTED_MODULE_47__ = __webpack_require__(/*! @angular/flex-layout */ "./node_modules/@angular/flex-layout/esm5/flex-layout.es5.js");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _asymmetrik_ngx_leaflet__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @asymmetrik/ngx-leaflet */ "./node_modules/@asymmetrik/ngx-leaflet/dist/index.js");
+/* harmony import */ var _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/platform-browser/animations */ "./node_modules/@angular/platform-browser/fesm5/animations.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _angular_fire__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/fire */ "./node_modules/@angular/fire/index.js");
+/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../environments/environment */ "./src/environments/environment.ts");
+/* harmony import */ var _angular_fire_firestore__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @angular/fire/firestore */ "./node_modules/@angular/fire/firestore/index.js");
+/* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./app-routing.module */ "./src/app/app-routing.module.ts");
+/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
+/* harmony import */ var _angular_cdk_drag_drop__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @angular/cdk/drag-drop */ "./node_modules/@angular/cdk/esm5/drag-drop.es5.js");
+/* harmony import */ var _angular_material_autocomplete__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @angular/material/autocomplete */ "./node_modules/@angular/material/esm5/autocomplete.es5.js");
+/* harmony import */ var _angular_material_badge__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @angular/material/badge */ "./node_modules/@angular/material/esm5/badge.es5.js");
+/* harmony import */ var _angular_material_bottom_sheet__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @angular/material/bottom-sheet */ "./node_modules/@angular/material/esm5/bottom-sheet.es5.js");
+/* harmony import */ var _angular_material_button__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @angular/material/button */ "./node_modules/@angular/material/esm5/button.es5.js");
+/* harmony import */ var _angular_material_button_toggle__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @angular/material/button-toggle */ "./node_modules/@angular/material/esm5/button-toggle.es5.js");
+/* harmony import */ var _angular_material_card__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @angular/material/card */ "./node_modules/@angular/material/esm5/card.es5.js");
+/* harmony import */ var _angular_material_checkbox__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! @angular/material/checkbox */ "./node_modules/@angular/material/esm5/checkbox.es5.js");
+/* harmony import */ var _angular_material_chips__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! @angular/material/chips */ "./node_modules/@angular/material/esm5/chips.es5.js");
+/* harmony import */ var _angular_material_stepper__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! @angular/material/stepper */ "./node_modules/@angular/material/esm5/stepper.es5.js");
+/* harmony import */ var _angular_material_datepicker__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! @angular/material/datepicker */ "./node_modules/@angular/material/esm5/datepicker.es5.js");
+/* harmony import */ var _angular_material_dialog__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! @angular/material/dialog */ "./node_modules/@angular/material/esm5/dialog.es5.js");
+/* harmony import */ var _angular_material_divider__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! @angular/material/divider */ "./node_modules/@angular/material/esm5/divider.es5.js");
+/* harmony import */ var _angular_material_expansion__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! @angular/material/expansion */ "./node_modules/@angular/material/esm5/expansion.es5.js");
+/* harmony import */ var _angular_material_grid_list__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! @angular/material/grid-list */ "./node_modules/@angular/material/esm5/grid-list.es5.js");
+/* harmony import */ var _angular_material_icon__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! @angular/material/icon */ "./node_modules/@angular/material/esm5/icon.es5.js");
+/* harmony import */ var _angular_material_input__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! @angular/material/input */ "./node_modules/@angular/material/esm5/input.es5.js");
+/* harmony import */ var _angular_material_list__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! @angular/material/list */ "./node_modules/@angular/material/esm5/list.es5.js");
+/* harmony import */ var _angular_material_menu__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! @angular/material/menu */ "./node_modules/@angular/material/esm5/menu.es5.js");
+/* harmony import */ var _angular_material_core__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! @angular/material/core */ "./node_modules/@angular/material/esm5/core.es5.js");
+/* harmony import */ var _angular_material_paginator__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! @angular/material/paginator */ "./node_modules/@angular/material/esm5/paginator.es5.js");
+/* harmony import */ var _angular_material_progress_bar__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! @angular/material/progress-bar */ "./node_modules/@angular/material/esm5/progress-bar.es5.js");
+/* harmony import */ var _angular_material_progress_spinner__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! @angular/material/progress-spinner */ "./node_modules/@angular/material/esm5/progress-spinner.es5.js");
+/* harmony import */ var _angular_material_radio__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! @angular/material/radio */ "./node_modules/@angular/material/esm5/radio.es5.js");
+/* harmony import */ var _angular_material_select__WEBPACK_IMPORTED_MODULE_36__ = __webpack_require__(/*! @angular/material/select */ "./node_modules/@angular/material/esm5/select.es5.js");
+/* harmony import */ var _angular_material_sidenav__WEBPACK_IMPORTED_MODULE_37__ = __webpack_require__(/*! @angular/material/sidenav */ "./node_modules/@angular/material/esm5/sidenav.es5.js");
+/* harmony import */ var _angular_material_slider__WEBPACK_IMPORTED_MODULE_38__ = __webpack_require__(/*! @angular/material/slider */ "./node_modules/@angular/material/esm5/slider.es5.js");
+/* harmony import */ var _angular_material_slide_toggle__WEBPACK_IMPORTED_MODULE_39__ = __webpack_require__(/*! @angular/material/slide-toggle */ "./node_modules/@angular/material/esm5/slide-toggle.es5.js");
+/* harmony import */ var _angular_material_snack_bar__WEBPACK_IMPORTED_MODULE_40__ = __webpack_require__(/*! @angular/material/snack-bar */ "./node_modules/@angular/material/esm5/snack-bar.es5.js");
+/* harmony import */ var _angular_material_sort__WEBPACK_IMPORTED_MODULE_41__ = __webpack_require__(/*! @angular/material/sort */ "./node_modules/@angular/material/esm5/sort.es5.js");
+/* harmony import */ var _angular_material_table__WEBPACK_IMPORTED_MODULE_42__ = __webpack_require__(/*! @angular/material/table */ "./node_modules/@angular/material/esm5/table.es5.js");
+/* harmony import */ var _angular_material_tabs__WEBPACK_IMPORTED_MODULE_43__ = __webpack_require__(/*! @angular/material/tabs */ "./node_modules/@angular/material/esm5/tabs.es5.js");
+/* harmony import */ var _angular_material_toolbar__WEBPACK_IMPORTED_MODULE_44__ = __webpack_require__(/*! @angular/material/toolbar */ "./node_modules/@angular/material/esm5/toolbar.es5.js");
+/* harmony import */ var _angular_material_tooltip__WEBPACK_IMPORTED_MODULE_45__ = __webpack_require__(/*! @angular/material/tooltip */ "./node_modules/@angular/material/esm5/tooltip.es5.js");
+/* harmony import */ var _angular_material_tree__WEBPACK_IMPORTED_MODULE_46__ = __webpack_require__(/*! @angular/material/tree */ "./node_modules/@angular/material/esm5/tree.es5.js");
+/* harmony import */ var _angular_fire_database__WEBPACK_IMPORTED_MODULE_47__ = __webpack_require__(/*! @angular/fire/database */ "./node_modules/@angular/fire/database/index.js");
+/* harmony import */ var _angular_flex_layout__WEBPACK_IMPORTED_MODULE_48__ = __webpack_require__(/*! @angular/flex-layout */ "./node_modules/@angular/flex-layout/esm5/flex-layout.es5.js");
+
 
 
 
@@ -425,61 +434,62 @@ var AppModule = /** @class */ (function () {
     function AppModule() {
     }
     AppModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["NgModule"])({
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["NgModule"])({
             declarations: [
-                _app_component__WEBPACK_IMPORTED_MODULE_10__["AppComponent"]
+                _app_component__WEBPACK_IMPORTED_MODULE_11__["AppComponent"]
             ],
             exports: [],
             imports: [
+                _angular_common__WEBPACK_IMPORTED_MODULE_2__["CommonModule"],
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"],
-                _app_routing_module__WEBPACK_IMPORTED_MODULE_9__["AppRoutingModule"],
-                _asymmetrik_ngx_leaflet__WEBPACK_IMPORTED_MODULE_3__["LeafletModule"].forRoot(),
-                _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_4__["BrowserAnimationsModule"],
-                _angular_forms__WEBPACK_IMPORTED_MODULE_5__["FormsModule"],
-                _angular_forms__WEBPACK_IMPORTED_MODULE_5__["ReactiveFormsModule"],
-                _angular_fire__WEBPACK_IMPORTED_MODULE_6__["AngularFireModule"].initializeApp(_environments_environment__WEBPACK_IMPORTED_MODULE_7__["environment"].firebase),
-                _angular_fire_firestore__WEBPACK_IMPORTED_MODULE_8__["AngularFirestoreModule"],
-                _angular_fire_database__WEBPACK_IMPORTED_MODULE_46__["AngularFireDatabaseModule"],
-                _angular_material_autocomplete__WEBPACK_IMPORTED_MODULE_12__["MatAutocompleteModule"],
-                _angular_material_badge__WEBPACK_IMPORTED_MODULE_13__["MatBadgeModule"],
-                _angular_material_bottom_sheet__WEBPACK_IMPORTED_MODULE_14__["MatBottomSheetModule"],
-                _angular_material_button__WEBPACK_IMPORTED_MODULE_15__["MatButtonModule"],
-                _angular_material_button_toggle__WEBPACK_IMPORTED_MODULE_16__["MatButtonToggleModule"],
-                _angular_material_card__WEBPACK_IMPORTED_MODULE_17__["MatCardModule"],
-                _angular_material_checkbox__WEBPACK_IMPORTED_MODULE_18__["MatCheckboxModule"],
-                _angular_material_chips__WEBPACK_IMPORTED_MODULE_19__["MatChipsModule"],
-                _angular_material_datepicker__WEBPACK_IMPORTED_MODULE_21__["MatDatepickerModule"],
-                _angular_material_dialog__WEBPACK_IMPORTED_MODULE_22__["MatDialogModule"],
-                _angular_material_divider__WEBPACK_IMPORTED_MODULE_23__["MatDividerModule"],
-                _angular_material_expansion__WEBPACK_IMPORTED_MODULE_24__["MatExpansionModule"],
-                _angular_material_grid_list__WEBPACK_IMPORTED_MODULE_25__["MatGridListModule"],
-                _angular_material_icon__WEBPACK_IMPORTED_MODULE_26__["MatIconModule"],
-                _angular_material_input__WEBPACK_IMPORTED_MODULE_27__["MatInputModule"],
-                _angular_material_list__WEBPACK_IMPORTED_MODULE_28__["MatListModule"],
-                _angular_material_menu__WEBPACK_IMPORTED_MODULE_29__["MatMenuModule"],
-                _angular_material_core__WEBPACK_IMPORTED_MODULE_30__["MatNativeDateModule"],
-                _angular_material_paginator__WEBPACK_IMPORTED_MODULE_31__["MatPaginatorModule"],
-                _angular_material_progress_bar__WEBPACK_IMPORTED_MODULE_32__["MatProgressBarModule"],
-                _angular_material_progress_spinner__WEBPACK_IMPORTED_MODULE_33__["MatProgressSpinnerModule"],
-                _angular_material_radio__WEBPACK_IMPORTED_MODULE_34__["MatRadioModule"],
-                _angular_material_core__WEBPACK_IMPORTED_MODULE_30__["MatRippleModule"],
-                _angular_material_select__WEBPACK_IMPORTED_MODULE_35__["MatSelectModule"],
-                _angular_material_sidenav__WEBPACK_IMPORTED_MODULE_36__["MatSidenavModule"],
-                _angular_material_slider__WEBPACK_IMPORTED_MODULE_37__["MatSliderModule"],
-                _angular_material_slide_toggle__WEBPACK_IMPORTED_MODULE_38__["MatSlideToggleModule"],
-                _angular_material_snack_bar__WEBPACK_IMPORTED_MODULE_39__["MatSnackBarModule"],
-                _angular_material_sort__WEBPACK_IMPORTED_MODULE_40__["MatSortModule"],
-                _angular_material_stepper__WEBPACK_IMPORTED_MODULE_20__["MatStepperModule"],
-                _angular_material_table__WEBPACK_IMPORTED_MODULE_41__["MatTableModule"],
-                _angular_material_tabs__WEBPACK_IMPORTED_MODULE_42__["MatTabsModule"],
-                _angular_material_toolbar__WEBPACK_IMPORTED_MODULE_43__["MatToolbarModule"],
-                _angular_material_tooltip__WEBPACK_IMPORTED_MODULE_44__["MatTooltipModule"],
-                _angular_material_tree__WEBPACK_IMPORTED_MODULE_45__["MatTreeModule"],
-                _angular_cdk_drag_drop__WEBPACK_IMPORTED_MODULE_11__["DragDropModule"],
-                _angular_flex_layout__WEBPACK_IMPORTED_MODULE_47__["FlexLayoutModule"]
+                _app_routing_module__WEBPACK_IMPORTED_MODULE_10__["AppRoutingModule"],
+                _asymmetrik_ngx_leaflet__WEBPACK_IMPORTED_MODULE_4__["LeafletModule"].forRoot(),
+                _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_5__["BrowserAnimationsModule"],
+                _angular_forms__WEBPACK_IMPORTED_MODULE_6__["FormsModule"],
+                _angular_forms__WEBPACK_IMPORTED_MODULE_6__["ReactiveFormsModule"],
+                _angular_fire__WEBPACK_IMPORTED_MODULE_7__["AngularFireModule"].initializeApp(_environments_environment__WEBPACK_IMPORTED_MODULE_8__["environment"].firebase),
+                _angular_fire_firestore__WEBPACK_IMPORTED_MODULE_9__["AngularFirestoreModule"],
+                _angular_fire_database__WEBPACK_IMPORTED_MODULE_47__["AngularFireDatabaseModule"],
+                _angular_material_autocomplete__WEBPACK_IMPORTED_MODULE_13__["MatAutocompleteModule"],
+                _angular_material_badge__WEBPACK_IMPORTED_MODULE_14__["MatBadgeModule"],
+                _angular_material_bottom_sheet__WEBPACK_IMPORTED_MODULE_15__["MatBottomSheetModule"],
+                _angular_material_button__WEBPACK_IMPORTED_MODULE_16__["MatButtonModule"],
+                _angular_material_button_toggle__WEBPACK_IMPORTED_MODULE_17__["MatButtonToggleModule"],
+                _angular_material_card__WEBPACK_IMPORTED_MODULE_18__["MatCardModule"],
+                _angular_material_checkbox__WEBPACK_IMPORTED_MODULE_19__["MatCheckboxModule"],
+                _angular_material_chips__WEBPACK_IMPORTED_MODULE_20__["MatChipsModule"],
+                _angular_material_datepicker__WEBPACK_IMPORTED_MODULE_22__["MatDatepickerModule"],
+                _angular_material_dialog__WEBPACK_IMPORTED_MODULE_23__["MatDialogModule"],
+                _angular_material_divider__WEBPACK_IMPORTED_MODULE_24__["MatDividerModule"],
+                _angular_material_expansion__WEBPACK_IMPORTED_MODULE_25__["MatExpansionModule"],
+                _angular_material_grid_list__WEBPACK_IMPORTED_MODULE_26__["MatGridListModule"],
+                _angular_material_icon__WEBPACK_IMPORTED_MODULE_27__["MatIconModule"],
+                _angular_material_input__WEBPACK_IMPORTED_MODULE_28__["MatInputModule"],
+                _angular_material_list__WEBPACK_IMPORTED_MODULE_29__["MatListModule"],
+                _angular_material_menu__WEBPACK_IMPORTED_MODULE_30__["MatMenuModule"],
+                _angular_material_core__WEBPACK_IMPORTED_MODULE_31__["MatNativeDateModule"],
+                _angular_material_paginator__WEBPACK_IMPORTED_MODULE_32__["MatPaginatorModule"],
+                _angular_material_progress_bar__WEBPACK_IMPORTED_MODULE_33__["MatProgressBarModule"],
+                _angular_material_progress_spinner__WEBPACK_IMPORTED_MODULE_34__["MatProgressSpinnerModule"],
+                _angular_material_radio__WEBPACK_IMPORTED_MODULE_35__["MatRadioModule"],
+                _angular_material_core__WEBPACK_IMPORTED_MODULE_31__["MatRippleModule"],
+                _angular_material_select__WEBPACK_IMPORTED_MODULE_36__["MatSelectModule"],
+                _angular_material_sidenav__WEBPACK_IMPORTED_MODULE_37__["MatSidenavModule"],
+                _angular_material_slider__WEBPACK_IMPORTED_MODULE_38__["MatSliderModule"],
+                _angular_material_slide_toggle__WEBPACK_IMPORTED_MODULE_39__["MatSlideToggleModule"],
+                _angular_material_snack_bar__WEBPACK_IMPORTED_MODULE_40__["MatSnackBarModule"],
+                _angular_material_sort__WEBPACK_IMPORTED_MODULE_41__["MatSortModule"],
+                _angular_material_stepper__WEBPACK_IMPORTED_MODULE_21__["MatStepperModule"],
+                _angular_material_table__WEBPACK_IMPORTED_MODULE_42__["MatTableModule"],
+                _angular_material_tabs__WEBPACK_IMPORTED_MODULE_43__["MatTabsModule"],
+                _angular_material_toolbar__WEBPACK_IMPORTED_MODULE_44__["MatToolbarModule"],
+                _angular_material_tooltip__WEBPACK_IMPORTED_MODULE_45__["MatTooltipModule"],
+                _angular_material_tree__WEBPACK_IMPORTED_MODULE_46__["MatTreeModule"],
+                _angular_cdk_drag_drop__WEBPACK_IMPORTED_MODULE_12__["DragDropModule"],
+                _angular_flex_layout__WEBPACK_IMPORTED_MODULE_48__["FlexLayoutModule"]
             ],
             providers: [],
-            bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_10__["AppComponent"]]
+            bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_11__["AppComponent"]]
         })
     ], AppModule);
     return AppModule;
