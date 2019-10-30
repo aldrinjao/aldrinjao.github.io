@@ -211,9 +211,9 @@ var AppComponent = /** @class */ (function () {
         this.eventend = 9999999999999;
         this.startdate = new _angular_forms__WEBPACK_IMPORTED_MODULE_6__["FormControl"](new Date(1527782400000));
         this.enddate = new _angular_forms__WEBPACK_IMPORTED_MODULE_6__["FormControl"](new Date());
-        // layergroup for each crop type
-        this.itemsLevel1 = new leaflet__WEBPACK_IMPORTED_MODULE_2__["LayerGroup"]();
-        // main layergroup
+        // FeatureGroup for each crop type
+        this.itemsLevel1 = new leaflet__WEBPACK_IMPORTED_MODULE_2__["FeatureGroup"]();
+        // main FeatureGroup
         this.layerMainGroup = [];
         this.mbAttr = 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
             '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
@@ -409,6 +409,7 @@ var AppComponent = /** @class */ (function () {
         this.dataSource1.paginator = this.paginator;
         this.dataSource1.sort = this.sort;
         this.createMarkers(res);
+        this.map.fitBounds(this.itemsLevel1.getBounds());
     };
     AppComponent.prototype.mouseEnter = function () {
         this.map.dragging.disable();
@@ -447,6 +448,7 @@ var AppComponent = /** @class */ (function () {
         this.sites.setValue(null);
         this.phLowValue = 0;
         this.phHighValue = 10;
+        this.map.fitBounds(this.itemsLevel1.getBounds());
     };
     AppComponent.prototype.scrollToMap = function () {
         window.scrollTo({ top: 0, behavior: 'smooth' });
