@@ -347,7 +347,6 @@ var AppComponent = /** @class */ (function () {
         leaflet__WEBPACK_IMPORTED_MODULE_2__["control"].layers(this.basemaps).addTo(map);
     };
     AppComponent.prototype.addEventStart = function (type, event) {
-        console.log(this.startdate.value);
         var testDate = '1 1, 1970';
         if (event.value != null) {
             testDate = (event.value.getMonth() + 1) + ' ' + event.value.getDate() + ', ' + event.value.getFullYear();
@@ -447,7 +446,6 @@ var AppComponent = /** @class */ (function () {
             // or array2.includes(v)
         });
         // make the markers
-        console.log(res);
         this.itemsLevel1.clearLayers();
         this.dataSource1 = new _angular_material__WEBPACK_IMPORTED_MODULE_4__["MatTableDataSource"](res);
         this.dataSource1.paginator = this.paginator;
