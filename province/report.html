@@ -331,7 +331,7 @@ and occurrence of other lepidopterous pest.</td>
                   <th scope="row" style="vertical-align: middle;">Maguindanao</th>
                   <td style="vertical-align: middle;"><div id="corncontainer8" class="graph"></div></td>
                   <td style="vertical-align: middle;">
-                    <div id="container27" class="graph"></div>
+                    <div id="container29" class="graph"></div>
                   </td>
 
 
@@ -345,7 +345,7 @@ and occurrence of other lepidopterous pest.</td>
                   <th scope="row" style="vertical-align: middle;">Cagayan</th>
                   <td style="vertical-align: middle;"><div id="corncontainer10" class="graph"></div></td>
                   <td style="vertical-align: middle;">
-                    <div id="container29" class="graph"></div>
+                    <div id="container31" class="graph"></div>
                   </td>
 
 
@@ -360,7 +360,7 @@ and occurrence of other lepidopterous pest.</td>
                   <th scope="row" style="vertical-align: middle;">North Cotabato</th>
                   <td style="vertical-align: middle;"><div id="corncontainer12" class="graph"></div></td>
                   <td style="vertical-align: middle;">
-                    <div id="container31" class="graph"></div>
+                    <div id="container33" class="graph"></div>
                   </td>
 
 
@@ -376,7 +376,7 @@ armyworm, and occurrence of other lepidopterous pest.</td>
                   <th scope="row" style="vertical-align: middle;">Pangasinan</th>
                   <td style="vertical-align: middle;"><div id="corncontainer14" class="graph"></div></td>
                   <td style="vertical-align: middle;">
-                    <div id="container33" class="graph"></div>
+                    <div id="container35" class="graph"></div>
                   </td>
 
 
@@ -392,7 +392,7 @@ armyworm, and occurrence of other lepidopterous pest.</td>
                   <th scope="row" style="vertical-align: middle;">Sultan Kudarat</th>
                   <td style="vertical-align: middle;"><div id="corncontainer16" class="graph"></div></td>
                   <td style="vertical-align: middle;">
-                    <div id="container35" class="graph"></div>
+                    <div id="container37" class="graph"></div>
                   </td>
 
 
@@ -408,7 +408,7 @@ armyworm, and occurrence of other lepidopterous pest.</td>
                   <th scope="row" style="vertical-align: middle;">Lanao del Sur</th>
                   <td style="vertical-align: middle;"><div id="corncontainer18" class="graph"></div></td>
                   <td style="vertical-align: middle;">
-                    <div id="container37" class="graph"></div>
+                    <div id="container39" class="graph"></div>
                   </td>
 
 
@@ -425,8 +425,9 @@ armyworm, and occurrence of other lepidopterous pest.</td>
                   <th scope="row" style="vertical-align: middle;">Lanao del Norte</th>
                   <td style="vertical-align: middle;"><div id="corncontainer20" class="graph"></div></td>
                   <td style="vertical-align: middle;">
-                    <div id="container39" class="graph"></div>
+                    <div id="container41" class="graph"></div>
                   </td>
+
 
 
 
@@ -1245,7 +1246,6 @@ armyworm, and occurrence of other lepidopterous pest.</td>
       }
     });
 
-
     Highcharts.chart('container29', {
       chart: {
           type: 'column'
@@ -1292,6 +1292,7 @@ armyworm, and occurrence of other lepidopterous pest.</td>
         enabled: false
       }
     });
+
 
 
     Highcharts.chart('container31', {
@@ -1489,9 +1490,57 @@ armyworm, and occurrence of other lepidopterous pest.</td>
     });
 
 
-
-
     Highcharts.chart('container37', {
+      chart: {
+          type: 'column'
+      },
+      xAxis: {
+          categories: [
+              'Dec',
+              'Jan',
+              'Feb',
+              'Mar',
+              'Apr',
+              'May'
+          ],
+          crosshair: true,
+          title: {
+              enabled: false
+          }
+      },
+      yAxis: {
+          min: 20,
+          max: 30,
+          title: {
+              enabled: false
+          }
+
+      },
+      tooltip: {
+          shared: true,
+          useHTML: true
+      },
+      plotOptions: {
+          column: {
+              pointPadding: 0.2,
+              borderWidth: 0
+          }
+      },
+      series: [{
+          name: 'Temperature (c)',
+          data: [26 ,26 , 25, 25, 26, 26]
+
+
+      }],
+      legend:{
+        enabled: false
+      }
+    });
+
+
+
+
+    Highcharts.chart('container39', {
       chart: {
           type: 'column'
       },
@@ -1540,7 +1589,7 @@ armyworm, and occurrence of other lepidopterous pest.</td>
 
 
 
-    Highcharts.chart('container39', {
+    Highcharts.chart('container41', {
       chart: {
           type: 'column'
       },
