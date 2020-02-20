@@ -141,6 +141,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _main_main_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./main/main.component */ "./src/app/main/main.component.ts");
 /* harmony import */ var _angular_flex_layout__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @angular/flex-layout */ "./node_modules/@angular/flex-layout/esm5/flex-layout.es5.js");
 /* harmony import */ var _item_item_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./item/item.component */ "./src/app/item/item.component.ts");
+/* harmony import */ var _main_pipe__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./main/pipe */ "./src/app/main/pipe.ts");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+
+
 
 
 
@@ -162,7 +166,8 @@ var AppModule = /** @class */ (function () {
             declarations: [
                 _app_component__WEBPACK_IMPORTED_MODULE_9__["AppComponent"],
                 _main_main_component__WEBPACK_IMPORTED_MODULE_10__["MainComponent"],
-                _item_item_component__WEBPACK_IMPORTED_MODULE_12__["ItemComponent"]
+                _item_item_component__WEBPACK_IMPORTED_MODULE_12__["ItemComponent"],
+                _main_pipe__WEBPACK_IMPORTED_MODULE_13__["FilterPipe"]
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"],
@@ -171,7 +176,8 @@ var AppModule = /** @class */ (function () {
                 _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_3__["NgbModule"],
                 _angular_fire__WEBPACK_IMPORTED_MODULE_4__["AngularFireModule"].initializeApp(_environments_environment__WEBPACK_IMPORTED_MODULE_5__["environment"].firebase),
                 _angular_fire_firestore__WEBPACK_IMPORTED_MODULE_6__["AngularFirestoreModule"],
-                _angular_fire_database__WEBPACK_IMPORTED_MODULE_7__["AngularFireDatabaseModule"]
+                _angular_fire_database__WEBPACK_IMPORTED_MODULE_7__["AngularFireDatabaseModule"],
+                _angular_forms__WEBPACK_IMPORTED_MODULE_14__["FormsModule"]
             ],
             providers: [],
             bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_9__["AppComponent"]]
@@ -299,7 +305,7 @@ module.exports = ".container{\n  display: flex;\n  flex-wrap: wrap ;\n}\n\n.card
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\" style=\"display:inline;margin: 20px; text-align: center;\">\n\n  <h4>Insect Pest and Disease Library</h4>\n  <h6><a href=\"http://sarai.ph/about-us\" target=\"new\">SARAi Project 2.4 Insect Pest and Disease Advisory System (IPDAS)</a></h6>\n</div>\n\n\n<div class=\"container\" style=\"margin-top: 20px;\">\n  <form class=\"searchform\">\n    <input class=\"form-control mr-sm-2\" type=\"search\" placeholder=\"Search\" aria-label=\"Search\">\n\n  </form>\n</div>\n\n\n<div class=\"container filterbar\">\n<div style=\"display:flex;\">\n  <select class=\"custom-select filterselect\">\n    <option selected>All Crops</option>\n    <option value=\"1\">Rice</option>\n    <option value=\"2\">Corn</option>\n    <option value=\"3\">Cacao</option>\n    <option value=\"3\">Coffee</option>\n  </select> \n\n  <select class=\"custom-select  filterselect\">\n    <option selected>Pest and Disease</option>\n    <option value=\"1\">Pest</option>\n    <option value=\"2\">Disease</option>\n  </select> \n\n  <select class=\"custom-select  filterselect\">\n    <option selected>All Disease Types</option>\n    <option value=\"1\">Type 1</option>\n    <option value=\"2\">Type 2</option>\n    <option value=\"2\">Type 3</option>\n    <option value=\"2\">Type 4</option>\n  </select> \n\n</div>\n<div>\n  <button></button>  <button></button>  <button></button>\n</div>\n\n\n</div>\n\n\n\n\n\n  <!-- \nDisease\n\ntag\t\ncrop\t\ndisease\t\nlocal names\t\ncausal type\t\npathogen (causal organsm)\t\nalternate host\t\ncrop stage affected\t\naffected plant parts\t\ngeneral description\t\nHow to Detect and Identify the Disease\t\nfavorable environment for disease emergence\t\nStrategies for Integrated Disease Management\t\nimage url\t\ncitation\n\n\nPest\ntag\t\nplant affected\t\ncommon name\t\nOrder/Family:\t\nscientific name\t\nother names\t\nfilipino names\t\nstages of development\t\ndescription\t\nhost range\t\ndamage characteristics\t\nmanagement practice\t\nimage url\t\ncitation\n\n -->\n\n<!-- lagyan ng disease type instead of order/family -->\n\n\n<div class=\"container cardcontainer\">\n\n  <div class=\"card\" [style.width.%]=\"width\" *ngFor=\"let pest of pestsdata\">\n    <img src=\"./assets/pest.jpeg\" class=\"card-img-top\" alt=\"./assets/pest.jpeg\">\n    <div class=\"card-body\">\n      <div class=\"card-title\"  [innerHTML]=\"pest.common_name\">{{pest.common_name}}</div>\n      <!-- <span class=\"card-subtitle mb-2 text-muted\" style=\"font-style:italic;font-size: .75rem;\">{{pest.scientific_name}}</span> -->\n      <br>\n      <span class=\"card-subtitle\" style=\"font-size: .8rem;\">Order: {{pest.order_family}}</span>\n      <a routerLink=\"/item/{{pest.tag}}\">\n        <i class=\"material-icons open_new\">\n          open_in_new\n        </i>\n      </a>\n    </div>\n  </div>\n\n\n</div>"
+module.exports = "<div class=\"container\" style=\"display:inline;margin: 20px; text-align: center;\">\n\n  <h4>Insect Pest and Disease Library</h4>\n  <h6><a href=\"http://sarai.ph/about-us\" target=\"new\">SARAi Project 2.4 Insect Pest and Disease Advisory System (IPDAS)</a></h6>\n</div>\n\n\n<div class=\"container\" style=\"margin-top: 20px;\">\n  <form class=\"searchform\">\n    <input name=\"term\" class=\"form-control mr-sm-2\" type=\"search\" placeholder=\"Search by Common Name\" aria-label=\"Search\" [(ngModel)]=\"term\">\n\n  </form>\n</div>\n\n\n<div class=\"container filterbar\">\n<div style=\"display:flex;\">\n  <select class=\"custom-select filterselect\" name=\"cropTerm\" [(ngModel)]=\"cropTerm\" (change)=\"filterCrop();\">\n    <option value=\"All\">All Crops</option>\n    <option value=\"rice\">Rice</option>\n    <option value=\"corn\">Corn</option>\n    <option value=\"cacao\">Cacao</option>\n    <option value=\"coffee\">Coffee</option>\n  </select> \n\n  <select class=\"custom-select filterselect\" name=\"pestOrDiseaseTerm\" [(ngModel)]=\"pestOrDiseaseTerm\" (change)=\"filterCrop();\">\n    <option value=\"All\">Pest and Disease</option>\n    <option value=\"pest\">Pest</option>\n    <option value=\"disease\">Disease</option>\n  </select> \n\n  <select [disabled] = \"disabledFlag\" class=\"custom-select filterselect\" name=\"diseaseTypeTerm\" [(ngModel)]=\"diseaseTypeTerm\" (change)=\"filterCrop();\">\n    <option value=\"All\">All Disease Types</option>\n    <option value=\"1\">Type 1</option>\n    <option value=\"2\">Type 2</option>\n    <option value=\"2\">Type 3</option>\n    <option value=\"2\">Type 4</option>\n  </select> \n\n</div>\n<div>\n  <button></button>  <button></button>  <button></button>\n</div>\n\n\n</div>\n\n\n\n\n\n  <!-- \nDisease\n\ntag\t\ncrop\t\ndisease\t\nlocal names\t\ncausal type\t\npathogen (causal organsm)\t\nalternate host\t\ncrop stage affected\t\naffected plant parts\t\ngeneral description\t\nHow to Detect and Identify the Disease\t\nfavorable environment for disease emergence\t\nStrategies for Integrated Disease Management\t\nimage url\t\ncitation\n\n\nPest\ntag\t\nplant affected\t\ncommon name\t\nOrder/Family:\t\nscientific name\t\nother names\t\nfilipino names\t\nstages of development\t\ndescription\t\nhost range\t\ndamage characteristics\t\nmanagement practice\t\nimage url\t\ncitation\n\n -->\n\n<!-- lagyan ng disease type instead of order/family -->\n\n\n<div class=\"container cardcontainer\">\n\n  <div class=\"card\" [style.width.%]=\"width\" *ngFor=\"let pest of pestsdata  | filter : term \">\n    <img src=\"./assets/pest.jpeg\" class=\"card-img-top\" alt=\"./assets/pest.jpeg\">\n    <div class=\"card-body\">\n      <div class=\"card-title\"  [innerHTML]=\"pest.common_name | titlecase\"></div>\n      <!-- <span class=\"card-subtitle mb-2 text-muted\" style=\"font-style:italic;font-size: .75rem;\">{{pest.scientific_name}}</span> -->\n      <br>\n      <span class=\"card-subtitle\" style=\"font-size: .8rem;\">Order: {{pest.order_family}}</span>\n      <a routerLink=\"/item/{{pest.tag}}\">\n        <i class=\"material-icons open_new\">\n          open_in_new\n        </i>\n      </a>\n    </div>\n  </div>\n\n\n</div>"
 
 /***/ }),
 
@@ -323,6 +329,12 @@ var MainComponent = /** @class */ (function () {
     function MainComponent(db) {
         var _this = this;
         this.pestsdata = [];
+        this.completepestsdata = [];
+        this.selectpestsdata = [];
+        this.cropTerm = 'All';
+        this.pestOrDiseaseTerm = 'All';
+        this.diseaseTypeTerm = 'All';
+        this.disabledFlag = false;
         // change to 23, 31, 48 for 4, 3, 2 on a page
         this.width = 23;
         this.items = db.list('items').valueChanges();
@@ -332,9 +344,10 @@ var MainComponent = /** @class */ (function () {
                     var tempObject = {
                         // insert the id too
                         item_id: sample.item_id,
+                        entry_type: sample.entry_type,
                         tag: sample.tag,
                         plant_affected: sample.plant_affected,
-                        common_name: sample.common_name,
+                        common_name: sample.common_name.toLowerCase(),
                         order_family: sample.order_family,
                         scientific_name: sample.scientific_name,
                         other_names: sample.other_names,
@@ -348,6 +361,7 @@ var MainComponent = /** @class */ (function () {
                         citation: sample.citation
                     };
                     _this.pestsdata.push(tempObject);
+                    _this.completepestsdata = _this.pestsdata;
                 });
                 _this.pestsdata = _this.shuffle(_this.pestsdata);
             },
@@ -373,6 +387,41 @@ var MainComponent = /** @class */ (function () {
             array[randomIndex] = temporaryValue;
         }
         return array;
+    };
+    MainComponent.prototype.filterCrop = function () {
+        var _this = this;
+        if (this.pestOrDiseaseTerm === 'pest') {
+            this.disabledFlag = true;
+            this.diseaseTypeTerm = 'All';
+        }
+        else {
+            this.disabledFlag = false;
+        }
+        var croptemp = this.completepestsdata;
+        var cropordiseasetemp = this.completepestsdata;
+        if ((this.cropTerm !== 'All')) {
+            croptemp = this.completepestsdata.filter(function (f) {
+                return (f.plant_affected === _this.cropTerm);
+            });
+        }
+        else {
+            croptemp = this.completepestsdata;
+        }
+        if ((this.pestOrDiseaseTerm !== 'All')) {
+            cropordiseasetemp = this.completepestsdata.filter(function (f) {
+                return (f.entry_type === _this.pestOrDiseaseTerm);
+            });
+        }
+        else {
+            cropordiseasetemp = this.completepestsdata;
+        }
+        // intersect 2 arrays
+        var result = croptemp.filter(function (v) {
+            // check sample present in the second array
+            return cropordiseasetemp.indexOf(v) > -1;
+            // or array2.includes(v)
+        });
+        this.pestsdata = result;
     };
     MainComponent.prototype.removeItems = function () {
         this.pestsdata.pop();
@@ -411,6 +460,40 @@ var MainComponent = /** @class */ (function () {
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_fire_database__WEBPACK_IMPORTED_MODULE_2__["AngularFireDatabase"]])
     ], MainComponent);
     return MainComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/main/pipe.ts":
+/*!******************************!*\
+  !*** ./src/app/main/pipe.ts ***!
+  \******************************/
+/*! exports provided: FilterPipe */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FilterPipe", function() { return FilterPipe; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+
+
+var FilterPipe = /** @class */ (function () {
+    function FilterPipe() {
+    }
+    FilterPipe.prototype.transform = function (items, term) {
+        console.log('term', term);
+        return term ? items.filter(function (item) { return item.common_name.indexOf(term) !== -1; }) : items;
+    };
+    FilterPipe = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Pipe"])({
+            name: 'filter',
+            pure: false
+        })
+    ], FilterPipe);
+    return FilterPipe;
 }());
 
 
