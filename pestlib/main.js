@@ -436,7 +436,6 @@ var MainComponent = /** @class */ (function () {
         this.perpage = this.itemperpage;
     };
     MainComponent.prototype.test = function (event) {
-        console.log(this.pestsdata);
         this.p = event;
     };
     MainComponent.prototype.resetfilters = function () {
@@ -445,6 +444,7 @@ var MainComponent = /** @class */ (function () {
         this.cropTerm = 'All';
         this.pestOrDiseaseTerm = 'All';
         this.diseaseTypeTerm = 'All';
+        this.itemperpage = 20;
         this.term = '';
         this.pestsdata = this.completepestsdata;
     };
@@ -509,7 +509,6 @@ var FilterPipe = /** @class */ (function () {
     function FilterPipe() {
     }
     FilterPipe.prototype.transform = function (items, term) {
-        console.log('term', term);
         return term ? items.filter(function (item) { return item.common_name.indexOf(term) !== -1; }) : items;
     };
     FilterPipe = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
