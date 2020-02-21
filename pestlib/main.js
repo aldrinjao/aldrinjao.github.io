@@ -143,6 +143,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _item_item_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./item/item.component */ "./src/app/item/item.component.ts");
 /* harmony import */ var _main_pipe__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./main/pipe */ "./src/app/main/pipe.ts");
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var ngx_pagination__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ngx-pagination */ "./node_modules/ngx-pagination/dist/ngx-pagination.js");
 
 
 
@@ -158,6 +159,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+ // <-- import the module
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -177,7 +179,8 @@ var AppModule = /** @class */ (function () {
                 _angular_fire__WEBPACK_IMPORTED_MODULE_4__["AngularFireModule"].initializeApp(_environments_environment__WEBPACK_IMPORTED_MODULE_5__["environment"].firebase),
                 _angular_fire_firestore__WEBPACK_IMPORTED_MODULE_6__["AngularFirestoreModule"],
                 _angular_fire_database__WEBPACK_IMPORTED_MODULE_7__["AngularFireDatabaseModule"],
-                _angular_forms__WEBPACK_IMPORTED_MODULE_14__["FormsModule"]
+                _angular_forms__WEBPACK_IMPORTED_MODULE_14__["FormsModule"],
+                ngx_pagination__WEBPACK_IMPORTED_MODULE_15__["NgxPaginationModule"]
             ],
             providers: [],
             bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_9__["AppComponent"]]
@@ -294,7 +297,7 @@ var ItemComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".container{\n  display: flex;\n  flex-wrap: wrap ;\n}\n\n.cardcontainer{\n  margin-top: 20px;\n  justify-content: center;\n\n}\n\n.card{\n  margin: 1%;\n  background: rgb(250,250,250);\n  box-shadow: 2px 4px rgb(200,200,200);\n}\n\n.card-title{\n  font-size:1.6rem;\n  font-weight:500;\n}\n\n.searchform{\n  margin: auto;\n  width: 50%;\n}\n\n.open_new{\n font-size: 1rem;\n position:\n absolute;\n bottom: 5px;\n right: 5px;\n}\n\n.filterbar{\n  padding-top: 40px;\n  justify-content: space-between;\n}\n\n.filterselect{\n  margin-right: 25px;\n  min-width: 200px;\n}\n\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvbWFpbi9tYWluLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRSxhQUFhO0VBQ2IsZ0JBQWdCO0FBQ2xCOztBQUVBO0VBQ0UsZ0JBQWdCO0VBQ2hCLHVCQUF1Qjs7QUFFekI7O0FBRUE7RUFDRSxVQUFVO0VBQ1YsNEJBQTRCO0VBQzVCLG9DQUFvQztBQUN0Qzs7QUFFQTtFQUNFLGdCQUFnQjtFQUNoQixlQUFlO0FBQ2pCOztBQUVBO0VBQ0UsWUFBWTtFQUNaLFVBQVU7QUFDWjs7QUFFQTtDQUNDLGVBQWU7Q0FDZjtTQUNRO0NBQ1IsV0FBVztDQUNYLFVBQVU7QUFDWDs7QUFFQTtFQUNFLGlCQUFpQjtFQUNqQiw4QkFBOEI7QUFDaEM7O0FBRUE7RUFDRSxrQkFBa0I7RUFDbEIsZ0JBQWdCO0FBQ2xCIiwiZmlsZSI6InNyYy9hcHAvbWFpbi9tYWluLmNvbXBvbmVudC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIuY29udGFpbmVye1xuICBkaXNwbGF5OiBmbGV4O1xuICBmbGV4LXdyYXA6IHdyYXAgO1xufVxuXG4uY2FyZGNvbnRhaW5lcntcbiAgbWFyZ2luLXRvcDogMjBweDtcbiAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG5cbn1cblxuLmNhcmR7XG4gIG1hcmdpbjogMSU7XG4gIGJhY2tncm91bmQ6IHJnYigyNTAsMjUwLDI1MCk7XG4gIGJveC1zaGFkb3c6IDJweCA0cHggcmdiKDIwMCwyMDAsMjAwKTtcbn1cblxuLmNhcmQtdGl0bGV7XG4gIGZvbnQtc2l6ZToxLjZyZW07XG4gIGZvbnQtd2VpZ2h0OjUwMDtcbn1cblxuLnNlYXJjaGZvcm17XG4gIG1hcmdpbjogYXV0bztcbiAgd2lkdGg6IDUwJTtcbn1cblxuLm9wZW5fbmV3e1xuIGZvbnQtc2l6ZTogMXJlbTtcbiBwb3NpdGlvbjpcbiBhYnNvbHV0ZTtcbiBib3R0b206IDVweDtcbiByaWdodDogNXB4O1xufVxuXG4uZmlsdGVyYmFye1xuICBwYWRkaW5nLXRvcDogNDBweDtcbiAganVzdGlmeS1jb250ZW50OiBzcGFjZS1iZXR3ZWVuO1xufVxuXG4uZmlsdGVyc2VsZWN0e1xuICBtYXJnaW4tcmlnaHQ6IDI1cHg7XG4gIG1pbi13aWR0aDogMjAwcHg7XG59XG5cbiJdfQ== */"
+module.exports = ".container{\n  display: flex;\n  flex-wrap: wrap ;\n}\n\n.cardcontainer{\n  margin-top: 20px;\n  justify-content: center;\n\n}\n\n.card{\n  margin: 1%;\n  background: rgb(250,250,250);\n  box-shadow: 2px 4px rgb(200,200,200);\n}\n\n.card-title{\n  font-size:1.6rem;\n  font-weight:500;\n}\n\n.searchform{\n  margin: auto;\n  width: 50%;\n}\n\n.open_new{\n font-size: 1rem;\n position:\n absolute;\n bottom: 5px;\n right: 5px;\n}\n\n.filterbar{\n  padding-top: 40px;\n  justify-content: space-between;\n}\n\n.filterselect{\n  margin-right: 25px;\n  min-width: 200px;\n}\n\n.pagecontrol{\n  justify-content: center;\n}\n\n.pagecontrol ::ng-deep .ngx-pagination{\n    -webkit-padding-start: 0;\n            padding-inline-start: 0;\n    \n  }\n\n.perpageselect{\n  width: 64px;\n  height: 26px;\n  padding-top: 0px;\n  padding-bottom: 0px;\n  font-size: .8rem;\n}\n\n.colcountbutton{\n  height: 20px;\n  width: 20px;\n  margin: 2px;\n}\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvbWFpbi9tYWluLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRSxhQUFhO0VBQ2IsZ0JBQWdCO0FBQ2xCOztBQUVBO0VBQ0UsZ0JBQWdCO0VBQ2hCLHVCQUF1Qjs7QUFFekI7O0FBRUE7RUFDRSxVQUFVO0VBQ1YsNEJBQTRCO0VBQzVCLG9DQUFvQztBQUN0Qzs7QUFFQTtFQUNFLGdCQUFnQjtFQUNoQixlQUFlO0FBQ2pCOztBQUVBO0VBQ0UsWUFBWTtFQUNaLFVBQVU7QUFDWjs7QUFFQTtDQUNDLGVBQWU7Q0FDZjtTQUNRO0NBQ1IsV0FBVztDQUNYLFVBQVU7QUFDWDs7QUFFQTtFQUNFLGlCQUFpQjtFQUNqQiw4QkFBOEI7QUFDaEM7O0FBRUE7RUFDRSxrQkFBa0I7RUFDbEIsZ0JBQWdCO0FBQ2xCOztBQUVBO0VBQ0UsdUJBQXVCO0FBQ3pCOztBQUNBO0lBQ0ksd0JBQXVCO1lBQXZCLHVCQUF1Qjs7RUFFekI7O0FBRUY7RUFDRSxXQUFXO0VBQ1gsWUFBWTtFQUNaLGdCQUFnQjtFQUNoQixtQkFBbUI7RUFDbkIsZ0JBQWdCO0FBQ2xCOztBQUVBO0VBQ0UsWUFBWTtFQUNaLFdBQVc7RUFDWCxXQUFXO0FBQ2IiLCJmaWxlIjoic3JjL2FwcC9tYWluL21haW4uY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi5jb250YWluZXJ7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGZsZXgtd3JhcDogd3JhcCA7XG59XG5cbi5jYXJkY29udGFpbmVye1xuICBtYXJnaW4tdG9wOiAyMHB4O1xuICBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjtcblxufVxuXG4uY2FyZHtcbiAgbWFyZ2luOiAxJTtcbiAgYmFja2dyb3VuZDogcmdiKDI1MCwyNTAsMjUwKTtcbiAgYm94LXNoYWRvdzogMnB4IDRweCByZ2IoMjAwLDIwMCwyMDApO1xufVxuXG4uY2FyZC10aXRsZXtcbiAgZm9udC1zaXplOjEuNnJlbTtcbiAgZm9udC13ZWlnaHQ6NTAwO1xufVxuXG4uc2VhcmNoZm9ybXtcbiAgbWFyZ2luOiBhdXRvO1xuICB3aWR0aDogNTAlO1xufVxuXG4ub3Blbl9uZXd7XG4gZm9udC1zaXplOiAxcmVtO1xuIHBvc2l0aW9uOlxuIGFic29sdXRlO1xuIGJvdHRvbTogNXB4O1xuIHJpZ2h0OiA1cHg7XG59XG5cbi5maWx0ZXJiYXJ7XG4gIHBhZGRpbmctdG9wOiA0MHB4O1xuICBqdXN0aWZ5LWNvbnRlbnQ6IHNwYWNlLWJldHdlZW47XG59XG5cbi5maWx0ZXJzZWxlY3R7XG4gIG1hcmdpbi1yaWdodDogMjVweDtcbiAgbWluLXdpZHRoOiAyMDBweDtcbn1cblxuLnBhZ2Vjb250cm9se1xuICBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjtcbn1cbi5wYWdlY29udHJvbCA6Om5nLWRlZXAgLm5neC1wYWdpbmF0aW9ue1xuICAgIHBhZGRpbmctaW5saW5lLXN0YXJ0OiAwO1xuICAgIFxuICB9XG5cbi5wZXJwYWdlc2VsZWN0e1xuICB3aWR0aDogNjRweDtcbiAgaGVpZ2h0OiAyNnB4O1xuICBwYWRkaW5nLXRvcDogMHB4O1xuICBwYWRkaW5nLWJvdHRvbTogMHB4O1xuICBmb250LXNpemU6IC44cmVtO1xufVxuXG4uY29sY291bnRidXR0b257XG4gIGhlaWdodDogMjBweDtcbiAgd2lkdGg6IDIwcHg7XG4gIG1hcmdpbjogMnB4O1xufVxuIl19 */"
 
 /***/ }),
 
@@ -305,7 +308,7 @@ module.exports = ".container{\n  display: flex;\n  flex-wrap: wrap ;\n}\n\n.card
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\" style=\"display:inline;margin: 20px; text-align: center;\">\n\n  <h4>Insect Pest and Disease Library</h4>\n  <h6><a href=\"http://sarai.ph/about-us\" target=\"new\">SARAi Project 2.4 Insect Pest and Disease Advisory System (IPDAS)</a></h6>\n</div>\n\n\n<div class=\"container\" style=\"margin-top: 20px;\">\n  <form class=\"searchform\">\n    <input name=\"term\" class=\"form-control mr-sm-2\" type=\"search\" placeholder=\"Search by Common Name\" aria-label=\"Search\" [(ngModel)]=\"term\">\n\n  </form>\n</div>\n\n\n<div class=\"container filterbar\">\n<div style=\"display:flex;\">\n  <select class=\"custom-select filterselect\" name=\"cropTerm\" [(ngModel)]=\"cropTerm\" (change)=\"filterCrop();\">\n    <option value=\"All\">All Crops</option>\n    <option value=\"rice\">Rice</option>\n    <option value=\"corn\">Corn</option>\n    <option value=\"cacao\">Cacao</option>\n    <option value=\"coffee\">Coffee</option>\n  </select> \n\n  <select class=\"custom-select filterselect\" name=\"pestOrDiseaseTerm\" [(ngModel)]=\"pestOrDiseaseTerm\" (change)=\"filterCrop();\">\n    <option value=\"All\">Pest and Disease</option>\n    <option value=\"pest\">Pest</option>\n    <option value=\"disease\">Disease</option>\n  </select> \n\n  <select [disabled] = \"disabledFlag\" class=\"custom-select filterselect\" name=\"diseaseTypeTerm\" [(ngModel)]=\"diseaseTypeTerm\" (change)=\"filterCrop();\">\n    <option value=\"All\">All Disease Types</option>\n    <option value=\"1\">Type 1</option>\n    <option value=\"2\">Type 2</option>\n    <option value=\"2\">Type 3</option>\n    <option value=\"2\">Type 4</option>\n  </select> \n\n</div>\n<div>\n  <button></button>  <button></button>  <button></button>\n</div>\n\n\n</div>\n\n\n\n\n\n  <!-- \nDisease\n\ntag\t\ncrop\t\ndisease\t\nlocal names\t\ncausal type\t\npathogen (causal organsm)\t\nalternate host\t\ncrop stage affected\t\naffected plant parts\t\ngeneral description\t\nHow to Detect and Identify the Disease\t\nfavorable environment for disease emergence\t\nStrategies for Integrated Disease Management\t\nimage url\t\ncitation\n\n\nPest\ntag\t\nplant affected\t\ncommon name\t\nOrder/Family:\t\nscientific name\t\nother names\t\nfilipino names\t\nstages of development\t\ndescription\t\nhost range\t\ndamage characteristics\t\nmanagement practice\t\nimage url\t\ncitation\n\n -->\n\n<!-- lagyan ng disease type instead of order/family -->\n\n\n<div class=\"container cardcontainer\">\n\n  <div class=\"card\" [style.width.%]=\"width\" *ngFor=\"let pest of pestsdata  | filter : term \">\n    <img src=\"./assets/pest.jpeg\" class=\"card-img-top\" alt=\"./assets/pest.jpeg\">\n    <div class=\"card-body\">\n      <div class=\"card-title\"  [innerHTML]=\"pest.common_name | titlecase\"></div>\n      <!-- <span class=\"card-subtitle mb-2 text-muted\" style=\"font-style:italic;font-size: .75rem;\">{{pest.scientific_name}}</span> -->\n      <br>\n      <span class=\"card-subtitle\" style=\"font-size: .8rem;\">Order: {{pest.order_family}}</span>\n      <a routerLink=\"/item/{{pest.tag}}\">\n        <i class=\"material-icons open_new\">\n          open_in_new\n        </i>\n      </a>\n    </div>\n  </div>\n\n\n</div>"
+module.exports = "<div class=\"container\" style=\"display:inline;margin: 20px; text-align: center;\">\n\n  <h4>Insect Pest and Disease Library</h4>\n  <h6><a href=\"http://sarai.ph/about-us\" target=\"new\">SARAi Project 2.4 Insect Pest and Disease Advisory System (IPDAS)</a></h6>\n</div>\n\n\n<div class=\"container\" style=\"margin-top: 20px;\">\n  <form class=\"searchform\">\n    <input name=\"term\" class=\"form-control mr-sm-2\" type=\"search\" (keyup)='p=1' placeholder=\"Search by Common Name\" aria-label=\"Search\" [(ngModel)]=\"term\">\n   \n  </form>\n</div>\n\n\n<div class=\"container filterbar\">\n<div style=\"display:flex;\">\n  <select class=\"custom-select filterselect\" name=\"cropTerm\" [(ngModel)]=\"cropTerm\" (change)=\"filterCrop();\">\n    <option value=\"All\">All Crops</option>\n    <option value=\"rice\">Rice</option>\n    <option value=\"corn\">Corn</option>\n    <option value=\"cacao\">Cacao</option>\n    <option value=\"coffee\">Coffee</option>\n  </select> \n\n  <select class=\"custom-select filterselect\" name=\"pestOrDiseaseTerm\" [(ngModel)]=\"pestOrDiseaseTerm\" (change)=\"filterCrop();\">\n    <option value=\"All\">Pest and Disease</option>\n    <option value=\"pest\">Pest</option>\n    <option value=\"disease\">Disease</option>\n  </select> \n\n  <select [disabled] = \"disabledFlag\" class=\"custom-select filterselect\" name=\"diseaseTypeTerm\" [(ngModel)]=\"diseaseTypeTerm\" (change)=\"filterCrop();\">\n    <option value=\"All\">All Disease Types</option>\n    <option value=\"1\">Type 1</option>\n    <option value=\"2\">Type 2</option>\n    <option value=\"2\">Type 3</option>\n    <option value=\"2\">Type 4</option>\n  </select> \n<button type=\"button\" class=\"btn btn-outline-secondary\" (click)='resetfilters()'>Reset</button>\n\n</div>\n<div>\n  <span style=\"font-size: .8rem\">display: </span>\n  <button class='colcountbutton'></button>\n  <button class='colcountbutton'></button>\n  <button class='colcountbutton'></button>\n\n  <span style=\"font-size: .8rem;margin-left: 10px;\">items per page:</span>\n   <select class=\"custom-select perpageselect\" name=\"itemperpage\" [(ngModel)]=\"itemperpage\" (change)=\"changeitemperpage();\">\n      <option value='20'>\n        20\n      </option>\n      <option value='50'>\n        50\n      </option>\n\n      <option value='100'>\n        100\n      </option>\n\n    </select>\n</div>\n\n\n</div>\n\n\n\n\n\n  <!-- \nDisease\n\ntag\t\ncrop\t\ndisease\t\nlocal names\t\ncausal type\t\npathogen (causal organsm)\t\nalternate host\t\ncrop stage affected\t\naffected plant parts\t\ngeneral description\t\nHow to Detect and Identify the Disease\t\nfavorable environment for disease emergence\t\nStrategies for Integrated Disease Management\t\nimage url\t\ncitation\n\n\nPest\ntag\t\nplant affected\t\ncommon name\t\nOrder/Family:\t\nscientific name\t\nother names\t\nfilipino names\t\nstages of development\t\ndescription\t\nhost range\t\ndamage characteristics\t\nmanagement practice\t\nimage url\t\ncitation\n\n -->\n\n<!-- lagyan ng disease type instead of order/family -->\n\n\n<div class=\"container cardcontainer\">\n\n  <div class=\"card\" [style.width.%]=\"width\" *ngFor=\"let pest of pestsdata | filter : term | paginate: { itemsPerPage: perpage, currentPage: p }\">\n    <img src=\"./assets/pest.jpeg\" class=\"card-img-top\" alt=\"./assets/pest.jpeg\">\n    <div class=\"card-body\">\n      <div class=\"card-title\"  [innerHTML]=\"pest.common_name | titlecase\"></div>\n      <!-- <span class=\"card-subtitle mb-2 text-muted\" style=\"font-style:italic;font-size: .75rem;\">{{pest.scientific_name}}</span> -->\n      <br>\n      <span class=\"card-subtitle\" style=\"font-size: .8rem;\">Order: {{pest.order_family}}</span>\n      <a routerLink=\"/item/{{pest.tag}}\">\n        <i class=\"material-icons open_new\">\n          open_in_new\n        </i>\n      </a>\n    </div>\n  </div>\n\n</div>\n\n<div class=\"container pagecontrol\">\n\n    <pagination-controls  (pageChange)=\"test($event)\"></pagination-controls>\n\n\n</div>"
 
 /***/ }),
 
@@ -337,6 +340,10 @@ var MainComponent = /** @class */ (function () {
         this.disabledFlag = false;
         // change to 23, 31, 48 for 4, 3, 2 on a page
         this.width = 23;
+        this.p = 1;
+        this.perpage = 20;
+        this.itemperpage = 20;
+        this.term = '';
         this.items = db.list('items').valueChanges();
         var myObserver = {
             next: function (x) {
@@ -390,6 +397,7 @@ var MainComponent = /** @class */ (function () {
     };
     MainComponent.prototype.filterCrop = function () {
         var _this = this;
+        this.p = 1;
         if (this.pestOrDiseaseTerm === 'pest') {
             this.disabledFlag = true;
             this.diseaseTypeTerm = 'All';
@@ -422,6 +430,23 @@ var MainComponent = /** @class */ (function () {
             // or array2.includes(v)
         });
         this.pestsdata = result;
+    };
+    MainComponent.prototype.changeitemperpage = function () {
+        this.p = 1;
+        this.perpage = this.itemperpage;
+    };
+    MainComponent.prototype.test = function (event) {
+        console.log(this.pestsdata);
+        this.p = event;
+    };
+    MainComponent.prototype.resetfilters = function () {
+        this.p = 1;
+        this.perpage = 20;
+        this.cropTerm = 'All';
+        this.pestOrDiseaseTerm = 'All';
+        this.diseaseTypeTerm = 'All';
+        this.term = '';
+        this.pestsdata = this.completepestsdata;
     };
     MainComponent.prototype.removeItems = function () {
         this.pestsdata.pop();
