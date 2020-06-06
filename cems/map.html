@@ -1,94 +1,288 @@
- <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
-   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
-   crossorigin=""/>
-
-    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
-   integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
-   crossorigin=""></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+    integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+    crossorigin="" />
 
 
-    <div id="mapid">
-
-        <div id ="mapControlPanel">
-
-        </div>
 
 
+
+
+<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+    integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+    crossorigin=""></script>
+
+
+<link rel="stylesheet" href="./marker-cluster/dist/MarkerCluster.css" />
+<link rel="stylesheet" href="./marker-cluster/dist/MarkerCluster.Default.css" />
+<script src="./marker-cluster/dist/leaflet.markercluster-src.js"></script>
+
+
+<script src="./data.js"></script>
+<script src="./munc.js"></script>
+
+
+<div id="mapid">
+
+    <div id="mapControlPanel" onclick="hidepanel()">
     </div>
 
-    <style>
-        #mapid { height: 100vh; }
-
-        #mapControlPanel{
-            z-index: 9000;
-            width: 250px;
-            height: 400px;
-            background: red;
-            position: absolute;
-            top: 80px;
-            left: 10px;
-            border-radius: 5px;
-            box-shadow: 2px 4px rgba(0, 0, 0, .2);
-        }
-
-    </style>
+    <div id="mapControlIcon" onclick="hideicon()">
+    </div>
 
 
-    <script>
-
-        var mapOptions = {
-            minZoom: 6,
-            maxZoom: 10
-        }
-
-        var map = L.map('mapid',mapOptions).setView([15, 120.09], 6);
-        map.setMaxBounds(map.getBounds());
-
-        var OpenStreetMap_DE = L.tileLayer('https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            }).addTo(map);
-
-        var imageUrl = './munchair.png',
-            imageBounds = [[21.011755276,114.281533786], [4.477399243, 126.604957428]];
-
-        var imageUrlLarge = './muncovid.png',
-            imageBounds = [[21.011755276,114.281533786], [4.477399243, 126.604957428]];
+    <div class="slidecontainer">
+        <img class="img-valign" src="./opacity.png" style="height: 13.64px;"> <img> <span>opacity</span>
+        <input type="range" min="0" max="100" value="70" class="slider" id="myRange">
+    </div>
 
 
-        var muncZoomedIn =  L.imageOverlay(imageUrl, imageBounds);
-        var muncZoomedOut = L.imageOverlay(imageUrlLarge, imageBounds).addTo(map);
-    
-        //set default
-        muncZoomedOut.addTo(map);
+    <div id="logodiv">
+        <img src="./alert-logo.png">
+    </div>
 
 
-        map.on('zoomend', function() {
+</div>
 
-            changeZoom(muncZoomedIn,muncZoomedOut);                
-            console.log(map.getZoom());
+<style>
+    #mapid {
+        height: 800px;
+    }
 
+    #mapControlPanel {
+        z-index: 1000;
+        width: 250px;
+        height: 400px;
+        background: rgb(255, 255, 255, 0.95);
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        border-radius: 5px;
+        box-shadow: 2px 4px rgba(200, 200, 200, .2);
+    }
+
+    #mapControlIcon {
+        z-index: 2000;
+        width: 50px;
+        height: 50px;
+        background: rgb(255, 255, 255, 0.95);
+        ;
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        border-radius: 5px;
+        box-shadow: 2px 4px rgba(200, 200, 200, .2);
+        display: none;
+    }
+
+    #logodiv {
+        z-index: 1000;
+        position: absolute;
+        bottom: 20px;
+        right: 10px;
+
+    }
+
+
+    /* start slider */
+
+    .slidecontainer {
+        background: white;
+        z-index: 2000;
+        width: 135;
+        position: absolute;
+        top: 10px;
+        right: 50px;
+        border-radius: 4px;
+        padding: 2px;
+        /* Width of the outside container */
+    }
+
+    .img-valign {
+        vertical-align: middle;
+    }
+
+    /* end slider */
+</style>
+
+
+<script>
+
+
+
+    var mapOptions = {
+        zoomControl: false
+    }
+
+    var map = L.map('mapid', mapOptions).setView([14, 120], 6);
+    map.setMaxBounds(map.getBounds());
+
+
+    L.control.zoom({
+        position: 'topright'
+    }).addTo(map);
+
+
+
+    var googleStreets = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+        subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+    });
+
+    var googleSat = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+        subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+    });
+
+    var googleTerrain = L.tileLayer('http://{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={z}', {
+        subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+    });
+
+    var googleHybrid = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
+        subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+    }).addTo(map);
+
+
+
+    var baseMaps = {
+        "Google Hyybrid": googleHybrid,
+        "Google Streets": googleStreets,
+        "Google Satellite": googleSat,
+        "Google Terrain": googleTerrain
+    };
+    L.control.layers(baseMaps).addTo(map);
+
+    // var imageUrl = './munchair.png',
+    //     imageBounds = [[21.011755276, 114.281533786], [4.477399243, 126.604957428]];
+
+    // var imageUrlLarge = './muncovid.png',
+    //     imageBounds = [[21.011755276, 114.281533786], [4.477399243, 126.604957428]];
+
+
+    // var muncZoomedIn = L.imageOverlay(imageUrl, imageBounds);
+    // var muncZoomedOut = L.imageOverlay(imageUrlLarge, imageBounds);
+
+
+    geojson = L.geoJson(muncov, {
+        style: style0,
+        onEachFeature: onEachFeature
+
+    }).addTo(map);
+
+
+
+    // add markers
+
+    var markers = L.markerClusterGroup();
+
+    var arrayLength = incidentdata.length;
+    for (var i = 0; i < arrayLength; i++) {
+        console.log(incidentdata[i].date);
+        var marker = L.marker(new L.LatLng(incidentdata[i].lat, incidentdata[i].lng), { title: incidentdata[i].details });
+        markers.addLayer(marker);
+
+
+        //Do something
+    }
+
+    map.addLayer(markers);
+    // map.addLayer(markers2);
+
+
+
+
+
+
+    var slider = document.getElementById("myRange");
+
+
+    slider.oninput = function () {
+
+        geojson.setStyle({
+
+            fillOpacity: this.value / 100
         });
 
-    function changeZoom(zoomedIn, zoomedOut){
-        if (map.getZoom() >8){
-            if (map.hasLayer(zoomedOut)){
-                map.removeLayer(zoomedOut);
-                zoomedIn.addTo(map);
-            }
-        }
-        else{
-            if (map.hasLayer(zoomedIn)){
-                map.removeLayer(zoomedIn);
-                zoomedOut.addTo(map);
-                
-            }           
-        }    
     }
+
+
+
+
+    function getColor(d) {
+        //alert(d);
+        return d > 1000 ? '#000000' :
+            d > 500 ? '#36454f' :
+                d > 200 ? '#666a6d' :
+                    d > 100 ? '#848482' :
+                        d > 50 ? '#abafae' :
+                            d > 20 ? '#C0C0C0' :
+                                d > 10 ? '#dbd7d2' :
+                                    d > 1 ? '#f5f5f5' :
+                                        'rgba(0,0,0,0)';;
+    }
+
+
+    function style0(feature) {
+        return {
+            fillColor: getColor(feature.properties.covmunc2),
+            weight: 2,
+            opacity: .1,
+            color: 'white',
+            dashArray: '3',
+            fillOpacity: 0.7
+        };
+    }
+
+
+
+
+
+
+
+    function hidepanel() {
+        document.getElementById("mapControlPanel").style.display = "none";
+        document.getElementById("mapControlIcon").style.display = "block";
+
+
+    }
+
+    function hideicon() {
+        document.getElementById("mapControlPanel").style.display = "block";
+        document.getElementById("mapControlIcon").style.display = "none";
+
+
+    }
+
+
+    function highlightFeature(e) {
+        var layer = e.target;
+        layer.setStyle({
+            weight: 2,
+            color: '#666',
+            dashArray: '',
+            fillOpacity: 1
+        });
+
+        if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+            layer.bringToFront();
+        }
+
+    }
+
+    function resetHighlight(e) {
+        geojson.resetStyle(e.target);
+    }
+
+    function zoomToFeature(e) {
+        mymap.fitBounds(e.target.getBounds());
+    }
+
+    function onEachFeature(feature, layer) {
+        layer.on({
+            // mouseover: highlightFeature,
+            // mouseout: resetHighlight,
+            // click: zoomToFeature
+        });
+    }
+
     // zoomedOut.setOpacity(.5);//pwede icontrol
 
 
-
-
-
-
-    </script>
+</script>
