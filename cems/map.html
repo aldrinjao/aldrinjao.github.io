@@ -7,25 +7,86 @@
    crossorigin=""></script>
 
 
-    <div id="mapid"></div>
+    <div id="mapid">
+
+        <div id ="mapControlPanel">
+
+        </div>
+
+
+    </div>
 
     <style>
         #mapid { height: 100vh; }
+
+        #mapControlPanel{
+            z-index: 9000;
+            width: 250px;
+            height: 400px;
+            background: red;
+            position: absolute;
+            top: 80px;
+            left: 10px;
+            border-radius: 5px;
+            box-shadow: 2px 4px rgba(0, 0, 0, .2);
+        }
 
     </style>
 
 
     <script>
 
-	var map = L.map('mapid').setView([15, 120.09], 6);
+        var mapOptions = {
+            minZoom: 6,
+            maxZoom: 10
+        }
 
-var OpenStreetMap_DE = L.tileLayer('https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png', {
-		attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-	}).addTo(map);
+        var map = L.map('mapid',mapOptions).setView([15, 120.09], 6);
+        map.setMaxBounds(map.getBounds());
 
-var imageUrl = './munchair.png',
-    imageBounds = [[21.011755276,114.281533786], [4.477399243, 126.604957428]];
-L.imageOverlay(imageUrl, imageBounds).addTo(map);
+        var OpenStreetMap_DE = L.tileLayer('https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+        var imageUrl = './munchair.png',
+            imageBounds = [[21.011755276,114.281533786], [4.477399243, 126.604957428]];
+
+        var imageUrlLarge = './muncovid.png',
+            imageBounds = [[21.011755276,114.281533786], [4.477399243, 126.604957428]];
+
+
+        var muncZoomedIn =  L.imageOverlay(imageUrl, imageBounds);
+        var muncZoomedOut = L.imageOverlay(imageUrlLarge, imageBounds).addTo(map);
+    
+        //set default
+        muncZoomedOut.addTo(map);
+
+
+        map.on('zoomend', function() {
+
+            changeZoom(muncZoomedIn,muncZoomedOut);                
+            console.log(map.getZoom());
+
+        });
+
+    function changeZoom(zoomedIn, zoomedOut){
+        if (map.getZoom() >8){
+            if (map.hasLayer(zoomedOut)){
+                map.removeLayer(zoomedOut);
+                zoomedIn.addTo(map);
+            }
+        }
+        else{
+            if (map.hasLayer(zoomedIn)){
+                map.removeLayer(zoomedIn);
+                zoomedOut.addTo(map);
+                
+            }           
+        }    
+    }
+    // zoomedOut.setOpacity(.5);//pwede icontrol
+
+
 
 
 
