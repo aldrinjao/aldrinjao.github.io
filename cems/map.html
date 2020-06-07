@@ -19,11 +19,83 @@
 
 <script src="./data.js"></script>
 <script src="./munc.js"></script>
+<script src="./regcov.js"></script>
 
 
 <div id="mapid">
 
-    <div id="mapControlPanel" onclick="hidepanel()">
+    <div id="mapControlPanel">
+        <div id="apptitle">
+            <span style="font-size:22px;line-height: normal;font-weight: 600;"> CRITICAL EVENTS MONITORING SYSTEM</span>
+            <span style="font-size:20px;line-height: normal;font-weight: 300;"> MAP OF COVID-19 RELATED INCIDENTS</span>
+        </div>
+
+        <div id="boundaryPanel">
+            <div style="width: 100%;"><span style="font-size: 16px;padding:15px;margin: 15px;">Location Boundaries</span></div>
+
+            <div class='boundarybutton bbleft'>Region</div>
+            <div class='boundarybutton bbright'>Province</div>
+            <div class='boundarybutton bbleft'>Municipality</div>
+            <div class='boundarybutton bbright'>Barangay</div>
+        </div>
+
+        <div id="issuesPanel">
+            <div style="width: 100%;"><span style="font-size: 16px;padding:5px;margin: 5px;">CEMS COVID-19
+                    Incidents</span></div>
+
+            <div style="margin:10px">
+                <div style="float: left;">
+                    <input type="checkbox"> 
+                    <img src='./icons/green.png' style="width: 20px;">
+                </div>
+                <div style="float: left;width:70%;margin-left:5px;"> Government/Private Sector Response</div>
+            </div>
+            <p class="clear">&nbsp;</p>
+            <div style="margin:10px">
+                <div style="float: left;">
+                    <input class="img-valign" type="checkbox">
+                    <img class="img-valign" src='./icons/yellow.png' style="width: 20px;">
+                </div>
+                <div style="float: left;width:70%;margin:5px;">Tension</div>
+
+            </div>
+            <p class="clear">&nbsp;</p>
+            <div style="margin:10px">
+                <div style="float: left;">
+                    <input class="img-valign" type="checkbox"> 
+                    <img class="img-valign" src='./icons/red.png' style="width: 20px;">
+                </div>
+                <div style="float: left;width:70%;margin:5px ;">Violence</div>
+
+            </div>
+            <p class="clear">&nbsp;</p>
+
+        </div>
+
+
+        <div id="boundaryPanel">
+            <div style="width: 100%;"><span style="font-size: 16px;padding:15px;margin: 15px;">DOH COVID-19 Cases</span></div>
+
+            <div id="dohreg" class='boundarybutton bbleft'>Region</div>
+            <div id="dohprov" class='boundarybutton bbright'>Province</div>
+            <div id="dohmun" class='boundarybutton bbleft'>Municipality</div>
+            <div id="dontshow" class='boundarybutton bbright selected' >Don't show</div>
+        </div>
+
+
+    <div id="panelfooter" style="display:flex;align-items:flex-end;">
+
+    <div>
+        <img src="./alert-logo.png" width="40px">
+    </div>
+    <div>
+        <img src="./ausaid.png" width="80px">        
+
+    </div>
+
+
+        </div>
+
     </div>
 
     <div id="mapControlIcon" onclick="hideicon()">
@@ -31,14 +103,14 @@
 
 
     <div class="slidecontainer">
-        <img class="img-valign" src="./opacity.png" style="height: 13.64px;"> <img> <span>opacity</span>
-        <input type="range" min="0" max="100" value="70" class="slider" id="myRange">
+        <div>
+            <img class="img-valign" src="./opacity.png" style="height: 13.64px;"> <span>opacity</span>
+
+        </div>
+        <input type="range" min="0" max="100" value="30" class="slider" id="myRange" style="width:129px;">
     </div>
 
 
-    <div id="logodiv">
-        <img src="./alert-logo.png">
-    </div>
 
 
 </div>
@@ -48,45 +120,56 @@
         height: 800px;
     }
 
+    #mapConrolPanel:hover {
+        cursor: pointer;
+
+    }
+
     #mapControlPanel {
         z-index: 1000;
         width: 250px;
-        height: 400px;
-        background: rgb(255, 255, 255, 0.95);
+        height: 90%;
         position: absolute;
         top: 10px;
         left: 10px;
+
+
+        padding: 12px 18px;
+        font: 14px/16px Arial, Helvetica, sans-serif;
+        background: rgba(240, 240, 240, 0.95);
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
         border-radius: 5px;
-        box-shadow: 2px 4px rgba(200, 200, 200, .2);
     }
 
     #mapControlIcon {
         z-index: 2000;
         width: 50px;
         height: 50px;
-        background: rgb(255, 255, 255, 0.95);
-        ;
         position: absolute;
         top: 10px;
         left: 10px;
+        font: 14px/16px Arial, Helvetica, sans-serif;
+        background: white;
+        background: rgba(255, 255, 255, 0.95);
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
         border-radius: 5px;
-        box-shadow: 2px 4px rgba(200, 200, 200, .2);
         display: none;
     }
 
-    #logodiv {
-        z-index: 1000;
-        position: absolute;
-        bottom: 20px;
-        right: 10px;
-
+    #panelfooter div{
+        margin:10px;
     }
-
 
     /* start slider */
 
     .slidecontainer {
+        padding: 6px 8px;
+        font: 14px/16px Arial, Helvetica, sans-serif;
         background: white;
+        background: rgba(255, 255, 255, 0.9);
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        border-radius: 5px;
+
         z-index: 2000;
         width: 135;
         position: absolute;
@@ -102,19 +185,149 @@
     }
 
     /* end slider */
+    .marker-cluster-small {
+        background-color: rgba(24, 78, 81, 0.6);
+    }
+
+    .marker-cluster-small div {
+        background-color: rgba(24, 78, 81, 0.8);
+    }
+
+    .marker-cluster-medium {
+        background-color: rgba(24, 78, 81, 0.6);
+    }
+
+    .marker-cluster-medium div {
+        background-color: rgba(24, 78, 81, 0.8);
+    }
+
+    .marker-cluster-large {
+        background-color: rgba(24, 78, 81, 0.6);
+    }
+
+    .marker-cluster div {
+        background-color: rgba(24, 78, 81, 0.8);
+    }
+
+    .marker-cluster span {
+        color: white;
+        font-weight: bold;
+    }
+
+
+
+    .info {
+        padding: 6px 8px;
+        font: 14px/16px Arial, Helvetica, sans-serif;
+        background: white;
+        background: rgba(255, 255, 255, 0.8);
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        border-radius: 5px;
+    }
+
+    .info h4 {
+        margin: 0 0 5px;
+        color: #777;
+    }
+
+
+    .legend {
+        line-height: 20px;
+        color: #555;
+    }
+
+    .legend i {
+        width: 18px;
+        height: 18px;
+        float: left;
+        margin-right: 8px;
+        opacity: 0.7;
+    }
+
+    .popuplabel {
+        font: 14px/16px Arial, Helvetica, sans-serif;
+        font-weight: bold;
+    }
+
+
+    #apptitle {
+        font: 14px/16px Arial, Helvetica, sans-serif;
+
+    }
+
+    #boundaryPanel {
+
+        margin: 25px 0px 0px 0px;
+        padding: 10px 10px;
+        font: 14px/16px Arial, Helvetica, sans-serif;
+        background: rgba(250, 250, 250, 0.8);
+        border-radius: 5px;
+        height: 100px;
+
+    }
+
+    #issuesPanel {
+        margin: 25px 0px 0px 0px;
+        padding: 10px 10px;
+        font: 14px/16px Arial, Helvetica, sans-serif;
+        background: rgba(250, 250, 250, 0.8);
+        border-radius: 5px;
+        height: 140px;
+
+    }
+
+    .boundarybutton {
+        font: 14px/16px Arial, Helvetica, sans-serif;
+        background: rgba(240, 240, 240, 1);
+        box-shadow: 0 0 2px rgba(50, 50, 50, 0.8);
+        border-radius: 5px;
+        width: 35%;
+        padding: 10px;
+        margin: 5px;
+        text-align: center;
+        cursor: pointer;
+    }
+
+    .bbleft {
+        float: left;
+    }
+
+    .bbright {
+        float: right;
+    }
+
+    .selected {
+        background: gray;
+        font-weight: bold;
+        color: white;
+    }
+
+    .clear {
+        clear: both;
+        height: 0px;
+    }
 </style>
 
 
 <script>
 
-
+    console.log(regcov);
 
     var mapOptions = {
-        zoomControl: false
+        zoomControl: false,
+        minZoom: 5,
+        maxZoom: 18
     }
 
-    var map = L.map('mapid', mapOptions).setView([14, 120], 6);
+    var map = L.map('mapid', mapOptions).setView([12, 120], 5);
     map.setMaxBounds(map.getBounds());
+    map.setView([12, 120], 6);
+    map.createPane('labels');
+
+
+    map.getPane('labels').style.zIndex = 500;
+    map.getPane('labels').style.pointerEvents = 'none';
+
 
 
     L.control.zoom({
@@ -123,31 +336,46 @@
 
 
 
-    var googleStreets = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
-        subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
-    });
-
-    var googleSat = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
-        subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
-    });
-
-    var googleTerrain = L.tileLayer('http://{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={z}', {
-        subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
-    });
-
-    var googleHybrid = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
-        subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+    var positron = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
+        attribution: '©OpenStreetMap, ©CartoDB'
     }).addTo(map);
+
+    var positronLabels = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png', {
+        attribution: '©OpenStreetMap, ©CartoDB',
+        pane: 'labels'
+    }).addTo(map);
+
+
+    var googleStreets = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}&language=EN', {
+        subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+    });
+
+    var googleSat = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}&language=EN', {
+        subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+    });
+
+    var googleTerrain = L.tileLayer('http://{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={z}&language=EN', {
+        subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+    });
+
+    var googleHybrid = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}&language=EN', {
+        subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+    });
 
 
 
     var baseMaps = {
+        "Carto DB": positron,
+        "Google Satellite": googleSat,
         "Google Hyybrid": googleHybrid,
         "Google Streets": googleStreets,
-        "Google Satellite": googleSat,
         "Google Terrain": googleTerrain
     };
-    L.control.layers(baseMaps).addTo(map);
+
+    var overlays = {
+        "Carto DB Labels": positronLabels
+    }
+    L.control.layers(baseMaps, overlays).addTo(map);
 
     // var imageUrl = './munchair.png',
     //     imageBounds = [[21.011755276, 114.281533786], [4.477399243, 126.604957428]];
@@ -160,11 +388,7 @@
     // var muncZoomedOut = L.imageOverlay(imageUrlLarge, imageBounds);
 
 
-    geojson = L.geoJson(muncov, {
-        style: style0,
-        onEachFeature: onEachFeature
-
-    }).addTo(map);
+    geojson = L.geoJson();
 
 
 
@@ -172,12 +396,56 @@
 
     var markers = L.markerClusterGroup();
 
+
+    var IssueIcon = L.Icon.extend({
+        options: {
+            iconSize: [32, 42]
+            // shadowSize: [50, 64],
+            // iconAnchor: [22, 94],
+            // shadowAnchor: [4, 62],
+            // popupAnchor: [-3, -76]
+        }
+    });
+
+    var greenIcon = new IssueIcon({
+        iconUrl: './icons/green.png',
+    })
+    var yellowIcon = new IssueIcon({
+        iconUrl: './icons/yellow.png',
+    })
+    var redIcon = new IssueIcon({
+        iconUrl: './icons/red.png',
+    })
+
+
     var arrayLength = incidentdata.length;
     for (var i = 0; i < arrayLength; i++) {
-        console.log(incidentdata[i].date);
-        var marker = L.marker(new L.LatLng(incidentdata[i].lat, incidentdata[i].lng), { title: incidentdata[i].details });
-        markers.addLayer(marker);
 
+        var temp;
+        if (incidentdata[i].issue == 'Tensions') {
+            temp = yellowIcon;
+        } else if (incidentdata[i].issue == 'Government/Private sector response') {
+            temp = greenIcon;
+        } else if (incidentdata[i].issue == 'Violence') {
+            temp = redIcon;
+        }
+
+
+
+        var marker = L.marker(new L.LatLng(incidentdata[i].lat, incidentdata[i].lng), { title: incidentdata[i].issue, icon: temp });
+        var town;
+        if (incidentdata[i].municipality != "") {
+            town = incidentdata[i].municipality
+        } else {
+            town = incidentdata[i].city
+        }
+        var popuphtml =
+            "<span class='popuplabel'>Date: </span>" + incidentdata[i].date + "&nbsp&nbsp&nbsp&nbsp<span class='popuplabel'>Date Reported:</span> " + incidentdata[i].datereported +
+            "<br><span class='popuplabel'>Issue: </span>" + incidentdata[i].issue + "<br>" +
+            "<span class='popuplabel'>City/Municipality: </span>" + town + "<br>" +
+            "<span class='popuplabel'>Details: </span>" + incidentdata[i].details + "<br>"
+        marker.bindPopup(popuphtml);
+        markers.addLayer(marker);
 
         //Do something
     }
@@ -189,6 +457,49 @@
 
 
 
+    var info = L.control();
+
+    info.onAdd = function (map) {
+        this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+        this.update();
+        return this._div;
+    };
+
+    // method that we will use to update the control based on feature properties passed
+    info.update = function (props) {
+        this._div.innerHTML =
+            '<h4>Covid Cases (May 25, 2020)</h4>' +
+            (props ? '<h4>' + props.ADM3_EN + '</h4> ' : '') +
+            (props ? '' + props.covmunc2 + ' confirmed cases' : 'Hover over a an area');
+    };
+
+    info.addTo(map);
+
+
+
+
+
+    var legend = L.control({ position: 'topright' });
+
+    legend.onAdd = function (map) {
+
+        var div = L.DomUtil.create('div', 'info legend'),
+            grades = [0, 25, 50, 100, 200, 500, 1000],
+            labels = [];
+
+        // loop through our density intervals and generate a label with a colored square for each interval
+        for (var i = 0; i < grades.length; i++) {
+            div.innerHTML +=
+                '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+                grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+        }
+
+        return div;
+    };
+
+    legend.addTo(map);
+
+
 
     var slider = document.getElementById("myRange");
 
@@ -197,7 +508,7 @@
 
         geojson.setStyle({
 
-            fillOpacity: this.value / 100
+            fillOpacity: (100 - this.value) / 100
         });
 
     }
@@ -207,28 +518,37 @@
 
     function getColor(d) {
         //alert(d);
-        return d > 1000 ? '#000000' :
-            d > 500 ? '#36454f' :
-                d > 200 ? '#666a6d' :
-                    d > 100 ? '#848482' :
-                        d > 50 ? '#abafae' :
-                            d > 20 ? '#C0C0C0' :
-                                d > 10 ? '#dbd7d2' :
-                                    d > 1 ? '#f5f5f5' :
-                                        'rgba(0,0,0,0)';;
+        return d > 1000 ? '#67340B' :
+            d > 500 ? '#834311' :
+                d > 200 ? '#964C15' :
+                    d > 100 ? '#A45518' :
+                        d > 50 ? '#B5651D' :
+                            d > 25 ? '#C89C49' :
+                                '#FFEDA0';
     }
 
 
     function style0(feature) {
+        var opacity = (100 - document.getElementById("myRange").value) / 100;
+
         return {
             fillColor: getColor(feature.properties.covmunc2),
             weight: 2,
             opacity: .1,
             color: 'white',
             dashArray: '3',
-            fillOpacity: 0.7
+            fillOpacity: opacity
         };
     }
+
+
+
+
+
+
+
+
+
 
 
 
@@ -240,34 +560,24 @@
         document.getElementById("mapControlPanel").style.display = "none";
         document.getElementById("mapControlIcon").style.display = "block";
 
-
     }
 
     function hideicon() {
         document.getElementById("mapControlPanel").style.display = "block";
         document.getElementById("mapControlIcon").style.display = "none";
-
+        map.legend.addTo(map);
 
     }
 
 
     function highlightFeature(e) {
         var layer = e.target;
-        layer.setStyle({
-            weight: 2,
-            color: '#666',
-            dashArray: '',
-            fillOpacity: 1
-        });
-
-        if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-            layer.bringToFront();
-        }
-
+        info.update(layer.feature.properties);
     }
 
     function resetHighlight(e) {
-        geojson.resetStyle(e.target);
+        // geojson.resetStyle(e.target);
+
     }
 
     function zoomToFeature(e) {
@@ -276,13 +586,99 @@
 
     function onEachFeature(feature, layer) {
         layer.on({
-            // mouseover: highlightFeature,
-            // mouseout: resetHighlight,
-            // click: zoomToFeature
+            mouseover: highlightFeature,
+            mouseout: resetHighlight,
+            click: zoomToFeature
         });
     }
 
     // zoomedOut.setOpacity(.5);//pwede icontrol
+
+
+    function switchlayer(layer) {
+        map.removeLayer(geojson);
+
+        if (layer == 'dohreg') {
+            layer = regcov;
+
+        } else if (layer == 'dohmun') {
+            layer = muncov;
+        }
+
+        geojson = L.geoJson(layer, {
+            style: style0,
+            onEachFeature: onEachFeature
+
+        }).addTo(map);
+
+
+    }
+
+
+
+    function removeSelected() {
+        document.getElementById('dohreg').classList.remove('selected');
+        document.getElementById('dohmun').classList.remove('selected');
+        document.getElementById('dohprov').classList.remove('selected');
+        document.getElementById('dontshow').classList.remove('selected');
+
+    }
+
+    function setSelected(id) {
+        document.getElementById(id).classList.add('selected');
+    }
+
+
+    document.getElementById('dohreg').addEventListener('click', function () {
+        removeSelected();
+        switchlayer('dohreg');
+        setSelected('dohreg');
+    });
+
+    document.getElementById('dohmun').addEventListener('click', function () {
+        removeSelected();
+        switchlayer('dohmun');
+        setSelected('dohmun');
+
+    });
+
+    document.getElementById('dohprov').addEventListener('click', function () {
+        removeSelected();
+        switchlayer('dohprov');
+        setSelected('dohprov');
+    });
+    document.getElementById('dontshow').addEventListener('click', function () {
+        removeSelected();
+        setSelected('dontshow');
+
+    });
+
+
+    document.getElementById('mapControlPanel').addEventListener('mouseenter', function () {
+
+        map.dragging.disable();
+        map.touchZoom.disable();
+        map.doubleClickZoom.disable();
+        map.scrollWheelZoom.disable();
+        map.boxZoom.disable();
+        map.keyboard.disable();
+
+    });
+
+
+
+    document.getElementById('mapControlPanel').addEventListener('mouseleave', function () {
+
+        map.dragging.enable();
+        map.touchZoom.enable();
+        map.doubleClickZoom.enable();
+        map.scrollWheelZoom.enable();
+        map.boxZoom.enable();
+        map.keyboard.enable();
+
+    });
+
+
 
 
 </script>
