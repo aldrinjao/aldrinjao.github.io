@@ -20,6 +20,7 @@
 <script src="./data.js"></script>
 <script src="./munc.js"></script>
 <script src="./regcov.js"></script>
+<script src="./covprov.js"></script>
 
 
 <div id="mapid">
@@ -31,12 +32,13 @@
         </div>
 
         <div id="boundaryPanel">
-            <div style="width: 100%;"><span style="font-size: 16px;padding:15px;margin: 15px;">Location Boundaries</span></div>
+            <div style="width: 100%;"><span style="font-size: 16px;padding:15px;margin: 15px;">Location
+                    Boundaries</span></div>
 
-            <div class='boundarybutton bbleft'>Region</div>
-            <div class='boundarybutton bbright'>Province</div>
-            <div class='boundarybutton bbleft'>Municipality</div>
-            <div class='boundarybutton bbright'>Barangay</div>
+            <div id="locreg" class='boundarybutton bbleft selected' onclick="locButtonSelected(this)">Region</div>
+            <div id="locprov" class='boundarybutton bbright' onclick="locButtonSelected(this)">Province</div>
+            <div id="locmun" class='boundarybutton bbleft' onclick="locButtonSelected(this)">Municipality</div>
+            <div id="locbrg" class='boundarybutton bbright' onclick="locButtonSelected(this)">Barangay</div>
         </div>
 
         <div id="issuesPanel">
@@ -45,7 +47,7 @@
 
             <div style="margin:10px">
                 <div style="float: left;">
-                    <input type="checkbox"> 
+                    <input type="checkbox" id="govcbox" checked onclick="markerCheckBox()">
                     <img src='./icons/green.png' style="width: 20px;">
                 </div>
                 <div style="float: left;width:70%;margin-left:5px;"> Government/Private Sector Response</div>
@@ -53,7 +55,7 @@
             <p class="clear">&nbsp;</p>
             <div style="margin:10px">
                 <div style="float: left;">
-                    <input class="img-valign" type="checkbox">
+                    <input class="img-valign" type="checkbox" id="tencbox" checked onclick="markerCheckBox()">
                     <img class="img-valign" src='./icons/yellow.png' style="width: 20px;">
                 </div>
                 <div style="float: left;width:70%;margin:5px;">Tension</div>
@@ -62,7 +64,7 @@
             <p class="clear">&nbsp;</p>
             <div style="margin:10px">
                 <div style="float: left;">
-                    <input class="img-valign" type="checkbox"> 
+                    <input class="img-valign" type="checkbox" id="viocbox" checked onclick="markerCheckBox()">
                     <img class="img-valign" src='./icons/red.png' style="width: 20px;">
                 </div>
                 <div style="float: left;width:70%;margin:5px ;">Violence</div>
@@ -73,25 +75,27 @@
         </div>
 
 
-        <div id="boundaryPanel">
-            <div style="width: 100%;"><span style="font-size: 16px;padding:15px;margin: 15px;">DOH COVID-19 Cases</span></div>
+        <div id="dohPanel">
+            <div style="width: 100%;"><span style="font-size: 16px;padding:15px;margin: 15px;">DOH COVID-19 Cases</span>
+            </div>
+            <div id="dontshow" class='boundarybutton bbright selected' onclick="dohButtonSelected(this)">Don't show
+            </div>
 
-            <div id="dohreg" class='boundarybutton bbleft'>Region</div>
-            <div id="dohprov" class='boundarybutton bbright'>Province</div>
-            <div id="dohmun" class='boundarybutton bbleft'>Municipality</div>
-            <div id="dontshow" class='boundarybutton bbright selected' >Don't show</div>
+            <div id="show" class='boundarybutton bbright' onclick="dohButtonSelected(this)">Show
+            </div>
+
         </div>
 
 
-    <div id="panelfooter" style="display:flex;align-items:flex-end;">
+        <div id="panelfooter" style="display:flex;align-items:flex-end;">
 
-    <div>
-        <img src="./alert-logo.png" width="40px">
-    </div>
-    <div>
-        <img src="./ausaid.png" width="80px">        
+            <div>
+                <img src="./alert-logo.png" width="40px">
+            </div>
+            <div>
+                <img src="./ausaid.png" width="80px">
 
-    </div>
+            </div>
 
 
         </div>
@@ -156,8 +160,8 @@
         display: none;
     }
 
-    #panelfooter div{
-        margin:10px;
+    #panelfooter div {
+        margin: 10px;
     }
 
     /* start slider */
@@ -266,6 +270,17 @@
 
     }
 
+    #dohPanel {
+
+        margin: 25px 0px 0px 0px;
+        padding: 10px 10px;
+        font: 14px/16px Arial, Helvetica, sans-serif;
+        background: rgba(250, 250, 250, 0.8);
+        border-radius: 5px;
+        height: 60px;
+
+    }
+
     #issuesPanel {
         margin: 25px 0px 0px 0px;
         padding: 10px 10px;
@@ -311,8 +326,6 @@
 
 <script>
 
-    console.log(regcov);
-
     var mapOptions = {
         zoomControl: false,
         minZoom: 5,
@@ -329,7 +342,7 @@
     map.getPane('labels').style.pointerEvents = 'none';
 
 
-
+    var currentstlye = style1;
     L.control.zoom({
         position: 'topright'
     }).addTo(map);
@@ -388,7 +401,7 @@
     // var muncZoomedOut = L.imageOverlay(imageUrlLarge, imageBounds);
 
 
-    geojson = L.geoJson();
+    geojson = L.geoJson(regcov, { style: style1 }).addTo(map);
 
 
 
@@ -419,40 +432,34 @@
 
 
     var arrayLength = incidentdata.length;
+
+    var govIssues = [];
+    var tenIssues = [];
+    var vioIssues = [];
+
+    var allIssues = [];
+
+    //sort the incidents
     for (var i = 0; i < arrayLength; i++) {
 
         var temp;
         if (incidentdata[i].issue == 'Tensions') {
+            tenIssues.push(incidentdata[i]);
             temp = yellowIcon;
         } else if (incidentdata[i].issue == 'Government/Private sector response') {
+            govIssues.push(incidentdata[i]);
             temp = greenIcon;
         } else if (incidentdata[i].issue == 'Violence') {
+            vioIssues.push(incidentdata[i]);
             temp = redIcon;
         }
-
-
-
-        var marker = L.marker(new L.LatLng(incidentdata[i].lat, incidentdata[i].lng), { title: incidentdata[i].issue, icon: temp });
-        var town;
-        if (incidentdata[i].municipality != "") {
-            town = incidentdata[i].municipality
-        } else {
-            town = incidentdata[i].city
-        }
-        var popuphtml =
-            "<span class='popuplabel'>Date: </span>" + incidentdata[i].date + "&nbsp&nbsp&nbsp&nbsp<span class='popuplabel'>Date Reported:</span> " + incidentdata[i].datereported +
-            "<br><span class='popuplabel'>Issue: </span>" + incidentdata[i].issue + "<br>" +
-            "<span class='popuplabel'>City/Municipality: </span>" + town + "<br>" +
-            "<span class='popuplabel'>Details: </span>" + incidentdata[i].details + "<br>"
-        marker.bindPopup(popuphtml);
-        markers.addLayer(marker);
 
         //Do something
     }
 
-    map.addLayer(markers);
-    // map.addLayer(markers2);
 
+
+    markerCheckBox();
 
 
 
@@ -472,8 +479,6 @@
             (props ? '<h4>' + props.ADM3_EN + '</h4> ' : '') +
             (props ? '' + props.covmunc2 + ' confirmed cases' : 'Hover over a an area');
     };
-
-    info.addTo(map);
 
 
 
@@ -497,7 +502,6 @@
         return div;
     };
 
-    legend.addTo(map);
 
 
 
@@ -510,6 +514,70 @@
 
             fillOpacity: (100 - this.value) / 100
         });
+
+    }
+
+
+
+
+    function markerCheckBox() {
+        allIssues = [];
+        // Get the checkbox
+        var tencheckBox = document.getElementById("tencbox");
+        var viocheckBox = document.getElementById("viocbox");
+        var govcheckBox = document.getElementById("govcbox");
+        // Get the output text
+
+        // If the checkbox is checked, display the output text
+        if (tencheckBox.checked == true) {
+            allIssues = allIssues.concat(tenIssues);
+        }
+        if (govcheckBox.checked == true) {
+            allIssues = allIssues.concat(govIssues);
+        }
+        if (viocheckBox.checked == true) {
+            allIssues = allIssues.concat(vioIssues);
+        }
+        markers.clearLayers();
+
+        createMarkers();
+
+
+        // markers.addTo(map);
+    }
+
+
+
+    function createMarkers() {
+
+        for (var i = 0; i < allIssues.length; i++) {
+
+            var temp;
+            if (allIssues[i].issue == 'Tensions') {
+                temp = yellowIcon;
+            } else if (allIssues[i].issue == 'Government/Private sector response') {
+                temp = greenIcon;
+            } else if (allIssues[i].issue == 'Violence') {
+                temp = redIcon;
+            }
+            var marker = L.marker(new L.LatLng(allIssues[i].lat, allIssues[i].lng), { title: allIssues[i].issue, icon: temp });
+            var town;
+            if (allIssues[i].municipality != "") {
+                town = allIssues[i].municipality
+            } else {
+                town = allIssues[i].city
+            }
+            var popuphtml =
+                "<span class='popuplabel'>Date: </span>" + allIssues[i].date + "&nbsp&nbsp&nbsp&nbsp<span class='popuplabel'>Date Reported:</span> " + allIssues[i].datereported +
+                "<br><span class='popuplabel'>Issue: </span>" + allIssues[i].issue + "<br>" +
+                "<span class='popuplabel'>City/Municipality: </span>" + town + "<br>" +
+                "<span class='popuplabel'>Details: </span>" + allIssues[i].details + "<br>"
+            marker.bindPopup(popuphtml);
+            markers.addLayer(marker);
+
+        }
+
+        map.addLayer(markers);
 
     }
 
@@ -542,32 +610,19 @@
     }
 
 
+    function style1() {
+        var opacity = (100 - document.getElementById("myRange").value) / 100;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-    function hidepanel() {
-        document.getElementById("mapControlPanel").style.display = "none";
-        document.getElementById("mapControlIcon").style.display = "block";
-
+        return {
+            fillColor: 'white',
+            weight: 2,
+            opacity: 1,
+            color: 'black',
+            dashArray: '3',
+            fillOpacity: opacity
+        };
     }
 
-    function hideicon() {
-        document.getElementById("mapControlPanel").style.display = "block";
-        document.getElementById("mapControlIcon").style.display = "none";
-        map.legend.addTo(map);
-
-    }
 
 
     function highlightFeature(e) {
@@ -598,15 +653,17 @@
     function switchlayer(layer) {
         map.removeLayer(geojson);
 
-        if (layer == 'dohreg') {
+        if (layer == 'locreg') {
             layer = regcov;
 
-        } else if (layer == 'dohmun') {
+        } else if (layer == 'locmun') {
             layer = muncov;
+        } else if (layer == 'locprov') {
+            layer = provcov;
         }
 
         geojson = L.geoJson(layer, {
-            style: style0,
+            style: currentstlye,
             onEachFeature: onEachFeature
 
         }).addTo(map);
@@ -615,12 +672,17 @@
     }
 
 
-
     function removeSelected() {
-        document.getElementById('dohreg').classList.remove('selected');
-        document.getElementById('dohmun').classList.remove('selected');
-        document.getElementById('dohprov').classList.remove('selected');
         document.getElementById('dontshow').classList.remove('selected');
+        document.getElementById('show').classList.remove('selected');
+
+    }
+
+    function removeLoCSelected() {
+        document.getElementById('locreg').classList.remove('selected');
+        document.getElementById('locprov').classList.remove('selected');
+        document.getElementById('locmun').classList.remove('selected');
+        document.getElementById('locbrg').classList.remove('selected');
 
     }
 
@@ -629,29 +691,45 @@
     }
 
 
-    document.getElementById('dohreg').addEventListener('click', function () {
+    function dohButtonSelected(t) {
         removeSelected();
-        switchlayer('dohreg');
-        setSelected('dohreg');
-    });
+        setSelected(t.id);
+        if (t.id == 'dontshow') {
+            currentstlye = style1
+            map.removeControl(legend);
+            map.removeControl(info);
+        }
+        else {
+            currentstlye = style0
+            map.addControl(legend);
+            map.addControl(info);
 
-    document.getElementById('dohmun').addEventListener('click', function () {
-        removeSelected();
-        switchlayer('dohmun');
-        setSelected('dohmun');
+        }
+        geojson.setStyle(currentstlye);
+    }
 
-    });
 
-    document.getElementById('dohprov').addEventListener('click', function () {
-        removeSelected();
-        switchlayer('dohprov');
-        setSelected('dohprov');
-    });
-    document.getElementById('dontshow').addEventListener('click', function () {
-        removeSelected();
-        setSelected('dontshow');
 
-    });
+
+
+    function locButtonSelected(t) {
+
+        if (t.id == "dontshow") {
+
+            geojson.setStyle(style1);
+            map.removeControl(legend);
+            map.removeControl(info);
+            removeLoCSelected();
+            setSelected(t.id);
+
+        } else {
+            removeLoCSelected()
+            // map.addControl(info);
+            // map.addControl(legend);
+            switchlayer(t.id);
+            setSelected(t.id);
+        }
+    }
 
 
     document.getElementById('mapControlPanel').addEventListener('mouseenter', function () {
@@ -664,6 +742,7 @@
         map.keyboard.disable();
 
     });
+
 
 
 
