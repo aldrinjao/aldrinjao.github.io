@@ -17,22 +17,108 @@
 <script src="./marker-cluster/dist/leaflet.markercluster-src.js"></script>
 
 
-<script src="./data.js"></script>
-<script src="./munc.js"></script>
-<script src="./regcov.js"></script>
-<script src="./covprov.js"></script>
-
+<script src="./data/data.js"></script>
+<script src="./data/munc.js"></script>
+<script src="./data/regcov.js"></script>
+<script src="./data/covprov.js"></script>
 
 <div id="mapid">
 
+
+    <div id="dimmedOverlay" onclick="modalClose()"></div>
+    <div id="introModal" onclick="modalClose()">
+        <img src="./icons/info.svg" class="infoicon "
+            style="position: absolute; left:20;top:25; width: 25px;cursor:pointer;">
+
+        <div class="modalTitle">
+            Welcome to the Critical Events and Monitoring System <br> Map of COVID-19 Related Incidents!
+
+        </div>
+        <div>
+            <h3>How to Use:</h3>
+        </div>
+        <div class="tutItem">
+            <div style="float: left;width: 100px;">
+                <img class="img-valign" src="./icons/tutlayers.png" style="width: 100px;">
+            </div>
+            <div style="float: left;width: 490px;"><span style="font-weight: bold;">Click</span> on the buttons on the control panel to switch to different map
+                of overlays</div>
+
+        </div>
+
+        <div class="tutItem">
+            <div style="float: left;width: 100px;">
+                <img class="img-valign" src="./icons/tutmarkers.png" style="width: 100px;">
+            </div>
+            <div style="float: left;width: 490px;"><span style="font-weight: bold;">Check</span> checkboxes to display the reported incidents related to
+                COVID-19</div>
+
+        </div>
+
+
+        <div class="tutItem">
+            <div style="float: left;width: 100px;">
+                <img class="img-valign" src="./icons/tutmarker.png" style="width: 100px;">
+            </div>
+            <div style="float: left;width: 490px;"><span style="font-weight: bold;">Click</span> on color coded map markers to see details about individual
+                incidents</div>
+
+        </div>
+
+        <div class="tutItem">
+            <div style="float: left;width: 100px;">
+                <img class="img-valign" src="./icons/tutcontrol.png" style="width: 100px;">
+            </div>
+            <div style="float: left;width: 490px;"><span style="font-weight: bold;">Interact</span> with the map by zooming in and out, adjusting the overlay
+                opacity, and changing basemaps.</div>
+
+        </div>
+
+
+
+
+        <!-- 
+
+        <div class="tutItem">
+            
+        </div>
+        <div class="tutItem">
+            Interact with the map by zooming in and out, adjusting the overlay opacity, and changing basemaps.
+        </div>
+
+        <div class="tutItem">
+            Share the page to raise awareness about critical events related to COVID-19
+        </div> -->
+
+
+        <div style="position: absolute;bottom: 1%;text-align: center;width: 93%;">
+            Click to close
+        </div>
+
+
+
+
+
+
+
+
+
+    </div>
+
+
     <div id="mapControlPanel">
+        <img src="./icons/info.svg" class="infoicon "
+            style="position: absolute; right:10;top:10; width: 20px;cursor:pointer;" onclick="modalOpen()">
+
+
+
         <div id="apptitle">
             <span style="font-size:22px;line-height: normal;font-weight: 600;"> CRITICAL EVENTS MONITORING SYSTEM</span>
             <span style="font-size:20px;line-height: normal;font-weight: 300;"> MAP OF COVID-19 RELATED INCIDENTS</span>
         </div>
 
         <div id="boundaryPanel">
-            <div style="width: 100%;"><span style="font-size: 16px;padding:15px;margin: 15px;">Location
+            <div style="width: 100%;"><span style="font-size: 16px;padding:10px;margin: 10px;">Administrative
                     Boundaries</span></div>
 
             <div id="locreg" class='boundarybutton bbleft selected' onclick="locButtonSelected(this)">Region</div>
@@ -90,10 +176,10 @@
         <div id="panelfooter" style="display:flex;align-items:flex-end;">
 
             <div>
-                <img src="./alert-logo.png" width="40px">
+                <img src="./icons/alert-logo.png" width="40px">
             </div>
             <div>
-                <img src="./ausaid.png" width="80px">
+                <img src="./icons/ausaid.png" width="80px">
 
             </div>
 
@@ -108,20 +194,33 @@
 
     <div class="slidecontainer">
         <div>
-            <img class="img-valign" src="./opacity.png" style="height: 13.64px;"> <span>opacity</span>
+            <img class="img-valign" src="./icons/opacity.png" style="height: 13.64px;"> <span>opacity</span>
 
         </div>
         <input type="range" min="0" max="100" value="30" class="slider" id="myRange" style="width:129px;">
     </div>
 
 
-
-
 </div>
 
+
+
+
+
+
+
+
+
+
+
+
 <style>
+    body {
+        margin: 0;
+    }
+
     #mapid {
-        height: 800px;
+        height: 100vh;
     }
 
     #mapConrolPanel:hover {
@@ -129,8 +228,43 @@
 
     }
 
+    #dimmedOverlay {
+        z-index: 1001;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        position: absolute;
+        top: 0;
+        left: 0;
+
+    }
+
+    #introModal {
+        z-index: 2000;
+        width: 700px;
+        min-height: 50%;
+        height: 55%;
+        background-color: rgba(255, 255, 255, 0.95);
+        position: absolute;
+        left: 20%;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        font: 14px/16px Arial, Helvetica, sans-serif;
+        background: rgba(255, 255, 255, 0.95);
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        border-radius: 5px;
+        padding: 10px;
+    }
+
+    .hiddenmodal {
+        display: none;
+    }
+
     #mapControlPanel {
-        z-index: 1000;
+        z-index: 401;
         width: 250px;
         height: 90%;
         position: absolute;
@@ -146,14 +280,13 @@
     }
 
     #mapControlIcon {
-        z-index: 2000;
+        z-index: 401;
         width: 50px;
         height: 50px;
         position: absolute;
         top: 10px;
         left: 10px;
         font: 14px/16px Arial, Helvetica, sans-serif;
-        background: white;
         background: rgba(255, 255, 255, 0.95);
         box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
         border-radius: 5px;
@@ -174,7 +307,7 @@
         box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
         border-radius: 5px;
 
-        z-index: 2000;
+        z-index: 401;
         width: 135;
         position: absolute;
         top: 10px;
@@ -234,6 +367,9 @@
         color: #777;
     }
 
+    .infoIcon svg:hover {
+        fill: #fce57e;
+    }
 
     .legend {
         line-height: 20px;
@@ -321,6 +457,29 @@
         clear: both;
         height: 0px;
     }
+
+
+    /* modal */
+
+    .modalTitle {
+        margin: 2%;
+        line-height: normal;
+        font: Arial, Helvetica, sans-serif;
+        font-size: 1.8em;
+        text-align: center;
+    }
+
+    #introModal div {
+        margin: 2%;
+    }
+
+    .tutItem {
+        font-size: 1.3em;
+        line-height: normal;
+        height: 70px;
+    }
+
+
 </style>
 
 
@@ -333,6 +492,16 @@
     }
 
     var map = L.map('mapid', mapOptions).setView([12, 120], 5);
+
+    map.dragging.disable();
+    map.touchZoom.disable();
+    map.doubleClickZoom.disable();
+    map.scrollWheelZoom.disable();
+    map.boxZoom.disable();
+    map.keyboard.disable();
+
+
+
     map.setMaxBounds(map.getBounds());
     map.setView([12, 120], 6);
     map.createPane('labels');
@@ -359,6 +528,13 @@
     }).addTo(map);
 
 
+
+
+
+    var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    })
+
     var googleStreets = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}&language=EN', {
         subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
     });
@@ -382,7 +558,8 @@
         "Google Satellite": googleSat,
         "Google Hyybrid": googleHybrid,
         "Google Streets": googleStreets,
-        "Google Terrain": googleTerrain
+        "Google Terrain": googleTerrain,
+        "Open Street Maps": osm
     };
 
     var overlays = {
@@ -401,7 +578,10 @@
     // var muncZoomedOut = L.imageOverlay(imageUrlLarge, imageBounds);
 
 
-    geojson = L.geoJson(regcov, { style: style1 }).addTo(map);
+    geojson = L.geoJson(regcov, {
+        style: style1,
+        onEachFeature: onEachFeature
+    }).addTo(map);
 
 
 
@@ -412,7 +592,8 @@
 
     var IssueIcon = L.Icon.extend({
         options: {
-            iconSize: [32, 42]
+            iconSize: [32, 42],
+            popupAnchor: [0, -20]
             // shadowSize: [50, 64],
             // iconAnchor: [22, 94],
             // shadowAnchor: [4, 62],
@@ -474,11 +655,27 @@
 
     // method that we will use to update the control based on feature properties passed
     info.update = function (props) {
-        this._div.innerHTML =
-            '<h4>Covid Cases (May 25, 2020)</h4>' +
-            (props ? '<h4>' + props.ADM3_EN + '</h4> ' : '') +
-            (props ? '' + props.covmunc2 + ' confirmed cases' : 'Hover over a an area');
+
+        if (currentstlye == style0) {
+
+            this._div.innerHTML =
+                '<h4>Covid Cases (May 25, 2020)</h4>' +
+                (props ? '<h4>' + props.ADM3_EN + '</h4> ' : '') +
+                (props ? '' + props.covmunc2 + ' confirmed cases' : 'Hover over a an area');
+
+        } else {
+            this._div.innerHTML =
+                '<h4>Area</h4>' +
+                (props ? '<h4>' + props.ADM3_EN + '</h4> ' : '');
+
+
+        }
     };
+    info.addTo(map);
+
+
+
+
 
 
 
@@ -489,7 +686,7 @@
     legend.onAdd = function (map) {
 
         var div = L.DomUtil.create('div', 'info legend'),
-            grades = [0, 25, 50, 100, 200, 500, 1000],
+            grades = [1, 25, 50, 100, 200, 500, 1000],
             labels = [];
 
         // loop through our density intervals and generate a label with a colored square for each interval
@@ -592,7 +789,8 @@
                     d > 100 ? '#A45518' :
                         d > 50 ? '#B5651D' :
                             d > 25 ? '#C89C49' :
-                                '#FFEDA0';
+                                d > 1 ? '#FFEDA0'
+                                    : '#FFFFFF';
     }
 
 
@@ -628,6 +826,7 @@
     function highlightFeature(e) {
         var layer = e.target;
         info.update(layer.feature.properties);
+        console.log('2');
     }
 
     function resetHighlight(e) {
@@ -660,6 +859,8 @@
             layer = muncov;
         } else if (layer == 'locprov') {
             layer = provcov;
+        } else if (layer == 'locbrg') {
+            layer = brgcov;
         }
 
         geojson = L.geoJson(layer, {
@@ -697,12 +898,11 @@
         if (t.id == 'dontshow') {
             currentstlye = style1
             map.removeControl(legend);
-            map.removeControl(info);
         }
         else {
             currentstlye = style0
+
             map.addControl(legend);
-            map.addControl(info);
 
         }
         geojson.setStyle(currentstlye);
@@ -747,7 +947,6 @@
 
 
     document.getElementById('mapControlPanel').addEventListener('mouseleave', function () {
-
         map.dragging.enable();
         map.touchZoom.enable();
         map.doubleClickZoom.enable();
@@ -758,6 +957,30 @@
     });
 
 
+    function modalClose() {
+        map.dragging.enable();
+        map.touchZoom.enable();
+        map.doubleClickZoom.enable();
+        map.scrollWheelZoom.enable();
+        map.boxZoom.enable();
+        map.keyboard.enable();
 
+        document.getElementById('dimmedOverlay').classList.add('hiddenmodal');
+        document.getElementById('introModal').classList.add('hiddenmodal');
+
+    }
+
+    function modalOpen() {
+
+        map.dragging.disable();
+        map.touchZoom.disable();
+        map.doubleClickZoom.disable();
+        map.scrollWheelZoom.disable();
+        map.boxZoom.disable();
+        map.keyboard.disable();
+
+        document.getElementById('dimmedOverlay').classList.remove('hiddenmodal');
+        document.getElementById('introModal').classList.remove('hiddenmodal');
+    }
 
 </script>
