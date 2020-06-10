@@ -35,13 +35,28 @@
 
         </div>
         <div>
+            <h3>What this is:</h3>
+        </div>
+
+        <div>
+            <p>
+                In response to the COVID-19 situation, International Alert Philippines expanded its Critical Events
+                Monitoring System (CEMS) to monitor tensions and violence related to the pandemic. The reports are
+                visually presented through maps with the objective of not only for information dissemination but also
+                for data utilization in terms of programming among local governments to effectively respond to the
+                tensions and pressures which may lead to violent conflict.
+            </p>
+        </div>
+
+        <div>
             <h3>How to Use:</h3>
         </div>
         <div class="tutItem">
             <div style="float: left;width: 100px;">
                 <img class="img-valign" src="./icons/tutlayers.png" style="width: 100px;">
             </div>
-            <div style="float: left;width: 490px;"><span style="font-weight: bold;">Click</span> on the buttons on the control panel to switch to different map
+            <div style="float: left;width: 490px;"><span style="font-weight: bold;">Click</span> on the buttons on the
+                control panel to switch to different map
                 of overlays</div>
 
         </div>
@@ -50,7 +65,8 @@
             <div style="float: left;width: 100px;">
                 <img class="img-valign" src="./icons/tutmarkers.png" style="width: 100px;">
             </div>
-            <div style="float: left;width: 490px;"><span style="font-weight: bold;">Check</span> checkboxes to display the reported incidents related to
+            <div style="float: left;width: 490px;"><span style="font-weight: bold;">Check</span> checkboxes to display
+                the reported incidents related to
                 COVID-19</div>
 
         </div>
@@ -60,8 +76,8 @@
             <div style="float: left;width: 100px;">
                 <img class="img-valign" src="./icons/tutmarker.png" style="width: 100px;">
             </div>
-            <div style="float: left;width: 490px;"><span style="font-weight: bold;">Click</span> on color coded map markers to see details about individual
-                incidents</div>
+            <div style="float: left;width: 490px;"><span style="font-weight: bold;">Click</span> the circle icon to see
+                all reports within that area</div>
 
         </div>
 
@@ -69,7 +85,8 @@
             <div style="float: left;width: 100px;">
                 <img class="img-valign" src="./icons/tutcontrol.png" style="width: 100px;">
             </div>
-            <div style="float: left;width: 490px;"><span style="font-weight: bold;">Interact</span> with the map by zooming in and out, adjusting the overlay
+            <div style="float: left;width: 490px;"><span style="font-weight: bold;">Interact</span> with the map by
+                zooming in and out, adjusting the overlay
                 opacity, and changing basemaps.</div>
 
         </div>
@@ -107,7 +124,7 @@
 
 
     <div id="mapControlPanel">
-        <img src="./icons/info.svg" class="infoicon "
+        <img src="./icons/info.svg" class="infoicon" title="Click to view the tutorial window"
             style="position: absolute; right:10;top:10; width: 20px;cursor:pointer;" onclick="modalOpen()">
 
 
@@ -118,8 +135,8 @@
         </div>
 
         <div id="boundaryPanel">
-            <div style="width: 100%;"><span style="font-size: 16px;padding:10px;margin: 10px;">Administrative
-                    Boundaries</span></div>
+            <div style="width: 100%;margin: auto;width: 100%; text-align: center;"><span
+                    style="font-size: 16px;padding:10px;" title="Administrative Boundaries">Boundaries</span></div>
 
             <div id="locreg" class='boundarybutton bbleft selected' onclick="locButtonSelected(this)">Region</div>
             <div id="locprov" class='boundarybutton bbright' onclick="locButtonSelected(this)">Province</div>
@@ -186,6 +203,8 @@
 
         </div>
 
+
+
     </div>
 
     <div id="mapControlIcon" onclick="hideicon()">
@@ -242,8 +261,8 @@
     #introModal {
         z-index: 2000;
         width: 700px;
-        min-height: 50%;
-        height: 55%;
+        min-height: 620px;
+        height: 620px;
         background-color: rgba(255, 255, 255, 0.95);
         position: absolute;
         left: 20%;
@@ -476,10 +495,8 @@
     .tutItem {
         font-size: 1.3em;
         line-height: normal;
-        height: 70px;
+        height: 73px;
     }
-
-
 </style>
 
 
@@ -835,7 +852,7 @@
     }
 
     function zoomToFeature(e) {
-        mymap.fitBounds(e.target.getBounds());
+        map.fitBounds(e.target.getBounds());
     }
 
     function onEachFeature(feature, layer) {
