@@ -3,10 +3,6 @@
     crossorigin="" />
 
 
-
-
-
-
 <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
     integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
     crossorigin=""></script>
@@ -14,14 +10,23 @@
 
 <link rel="stylesheet" href="./marker-cluster/dist/MarkerCluster.css" />
 <link rel="stylesheet" href="./marker-cluster/dist/MarkerCluster.Default.css" />
+<link rel="stylesheet" href="./mapstyles/mapstyle.css" />
+<link rel="stylesheet" href="./leaflet-search/leaflet-search.css">
+
 <script src="./marker-cluster/dist/leaflet.markercluster-src.js"></script>
+<script src="./leaflet-search/leaflet-search.js"></script>
 
+<script src="./data/incidentdata.js"></script>
+<script src="./data/municipaldata.js"></script>
+<script src="./data/regionaldata.js"></script>
+<script src="./data/provincialdata.js"></script>
+<script src="./data/date.js"></script>
 
-<script src="./data/data.js"></script>
-<script src="./data/munc.js"></script>
-<script src="./data/regcov.js"></script>
-<script src="./data/covprov.js"></script>
-
+<style>
+    .leaflet-left{
+        left:300;
+    }
+</style>
 <div id="mapid">
 
 
@@ -34,15 +39,13 @@
             Welcome to the Critical Events and Monitoring System <br> Map of COVID-19 Related Incidents!
 
         </div>
-        <div>
-            <h3>What this is:</h3>
-        </div>
+
 
         <div>
             <p>
                 In response to the COVID-19 situation, International Alert Philippines expanded its Critical Events
                 Monitoring System (CEMS) to monitor tensions and violence related to the pandemic. The reports are
-                visually presented through maps with the objective of not only for information dissemination but also
+                visually presented through maps with the objective of not only information dissemination but also
                 for data utilization in terms of programming among local governments to effectively respond to the
                 tensions and pressures which may lead to violent conflict.
             </p>
@@ -59,13 +62,16 @@
                 control panel to switch to different map
                 of overlays</div>
 
+
+
         </div>
 
         <div class="tutItem">
             <div style="float: left;width: 100px;">
                 <img class="img-valign" src="./icons/tutmarkers.png" style="width: 100px;">
             </div>
-            <div style="float: left;width: 490px;"><span style="font-weight: bold;">Check</span> checkboxes to display
+            <div style="float: left;width: 490px;"><span style="font-weight: bold;">Check</span> the checkboxes to
+                display
                 the reported incidents related to
                 COVID-19</div>
 
@@ -76,7 +82,8 @@
             <div style="float: left;width: 100px;">
                 <img class="img-valign" src="./icons/tutmarker.png" style="width: 100px;">
             </div>
-            <div style="float: left;width: 490px;"><span style="font-weight: bold;">Click</span> the circle icon to see
+            <div style="float: left;width: 490px;"><span style="font-weight: bold;">Click</span> the circle icon on the
+                map to see
                 all reports within that area</div>
 
         </div>
@@ -86,57 +93,39 @@
                 <img class="img-valign" src="./icons/tutcontrol.png" style="width: 100px;">
             </div>
             <div style="float: left;width: 490px;"><span style="font-weight: bold;">Interact</span> with the map by
-                zooming in and out, adjusting the overlay
+                zooming in or out, adjusting the overlay
                 opacity, and changing basemaps.</div>
 
         </div>
-
-
-
-
-        <!-- 
-
-        <div class="tutItem">
-            
-        </div>
-        <div class="tutItem">
-            Interact with the map by zooming in and out, adjusting the overlay opacity, and changing basemaps.
-        </div>
-
-        <div class="tutItem">
-            Share the page to raise awareness about critical events related to COVID-19
-        </div> -->
-
 
         <div style="position: absolute;bottom: 1%;text-align: center;width: 93%;">
             Click to close
         </div>
 
 
-
-
-
-
-
-
-
     </div>
 
 
-    <div id="mapControlPanel">
+    <div id="mapControlPanel" onmouseover="disableMapInteraction()" onmouseout="enableMapInteraction()">
         <img src="./icons/info.svg" class="infoicon" title="Click to view the tutorial window"
-            style="position: absolute; right:10;top:10; width: 20px;cursor:pointer;" onclick="modalOpen()">
+            style="position: absolute; right:10;top:10; width: 20px;" onclick="modalOpen()">
 
 
 
         <div id="apptitle">
-            <span style="font-size:22px;line-height: normal;font-weight: 600;"> CRITICAL EVENTS MONITORING SYSTEM</span>
+            <span style="font-size:22px;line-height: normal;font-weight: 600;" class="clickabletitle"> CRITICAL EVENTS
+                MONITORING SYSTEM</span>
             <span style="font-size:20px;line-height: normal;font-weight: 300;"> MAP OF COVID-19 RELATED INCIDENTS</span>
         </div>
 
         <div id="boundaryPanel">
-            <div style="width: 100%;margin: auto;width: 100%; text-align: center;"><span
-                    style="font-size: 16px;padding:10px;" title="Administrative Boundaries">Boundaries</span></div>
+            <div style="width: 100%;margin: auto;width: 100%;" class="tooltip">
+                <span style="font-size: 16px;padding:10px;" class="clickabletitle"
+                    onclick="alert('a')">Boundaries</span>
+                <span class="tooltiptext">Administrative Boundaries of the Phillipines<br><br>Click on the buttons to
+                    see regional, provincial, municipal, or barangay borders.</span>
+
+            </div>
 
             <div id="locreg" class='boundarybutton bbleft selected' onclick="locButtonSelected(this)">Region</div>
             <div id="locprov" class='boundarybutton bbright' onclick="locButtonSelected(this)">Province</div>
@@ -145,41 +134,79 @@
         </div>
 
         <div id="issuesPanel">
-            <div style="width: 100%;"><span style="font-size: 16px;padding:5px;margin: 5px;">CEMS COVID-19
-                    Incidents</span></div>
+
+
+
+            <div style="width: 100%;" class="tooltip"><span class="clickabletitle "
+                    style="font-size: 16px;padding:5px;margin: 5px;">CEMS
+                    Incidents</span><br>
+                <div style="font-size: 14px;padding:5px;margin-left: 5px;" id="cemsdate"></div>
+                <span class="tooltiptext">These incidents were reported by ,asda</span>
+
+            </div>
 
             <div style="margin:10px">
                 <div style="float: left;">
                     <input type="checkbox" id="govcbox" checked onclick="markerCheckBox()">
                     <img src='./icons/green.png' style="width: 20px;">
                 </div>
-                <div style="float: left;width:70%;margin-left:5px;"> Government/Private Sector Response</div>
+                <div style="float: left;width:70%;margin-left:5px;" class="clickabletitle tooltip"> Government/Private
+                    Sector
+                    Response
+                    <span class="tooltiptext tooltiptextincident">Tooltip text</span>
+                </div>
             </div>
             <p class="clear">&nbsp;</p>
+
             <div style="margin:10px">
                 <div style="float: left;">
                     <input class="img-valign" type="checkbox" id="tencbox" checked onclick="markerCheckBox()">
                     <img class="img-valign" src='./icons/yellow.png' style="width: 20px;">
                 </div>
-                <div style="float: left;width:70%;margin:5px;">Tension</div>
-
+                <div style="float: left;width:70%;margin-left:5px;" class="clickabletitle tooltip">Tension
+                    <span class="tooltiptext tooltiptextincident">Tooltip text</span>
+                </div>
             </div>
             <p class="clear">&nbsp;</p>
             <div style="margin:10px">
                 <div style="float: left;">
                     <input class="img-valign" type="checkbox" id="viocbox" checked onclick="markerCheckBox()">
                     <img class="img-valign" src='./icons/red.png' style="width: 20px;">
-                </div>
-                <div style="float: left;width:70%;margin:5px ;">Violence</div>
 
+
+
+                </div>
+                <div style="float: left;width:70%;margin-left:5px;" class="clickabletitle tooltip">Violence
+                    <span class="tooltiptext tooltiptextincident">Tooltip text</span>
+                </div>
             </div>
             <p class="clear">&nbsp;</p>
+            <div style="margin:10px">
+                <div style="float: left;">
+                    <img class="img-valign" src='./icons/cluster.png' style="width: 30px;">
+
+
+
+                </div>
+                <div style="float: left;width:70%;margin-left:5px;margin-top:10px;" class="clickabletitle tooltip">
+                    Cluster Count
+                    <span class="tooltiptext tooltiptextincident">These numbered markers show how many individual
+                        reports there are around the area.</span>
+                </div>
+            </div>
 
         </div>
 
 
         <div id="dohPanel">
-            <div style="width: 100%;"><span style="font-size: 16px;padding:15px;margin: 15px;">DOH COVID-19 Cases</span>
+            <div style="width: 100%;margin: auto;width: 100%;" class="tooltip">
+                <span style="font-size: 16px;padding:5px;margin:5px;" class="clickabletitle" onclick="alert('a')">DOH
+                    COVID-19 Cases</span>
+                <br>
+                <div style="font-size: 14px;padding:5px;margin-left: 5px;" id="dohdate"></div>
+
+                <span class="tooltiptext">Tooltip text3 <br>asdasd</span>
+
             </div>
             <div id="dontshow" class='boundarybutton bbright selected' onclick="dohButtonSelected(this)">Don't show
             </div>
@@ -207,300 +234,33 @@
 
     </div>
 
-    <div id="mapControlIcon" onclick="hideicon()">
+    <div id="mapControlIcon" onclick="hideicon()" onmouseover="disableMapInteraction()"
+        onmouseout="enableMapInteraction()">
     </div>
 
 
-    <div class="slidecontainer">
-        <div>
-            <img class="img-valign" src="./icons/opacity.png" style="height: 13.64px;"> <span>opacity</span>
-
+    <div id="slidecontainerID" class="slidecontainer" onmouseover="disableMapInteraction()"
+        onmouseout="enableMapInteraction()">
+        <div class="clickabletitle tooltip">
+            <img class="img-valign" src="./icons/opacity.png" style="height: 13.64px;"> <span>boundary opacity</span>
+            <span class="tooltiptext tooltipopacity">Adjust the opacity of the boundary layer. <br><br> You can see more
+                of the overlay by adjusting moving the slider to the left (-) and see more of the base map underneath by
+                moving the slider to the right(+).</spam>
         </div>
-        <input type="range" min="0" max="100" value="30" class="slider" id="myRange" style="width:129px;">
+        <div>
+            <img class="img-valign" src="./icons/minus.png" style="margin-top:-13.64;height: 13.64px;"> <input
+                type="range" min="0" max="100" value="30" class="slider" id="myRange" style="width:129px;"> <img
+                class="img-valign" src="./icons/plus.png" style="margin-top:-13.64;height: 13.64px;">
+        </div>
     </div>
 
 
 </div>
 
 
-
-
-
-
-
-
-
-
-
-
-<style>
-    body {
-        margin: 0;
-    }
-
-    #mapid {
-        height: 100vh;
-    }
-
-    #mapConrolPanel:hover {
-        cursor: pointer;
-
-    }
-
-    #dimmedOverlay {
-        z-index: 1001;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        position: absolute;
-        top: 0;
-        left: 0;
-
-    }
-
-    #introModal {
-        z-index: 2000;
-        width: 700px;
-        min-height: 620px;
-        height: 620px;
-        background-color: rgba(255, 255, 255, 0.95);
-        position: absolute;
-        left: 20%;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        margin: auto;
-        font: 14px/16px Arial, Helvetica, sans-serif;
-        background: rgba(255, 255, 255, 0.95);
-        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-        border-radius: 5px;
-        padding: 10px;
-    }
-
-    .hiddenmodal {
-        display: none;
-    }
-
-    #mapControlPanel {
-        z-index: 401;
-        width: 250px;
-        height: 90%;
-        position: absolute;
-        top: 10px;
-        left: 10px;
-
-
-        padding: 12px 18px;
-        font: 14px/16px Arial, Helvetica, sans-serif;
-        background: rgba(240, 240, 240, 0.95);
-        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-        border-radius: 5px;
-    }
-
-    #mapControlIcon {
-        z-index: 401;
-        width: 50px;
-        height: 50px;
-        position: absolute;
-        top: 10px;
-        left: 10px;
-        font: 14px/16px Arial, Helvetica, sans-serif;
-        background: rgba(255, 255, 255, 0.95);
-        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-        border-radius: 5px;
-        display: none;
-    }
-
-    #panelfooter div {
-        margin: 10px;
-    }
-
-    /* start slider */
-
-    .slidecontainer {
-        padding: 6px 8px;
-        font: 14px/16px Arial, Helvetica, sans-serif;
-        background: white;
-        background: rgba(255, 255, 255, 0.9);
-        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-        border-radius: 5px;
-
-        z-index: 401;
-        width: 135;
-        position: absolute;
-        top: 10px;
-        right: 50px;
-        border-radius: 4px;
-        padding: 2px;
-        /* Width of the outside container */
-    }
-
-    .img-valign {
-        vertical-align: middle;
-    }
-
-    /* end slider */
-    .marker-cluster-small {
-        background-color: rgba(24, 78, 81, 0.6);
-    }
-
-    .marker-cluster-small div {
-        background-color: rgba(24, 78, 81, 0.8);
-    }
-
-    .marker-cluster-medium {
-        background-color: rgba(24, 78, 81, 0.6);
-    }
-
-    .marker-cluster-medium div {
-        background-color: rgba(24, 78, 81, 0.8);
-    }
-
-    .marker-cluster-large {
-        background-color: rgba(24, 78, 81, 0.6);
-    }
-
-    .marker-cluster div {
-        background-color: rgba(24, 78, 81, 0.8);
-    }
-
-    .marker-cluster span {
-        color: white;
-        font-weight: bold;
-    }
-
-
-
-    .info {
-        padding: 6px 8px;
-        font: 14px/16px Arial, Helvetica, sans-serif;
-        background: white;
-        background: rgba(255, 255, 255, 0.8);
-        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-        border-radius: 5px;
-    }
-
-    .info h4 {
-        margin: 0 0 5px;
-        color: #777;
-    }
-
-    .infoIcon svg:hover {
-        fill: #fce57e;
-    }
-
-    .legend {
-        line-height: 20px;
-        color: #555;
-    }
-
-    .legend i {
-        width: 18px;
-        height: 18px;
-        float: left;
-        margin-right: 8px;
-        opacity: 0.7;
-    }
-
-    .popuplabel {
-        font: 14px/16px Arial, Helvetica, sans-serif;
-        font-weight: bold;
-    }
-
-
-    #apptitle {
-        font: 14px/16px Arial, Helvetica, sans-serif;
-
-    }
-
-    #boundaryPanel {
-
-        margin: 25px 0px 0px 0px;
-        padding: 10px 10px;
-        font: 14px/16px Arial, Helvetica, sans-serif;
-        background: rgba(250, 250, 250, 0.8);
-        border-radius: 5px;
-        height: 100px;
-
-    }
-
-    #dohPanel {
-
-        margin: 25px 0px 0px 0px;
-        padding: 10px 10px;
-        font: 14px/16px Arial, Helvetica, sans-serif;
-        background: rgba(250, 250, 250, 0.8);
-        border-radius: 5px;
-        height: 60px;
-
-    }
-
-    #issuesPanel {
-        margin: 25px 0px 0px 0px;
-        padding: 10px 10px;
-        font: 14px/16px Arial, Helvetica, sans-serif;
-        background: rgba(250, 250, 250, 0.8);
-        border-radius: 5px;
-        height: 140px;
-
-    }
-
-    .boundarybutton {
-        font: 14px/16px Arial, Helvetica, sans-serif;
-        background: rgba(240, 240, 240, 1);
-        box-shadow: 0 0 2px rgba(50, 50, 50, 0.8);
-        border-radius: 5px;
-        width: 35%;
-        padding: 10px;
-        margin: 5px;
-        text-align: center;
-        cursor: pointer;
-    }
-
-    .bbleft {
-        float: left;
-    }
-
-    .bbright {
-        float: right;
-    }
-
-    .selected {
-        background: gray;
-        font-weight: bold;
-        color: white;
-    }
-
-    .clear {
-        clear: both;
-        height: 0px;
-    }
-
-
-    /* modal */
-
-    .modalTitle {
-        margin: 2%;
-        line-height: normal;
-        font: Arial, Helvetica, sans-serif;
-        font-size: 1.8em;
-        text-align: center;
-    }
-
-    #introModal div {
-        margin: 2%;
-    }
-
-    .tutItem {
-        font-size: 1.3em;
-        line-height: normal;
-        height: 73px;
-    }
-</style>
-
-
 <script>
+    //update the text display on as of for both sections
+    updateDates();
 
     var mapOptions = {
         zoomControl: false,
@@ -510,21 +270,20 @@
 
     var map = L.map('mapid', mapOptions).setView([12, 120], 5);
 
-    map.dragging.disable();
-    map.touchZoom.disable();
-    map.doubleClickZoom.disable();
-    map.scrollWheelZoom.disable();
-    map.boxZoom.disable();
-    map.keyboard.disable();
+    disableMapInteraction();
 
 
 
     map.setMaxBounds(map.getBounds());
     map.setView([12, 120], 6);
     map.createPane('labels');
+    map.createPane('markerspane');
+    map.createPane('respondents');
 
 
+    map.getPane('respondents').style.zIndex = 300;
     map.getPane('labels').style.zIndex = 500;
+    map.getPane('markerspane').style.zIndex = 501;
     map.getPane('labels').style.pointerEvents = 'none';
 
 
@@ -534,6 +293,7 @@
     }).addTo(map);
 
 
+    // initialize basemaps
 
     var positron = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
         attribution: '©OpenStreetMap, ©CartoDB'
@@ -543,9 +303,6 @@
         attribution: '©OpenStreetMap, ©CartoDB',
         pane: 'labels'
     }).addTo(map);
-
-
-
 
 
     var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -569,7 +326,6 @@
     });
 
 
-
     var baseMaps = {
         "Carto DB": positron,
         "Google Satellite": googleSat,
@@ -584,18 +340,8 @@
     }
     L.control.layers(baseMaps, overlays).addTo(map);
 
-    // var imageUrl = './munchair.png',
-    //     imageBounds = [[21.011755276, 114.281533786], [4.477399243, 126.604957428]];
-
-    // var imageUrlLarge = './muncovid.png',
-    //     imageBounds = [[21.011755276, 114.281533786], [4.477399243, 126.604957428]];
-
-
-    // var muncZoomedIn = L.imageOverlay(imageUrl, imageBounds);
-    // var muncZoomedOut = L.imageOverlay(imageUrlLarge, imageBounds);
-
-
-    geojson = L.geoJson(regcov, {
+    // add initial overlay 
+    geojson = L.geoJson(regionaldata, {
         style: style1,
         onEachFeature: onEachFeature
     }).addTo(map);
@@ -606,15 +352,11 @@
 
     var markers = L.markerClusterGroup();
 
-
     var IssueIcon = L.Icon.extend({
         options: {
             iconSize: [32, 42],
             popupAnchor: [0, -20]
-            // shadowSize: [50, 64],
-            // iconAnchor: [22, 94],
-            // shadowAnchor: [4, 62],
-            // popupAnchor: [-3, -76]
+
         }
     });
 
@@ -659,43 +401,42 @@
 
     markerCheckBox();
 
-
-
-
     var info = L.control();
 
     info.onAdd = function (map) {
         this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
-        this.update();
+        this.update({}, true);
         return this._div;
     };
 
+
+
+
     // method that we will use to update the control based on feature properties passed
-    info.update = function (props) {
+    info.update = function (props, nothovering) {
 
-        if (currentstlye == style0) {
 
-            this._div.innerHTML =
-                '<h4>Covid Cases (May 25, 2020)</h4>' +
-                (props ? '<h4>' + props.ADM3_EN + '</h4> ' : '') +
-                (props ? '' + props.covmunc2 + ' confirmed cases' : 'Hover over a an area');
+        if (nothovering) {
+            this._div.innerHTML = '<h4>Hover over an area</h4>';
 
         } else {
-            this._div.innerHTML =
-                '<h4>Area</h4>' +
-                (props ? '<h4>' + props.ADM3_EN + '</h4> ' : '');
+            if (currentstlye == style0) {
+
+                this._div.innerHTML =
+                    '<h4>Covid Cases (May 25, 2020)</h4>' +
+                    (props ? '<h4>' + props.area + '</h4> ' : '') +
+                    (props ? '' + props.covidcases + ' confirmed cases' : 'Hover over a an area');
 
 
+            } else {
+                this._div.innerHTML =
+                    '<h4>Area</h4>' +
+                    (props ? '<h4>' + props.area + '</h4> ' : '');
+
+            }
         }
     };
     info.addTo(map);
-
-
-
-
-
-
-
 
 
     var legend = L.control({ position: 'topright' });
@@ -762,19 +503,34 @@
 
 
 
+
     function createMarkers() {
 
         for (var i = 0; i < allIssues.length; i++) {
 
             var temp;
             if (allIssues[i].issue == 'Tensions') {
-                temp = yellowIcon;
+                temp = '#ffba00';
             } else if (allIssues[i].issue == 'Government/Private sector response') {
-                temp = greenIcon;
+                temp = '#477827';;
             } else if (allIssues[i].issue == 'Violence') {
-                temp = redIcon;
+                temp = '#9e0000';
             }
-            var marker = L.marker(new L.LatLng(allIssues[i].lat, allIssues[i].lng), { title: allIssues[i].issue, icon: temp });
+
+            var markerOptions = {
+                title:allIssues[i].barangay +" | "+allIssues[i].city +" | "+allIssues[i].municipality+" | "+allIssues[i].province  ,
+                radius: 8,
+                fillColor: temp,
+                color: "#000000",
+                fillOpacity: 1,
+                weight: 2,
+                pane: 'markerspane',
+                test:'22'
+
+            };
+
+
+            var marker = L.circleMarker(new L.LatLng(allIssues[i].lat, allIssues[i].lng), markerOptions);
             var town;
             if (allIssues[i].municipality != "") {
                 town = allIssues[i].municipality
@@ -792,6 +548,65 @@
         }
 
         map.addLayer(markers);
+
+
+
+	// map.addControl( new L.Control.Search({
+	// 	url: 'https://nominatim.openstreetmap.org/search?format=json&q={s}',
+    //     position:'topleft',
+	// 	jsonpParam: 'json_callback',
+	// 	propertyName: 'display_name',
+	// 	propertyLoc: ['lat','lon'],
+	// 	marker: L.circleMarker([0,0],{radius:30}),
+	// 	autoCollapse: true,
+	// 	autoType: false,
+	// 	minLength: 5
+	// }) );
+
+
+
+	var controlSearch = new L.Control.Search({
+		position:'topleft',		
+		layer: markers,
+		initial: false,
+		zoom: 18,
+		marker: L.circleMarker([0,0],{radius:30})
+	}).addTo(map);
+
+
+
+
+        var circle = L.circle([14.786542, 121.386022], {
+            opacity: 0,
+            fillColor: "#f03",
+            fillOpacity: 0.1,
+            radius: 20000,
+            pane: 'respondents'
+        }).addTo(map);
+
+        var circle = L.circle([14.586542, 121.386022], {
+            opacity: 0,
+            fillColor: "#f03",
+            fillOpacity: 0.5,
+            radius: 20000,
+            pane: 'respondents'
+        }).addTo(map);
+
+        var circle = L.circle([14.786542, 121.586022], {
+            opacity: 0,
+            fillColor: "#f03",
+            fillOpacity: 0.5,
+            radius: 20000,
+            pane: 'respondents'
+        }).addTo(map);
+
+        var circle = L.circle([14.586542, 121.56022], {
+            opacity: 0,
+            fillColor: "#f03",
+            fillOpacity: 0.5,
+            radius: 20000,
+            pane: 'respondents'
+        }).addTo(map);
 
     }
 
@@ -815,7 +630,7 @@
         var opacity = (100 - document.getElementById("myRange").value) / 100;
 
         return {
-            fillColor: getColor(feature.properties.covmunc2),
+            fillColor: getColor(feature.properties.covidcases),
             weight: 2,
             opacity: .1,
             color: 'white',
@@ -842,12 +657,18 @@
 
     function highlightFeature(e) {
         var layer = e.target;
-        info.update(layer.feature.properties);
-        console.log('2');
+        info.update(layer.feature.properties, false);
     }
 
     function resetHighlight(e) {
         // geojson.resetStyle(e.target);
+
+        temp = {
+            covidcases: '- ',
+            area: 'Hover over an Area'
+        }
+        info.update(temp, true);
+
 
     }
 
@@ -858,8 +679,7 @@
     function onEachFeature(feature, layer) {
         layer.on({
             mouseover: highlightFeature,
-            mouseout: resetHighlight,
-            click: zoomToFeature
+            mouseout: resetHighlight
         });
     }
 
@@ -870,12 +690,12 @@
         map.removeLayer(geojson);
 
         if (layer == 'locreg') {
-            layer = regcov;
+            layer = regionaldata;
 
         } else if (layer == 'locmun') {
-            layer = muncov;
+            layer = municipaldata;
         } else if (layer == 'locprov') {
-            layer = provcov;
+            layer = provincialdata;
         } else if (layer == 'locbrg') {
             layer = brgcov;
         }
@@ -949,7 +769,19 @@
     }
 
 
-    document.getElementById('mapControlPanel').addEventListener('mouseenter', function () {
+    function enableMapInteraction() {
+
+        map.dragging.enable();
+        map.touchZoom.enable();
+        map.doubleClickZoom.enable();
+        map.scrollWheelZoom.enable();
+        map.boxZoom.enable();
+        map.keyboard.enable();
+
+
+    }
+
+    function disableMapInteraction() {
 
         map.dragging.disable();
         map.touchZoom.disable();
@@ -958,29 +790,11 @@
         map.boxZoom.disable();
         map.keyboard.disable();
 
-    });
 
-
-
-
-    document.getElementById('mapControlPanel').addEventListener('mouseleave', function () {
-        map.dragging.enable();
-        map.touchZoom.enable();
-        map.doubleClickZoom.enable();
-        map.scrollWheelZoom.enable();
-        map.boxZoom.enable();
-        map.keyboard.enable();
-
-    });
-
+    }
 
     function modalClose() {
-        map.dragging.enable();
-        map.touchZoom.enable();
-        map.doubleClickZoom.enable();
-        map.scrollWheelZoom.enable();
-        map.boxZoom.enable();
-        map.keyboard.enable();
+        enableMapInteraction()
 
         document.getElementById('dimmedOverlay').classList.add('hiddenmodal');
         document.getElementById('introModal').classList.add('hiddenmodal');
@@ -989,15 +803,17 @@
 
     function modalOpen() {
 
-        map.dragging.disable();
-        map.touchZoom.disable();
-        map.doubleClickZoom.disable();
-        map.scrollWheelZoom.disable();
-        map.boxZoom.disable();
-        map.keyboard.disable();
+        disableMapInteraction();
 
         document.getElementById('dimmedOverlay').classList.remove('hiddenmodal');
         document.getElementById('introModal').classList.remove('hiddenmodal');
+
+    }
+
+    function updateDates() {
+        document.getElementById('cemsdate').innerHTML = incidentAsOfDate;
+        document.getElementById('dohdate').innerHTML = incidentAsOfDate;
+
     }
 
 </script>
