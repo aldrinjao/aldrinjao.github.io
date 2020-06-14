@@ -21,6 +21,7 @@
 <script src="./data/regionaldata.js"></script>
 <script src="./data/provincialdata.js"></script>
 <script src="./data/date.js"></script>
+<script src="./data/coverage.js"></script>
 
 <style>
     .leaflet-left {
@@ -120,8 +121,7 @@
 
         <div id="boundaryPanel">
             <div style="width: 100%;margin: auto;width: 100%;" class="tooltip">
-                <span style="font-size: 16px;padding:10px;" class="clickabletitle"
-                    >Boundaries</span>
+                <span style="font-size: 16px;padding:10px;" class="clickabletitle">Boundaries</span>
                 <span class="tooltiptext">Administrative Boundaries of the Phillipines<br><br>Click on the buttons to
                     see regional, provincial, municipal, or barangay borders.</span>
 
@@ -183,6 +183,19 @@
             <p class="clear">&nbsp;</p>
             <div style="margin:10px">
                 <div style="float: left;">
+                    <input class="img-valign" type="checkbox" id="respondentcbox" onclick="showCoverage()">
+                    <img class="img-valign" src='./icons/coverage.png' style="width: 20px;">
+
+
+
+                </div>
+                <div style="float: left;width:70%;margin-left:5px;" class="clickabletitle tooltip">CEMS Coverage
+                    <span class="tooltiptext tooltiptextincident">Tooltip text</span>
+                </div>
+            </div>
+            <p class="clear">&nbsp;</p>
+            <div style="margin:10px">
+                <div style="float: left;">
                     <img class="img-valign" src='./icons/cluster.png' style="width: 30px;">
 
 
@@ -221,13 +234,13 @@
 
             <div>
                 <a href="https://www.international-alert.org/" target="new">
-                <img src="./icons/alert-logo.png" width="40px">
+                    <img src="./icons/alert-logo.png" width="40px">
                 </a>
             </div>
             <div>
                 <a href="https://www.dfat.gov.au/aid/australias-development-program" target="new">
-                <img src="./icons/ausaid.png" width="80px">
-</a>
+                    <img src="./icons/ausaid.png" width="80px">
+                </a>
             </div>
 
 
@@ -295,7 +308,6 @@
 <script>
     //update the text display on as of for both sections
     updateDates();
-
     var mapOptions = {
         zoomControl: false,
         minZoom: 5,
@@ -516,6 +528,19 @@
 
 
 
+    function showCoverage() {
+
+        var flag = document.getElementById("respondentcbox").checked;
+
+        if (flag) {
+            map.getPane('respondents').style.zIndex = 400;
+            resGroup.addTo(map);
+        } else {
+            map.getPane('respondents').style.zIndex = 300;
+            map.removeLayer(resGroup);
+        }
+    }
+
     function markerCheckBox() {
         allIssues = [];
         // Get the checkbox
@@ -604,43 +629,6 @@
         // 	minLength: 5
         // }) );
 
-
-
-
-
-
-
-        var circle = L.circle([14.786542, 121.386022], {
-            opacity: 0,
-            fillColor: "#f03",
-            fillOpacity: 0.1,
-            radius: 20000,
-            pane: 'respondents'
-        }).addTo(map);
-
-        var circle = L.circle([14.586542, 121.386022], {
-            opacity: 0,
-            fillColor: "#f03",
-            fillOpacity: 0.5,
-            radius: 20000,
-            pane: 'respondents'
-        }).addTo(map);
-
-        var circle = L.circle([14.786542, 121.586022], {
-            opacity: 0,
-            fillColor: "#f03",
-            fillOpacity: 0.5,
-            radius: 20000,
-            pane: 'respondents'
-        }).addTo(map);
-
-        var circle = L.circle([14.586542, 121.56022], {
-            opacity: 0,
-            fillColor: "#f03",
-            fillOpacity: 0.5,
-            radius: 20000,
-            pane: 'respondents'
-        }).addTo(map);
 
     }
 
@@ -847,6 +835,30 @@
     function updateDates() {
         document.getElementById('cemsdate').innerHTML = incidentAsOfDate;
         document.getElementById('dohdate').innerHTML = incidentAsOfDate;
+
+    }
+
+
+    var resGroup = L.layerGroup();
+    plotCoverage();
+    function plotCoverage() {
+
+        var tempcolor = "#14B7FB";
+
+
+        for (let i = 0; i < coverage.length; i++) {
+
+            var circle = L.circle([coverage[i].lat, coverage[i].lng], {
+                opacity: 0,
+                fillColor: tempcolor,
+                fillOpacity: 0.5,
+                radius: 10000,
+                pane: 'respondents'
+            }).addTo(resGroup);
+
+
+        }
+
 
     }
 

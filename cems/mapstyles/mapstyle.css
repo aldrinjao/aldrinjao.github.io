@@ -49,8 +49,8 @@
     #mapControlPanel {
         z-index: 401;
         width: 250px;
-        min-height: 775px;
-        height: 80%;
+        min-height: 800px;
+        height: 85%;
         position: absolute;
         top: 10px;
         left: 10px;
@@ -207,7 +207,7 @@
         font: 14px/16px Arial, Helvetica, sans-serif;
         background: rgba(250, 250, 250, 0.8);
         border-radius: 5px;
-        height: 200px;
+        height: 240px;
 
     }
 
