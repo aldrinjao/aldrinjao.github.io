@@ -392,13 +392,6 @@
         onEachFeature: onEachFeature
     }).addTo(map);
 
-    var controlSearch = new L.Control.Search({
-        position: 'topleft',
-        layer: markers,
-        initial: false,
-        zoom: 18,
-        marker: L.circleMarker([0, 0], { radius: 30 })
-    }).addTo(map);
 
 
     // add markers
@@ -453,6 +446,15 @@
 
 
     markerCheckBox();
+
+
+    var controlSearch = new L.Control.Search({
+        position: 'topleft',
+        layer: markers,
+        initial: false,
+        zoom: 18,
+        marker: L.circleMarker([0, 0], { radius: 30 })
+    }).addTo(map);
 
     var info = L.control();
 
