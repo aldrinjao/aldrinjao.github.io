@@ -220,11 +220,14 @@
         <div id="panelfooter" style="margin-top:20px;display:flex;align-items:flex-end;justify-content: center;">
 
             <div>
+                <a href="https://www.international-alert.org/" target="new">
                 <img src="./icons/alert-logo.png" width="40px">
+                </a>
             </div>
             <div>
+                <a href="https://www.dfat.gov.au/aid/australias-development-program" target="new">
                 <img src="./icons/ausaid.png" width="80px">
-
+</a>
             </div>
 
 
@@ -275,7 +278,7 @@
         <div class="clickabletitle tooltip">
             <img class="img-valign" src="./icons/opacity.png" style="height: 13.64px;"> <span>boundary opacity</span>
             <span class="tooltiptext tooltipopacity">Adjust the opacity of the boundary layer. <br><br> You can see more
-                of the overlay by adjusting moving the slider to the left (-) and see more of the base map underneath by
+                of the overlay by moving the slider to the left (-) and see more of the base map underneath by
                 moving the slider to the right(+).</spam>
         </div>
         <div>
@@ -358,12 +361,12 @@
 
 
     var baseMaps = {
-        "Carto DB": positron,
-        "Google Satellite": googleSat,
-        "Google Hyybrid": googleHybrid,
-        "Google Streets": googleStreets,
-        "Google Terrain": googleTerrain,
-        "Open Street Maps": osm
+        "Carto DB (grayscale map)": positron,
+        "Google Satellite (satellite image)": googleSat,
+        "Google Streets (digitized and labeled)": googleStreets,
+        "Google Hyybrid (satellite with labels)": googleHybrid,
+        "Google Terrain (digital with elevation info)": googleTerrain,
+        "Open Street Maps (opensource digitized and labeled)": osm
     };
 
     var overlays = {
