@@ -23,8 +23,8 @@
 <script src="./data/date.js"></script>
 
 <style>
-    .leaflet-left{
-        left:300;
+    .leaflet-left {
+        left: 300;
     }
 </style>
 <div id="mapid">
@@ -121,7 +121,7 @@
         <div id="boundaryPanel">
             <div style="width: 100%;margin: auto;width: 100%;" class="tooltip">
                 <span style="font-size: 16px;padding:10px;" class="clickabletitle"
-                    onclick="alert('a')">Boundaries</span>
+                    >Boundaries</span>
                 <span class="tooltiptext">Administrative Boundaries of the Phillipines<br><br>Click on the buttons to
                     see regional, provincial, municipal, or barangay borders.</span>
 
@@ -217,7 +217,7 @@
         </div>
 
 
-        <div id="panelfooter" style="display:flex;align-items:flex-end;">
+        <div id="panelfooter" style="margin-top:20px;display:flex;align-items:flex-end;justify-content: center;">
 
             <div>
                 <img src="./icons/alert-logo.png" width="40px">
@@ -226,6 +226,37 @@
                 <img src="./icons/ausaid.png" width="80px">
 
             </div>
+
+
+        </div>
+        <div style="display:flex;align-items:flex-end;position: absolute;bottom: 10;right:10;">
+            <div style="margin: 0px 5px 10px 0px;">
+                <span>share this page on</span>
+            </div>
+            <div style="margin:5px;">
+                <a target="new"
+                    href="https://www.facebook.com/sharer/sharer.php?u=https://conflictalert.info/cems-covid-19-map/">
+                    <img src="./icons/facebook.svg" width="25px" title="share on facebook">
+                </a>
+            </div>
+            <div style="margin:5px;">
+                <a target="new"
+                    href="https://twitter.com/home?status=https://conflictalert.info/cems-covid-19-map/ Critical Events Monitoring System - Map of COVID-19 Related Incidents"
+                    title="share on facebook"><img src="./icons/twitter.svg" width="25px"></a>
+            </div>
+
+            <div style="margin:5px;">
+
+                <a target="new"
+                    href="https://www.linkedin.com/shareArticle?mini=true&url=https://conflictalert.info/cems-covid-19-map/&title=&summary=Critical Events Monitoring System - Map of COVID-19 Related Incidents&source="
+                    title="share on linkedin"><img src="./icons/linkedin.svg" width="25px"></a>
+
+
+            </div>
+
+
+
+
 
 
         </div>
@@ -346,6 +377,13 @@
         onEachFeature: onEachFeature
     }).addTo(map);
 
+    var controlSearch = new L.Control.Search({
+        position: 'topleft',
+        layer: markers,
+        initial: false,
+        zoom: 18,
+        marker: L.circleMarker([0, 0], { radius: 30 })
+    }).addTo(map);
 
 
     // add markers
@@ -518,14 +556,14 @@
             }
 
             var markerOptions = {
-                title:allIssues[i].barangay +" | "+allIssues[i].city +" | "+allIssues[i].municipality+" | "+allIssues[i].province  ,
+                title: allIssues[i].barangay + " | " + allIssues[i].city + " | " + allIssues[i].municipality + " | " + allIssues[i].province,
                 radius: 8,
                 fillColor: temp,
                 color: "#000000",
                 fillOpacity: 1,
                 weight: 2,
                 pane: 'markerspane',
-                test:'22'
+                test: '22'
 
             };
 
@@ -551,27 +589,20 @@
 
 
 
-	// map.addControl( new L.Control.Search({
-	// 	url: 'https://nominatim.openstreetmap.org/search?format=json&q={s}',
-    //     position:'topleft',
-	// 	jsonpParam: 'json_callback',
-	// 	propertyName: 'display_name',
-	// 	propertyLoc: ['lat','lon'],
-	// 	marker: L.circleMarker([0,0],{radius:30}),
-	// 	autoCollapse: true,
-	// 	autoType: false,
-	// 	minLength: 5
-	// }) );
+        // map.addControl( new L.Control.Search({
+        // 	url: 'https://nominatim.openstreetmap.org/search?format=json&q={s}',
+        //     position:'topleft',
+        // 	jsonpParam: 'json_callback',
+        // 	propertyName: 'display_name',
+        // 	propertyLoc: ['lat','lon'],
+        // 	marker: L.circleMarker([0,0],{radius:30}),
+        // 	autoCollapse: true,
+        // 	autoType: false,
+        // 	minLength: 5
+        // }) );
 
 
 
-	var controlSearch = new L.Control.Search({
-		position:'topleft',		
-		layer: markers,
-		initial: false,
-		zoom: 18,
-		marker: L.circleMarker([0,0],{radius:30})
-	}).addTo(map);
 
 
 

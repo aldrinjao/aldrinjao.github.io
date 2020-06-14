@@ -1,6 +1,8 @@
 
+    
 
     #mapid {
+        min-height: 800px;
         height: 100vh;
     }
 
@@ -47,7 +49,8 @@
     #mapControlPanel {
         z-index: 401;
         width: 250px;
-        height: 90%;
+        min-height: 775px;
+        height: 80%;
         position: absolute;
         top: 10px;
         left: 10px;
