@@ -304,6 +304,7 @@ var AppComponent = /** @class */ (function () {
     AppComponent.prototype.createMarkers = function (items) {
         var _this = this;
         items.forEach(function (samplepoint) {
+            console.log(samplepoint.crop);
             var regularIcon = _this.markers.iconList[samplepoint.crop].regular;
             var biggerIcon = _this.markers.iconList[samplepoint.crop].big;
             // tslint:disable-next-line:max-line-length
@@ -902,6 +903,10 @@ var SoilIcons = /** @class */ (function () {
             Sugarcane: {
                 regular: this.sugarIcon,
                 big: this.biggerSugarIcon
+            },
+            Coconut: {
+                regular: this.coconutIcon,
+                big: this.biggerCoconutIcon
             }
         };
     }
@@ -985,7 +990,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_2__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /home/sarai/Desktop/soilsmap/src/main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! /home/sarai/Desktop/soilsmapv2/src/main.ts */"./src/main.ts");
 
 
 /***/ })

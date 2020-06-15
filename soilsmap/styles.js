@@ -639,9 +639,9 @@ if(false) {}
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/sarai/Desktop/soilsmap/node_modules/@angular/material/prebuilt-themes/indigo-pink.css */"./node_modules/@angular/material/prebuilt-themes/indigo-pink.css");
-__webpack_require__(/*! /home/sarai/Desktop/soilsmap/src/styles.css */"./src/styles.css");
-module.exports = __webpack_require__(/*! /home/sarai/Desktop/soilsmap/node_modules/leaflet/dist/leaflet.css */"./node_modules/leaflet/dist/leaflet.css");
+__webpack_require__(/*! /home/sarai/Desktop/soilsmapv2/node_modules/@angular/material/prebuilt-themes/indigo-pink.css */"./node_modules/@angular/material/prebuilt-themes/indigo-pink.css");
+__webpack_require__(/*! /home/sarai/Desktop/soilsmapv2/src/styles.css */"./src/styles.css");
+module.exports = __webpack_require__(/*! /home/sarai/Desktop/soilsmapv2/node_modules/leaflet/dist/leaflet.css */"./node_modules/leaflet/dist/leaflet.css");
 
 
 /***/ })
