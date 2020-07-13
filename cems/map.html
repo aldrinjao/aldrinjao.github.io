@@ -36,6 +36,31 @@
         left: 300;
     }
 </style>
+
+
+
+
+
+<script>
+
+
+
+    
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <div id="mapid">
 
 
@@ -178,19 +203,6 @@
             </div>
             <p class="clear">&nbsp;</p>
 
-
-            <!-- <div style="margin:10px">
-                <div style="float: left;">
-                    <input type="checkbox" id="govcbox" onclick="markerCheckBox()">
-                    <img src='./icons/green.png' style="width: 20px;">
-                </div>
-                <div style="float: left;width:70%;margin-left:5px;" class="clickabletitle tooltip"> Government/Private
-                    Sector
-                    Response
-                    <span class="tooltiptext tooltiptextincident">Tooltip text</span>
-                </div>
-            </div>
-            <p class="clear">&nbsp;</p> -->
 
             <div style="margin:10px">
                 <div style="float: left;">
@@ -367,10 +379,17 @@
         attribution: '©OpenStreetMap, ©CartoDB'
     }).addTo(map);
 
+
     var positronLabels = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png', {
         attribution: '©OpenStreetMap, ©CartoDB',
         pane: 'labels'
     }).addTo(map);
+
+
+    var CartoDB_DarkMatterNoLabels = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+
+    });
 
 
     var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -403,7 +422,8 @@
     });
 
     var baseMaps = {
-        "Carto DB (grayscale map)": positron,
+        "Carto DB White": positron,
+        "Carto DB Black": CartoDB_DarkMatterNoLabels,
         "Google Satellite (satellite image)": googleSat,
         "Google Streets (digitized and labeled)": googleStreets,
         "Google Terrain (digitized with elevation info)": googleTerrain
@@ -412,7 +432,7 @@
     var overlays = {
         "Carto DB Labels": positronLabels
     }
-  
+
 
     // // add initial overlay 
     geojson = L.geoJson(provincialdata, {
@@ -430,11 +450,36 @@
         gradient: {
             // enter n keys between 0 and 1 here
             // for gradient color customization
-            '.2': 'green',
-            '.5': 'blue',
-            '1': 'red'
+            '0': '#FFC234',
+            '1': '#FFC234'
         },
-        "radius": .2,
+        "radius": .15,
+        "maxOpacity": .8,
+        // scales the radius based on map zoom
+        "scaleRadius": true,
+        // if set to false the heatmap uses the global maximum for colorization
+        // if activated: uses the data maximum within the current map boundaries
+        //   (there will always be a red spot with useLocalExtremas true)
+        // which field name in your data represents the latitude - default "lat"
+        latField: 'lat',
+        // which field name in your data represents the longitude - default "lng"
+        lngField: 'lng',
+        // which field name in your data represents the data value - default "value"
+        valueField: 'count'
+    };
+
+    // #FFC234
+    var cfg2 = {
+        // radius should be small ONLY if scaleRadius is true (or small radius is intended)
+        // if scaleRadius is false it will be the constant radius used in pixels
+        "useLocalExtrema": false,
+        gradient: {
+            // enter n keys between 0 and 1 here
+            // for gradient color customization
+            '0': '#A82C15',
+            '1': '#A82C15'
+        },
+        "radius": .15,
         "maxOpacity": .8,
         // scales the radius based on map zoom
         "scaleRadius": true,
@@ -450,8 +495,8 @@
     };
 
 
-
-    var heatmapLayer = new HeatmapOverlay(cfg);
+    var tenheatmapLayer = new HeatmapOverlay(cfg);
+    var heatmapLayer = new HeatmapOverlay(cfg2);
 
 
 
@@ -530,7 +575,6 @@
 
 
 
-    markerCheckBox();
 
 
     var controlSearch = new L.Control.Search({
@@ -611,8 +655,6 @@
     };
 
 
-
-
     var legend3 = L.control({ position: 'topright' });
 
     legend3.onAdd = function (map) {
@@ -649,14 +691,17 @@
 
     map.addControl(legend2);
 
+    markerCheckBox();
+
+    info.addTo(map);
+
 
     L.control.zoom({
         position: 'bottomright'
     }).addTo(map);
 
-  L.control.layers(baseMaps, overlays,{position:'bottomright'}).addTo(map);
+    L.control.layers(baseMaps, overlays, { position: 'bottomright' }).addTo(map);
 
-    info.addTo(map);
 
 
     var slider = document.getElementById("myRange");
@@ -713,18 +758,53 @@
         // Get the output text
 
         // If the checkbox is checked, display the output text
-        if (tencheckBox.checked == true) {
+        if (tencheckBox.checked) {
             allIssues = allIssues.concat(tenIssues);
         }
-        if (viocheckBox.checked == true) {
+        if (viocheckBox.checked) {
             allIssues = allIssues.concat(vioIssues);
         }
+
+        if (tencheckBox.checked && viocheckBox.checked) {
+            console.log('both checked');
+            cfg2.gradient = {
+                '0': '#FF6600',
+                '1': '#FF6600'
+            }
+            console.log(document.getElementById("gradient-legend"));
+            document.getElementById("gradient-legend").style.backgroundImage = "linear-gradient(90deg,rgba(0,0,0,.0), #FF6600)";
+
+
+        } else if (tencheckBox.checked && !(viocheckBox.checked)) {
+            console.log('ten checked');
+
+            cfg2.gradient = {
+                '0': '#FFC234',
+                '1': '#FFC234'
+            }
+            document.getElementById("gradient-legend").style.backgroundImage= "linear-gradient(90deg,rgba(0,0,0,.0), #FFC234)";
+
+        } else if (!(tencheckBox.checked) && viocheckBox.checked) {
+            console.log('vio checked');
+
+            cfg2.gradient = {
+                '0': '#A82C15',
+                '1': '#A82C15'
+            }
+            document.getElementById("gradient-legend").style.backgroundImage= "linear-gradient(90deg,rgba(0,0,0,.0), #A82C15)";
+
+        }
+
+        console.log(cfg2.gradient);
         tensionMarkerGroup.clearLayers();
         violenceMarkerGroup.clearLayers();
 
         createMarkers();
         hideMarkersOnZoom();
-        createHeatMapLayer(allIssues, heatmapLayer);
+        createHeatMapLayer(allIssues);
+        // createHeatMapLayer(tenIssues, tenheatmapLayer);
+
+
     }
 
 
@@ -851,7 +931,7 @@
 
         return {
             fillColor: 'white',
-            weight: 2,
+            weight: 1,
             opacity: 1,
             color: 'black',
             dashArray: '3',
@@ -1046,14 +1126,17 @@
     }
 
 
-    function createHeatMapLayer(data, maplayer) {
+    function createHeatMapLayer(data) {
 
-        map.removeLayer(maplayer);
+        map.removeLayer(heatmapLayer);
+        this.heatmapLayer = new HeatmapOverlay(cfg2);
+
+        console.log(data.length);
 
         if (data.length > 0) {
 
-            maplayer.setData(arrangeIssuesData(data));
-            maplayer.addTo(map);
+            heatmapLayer.setData(arrangeIssuesData(data));
+            heatmapLayer.addTo(map);
 
         }
 
@@ -1087,21 +1170,32 @@
     }
 
 
+    // change CFG on marker check/uncheck
+
     function hideMarkersOnZoom() {
 
         var zoom = map.getZoom();
-        if (zoom < 9 && map.hasLayer(tensionMarkerGroup)) {
+        if (zoom <= 9 && map.hasLayer(tensionMarkerGroup)) {
             map.removeLayer(tensionMarkerGroup);
+            cfg.radius = 0.15;
+            cfg2.radius = 0.15;
+
         }
         if (zoom > 9 && map.hasLayer(tensionMarkerGroup) == false) {
             map.addLayer(tensionMarkerGroup);
-
+            cfg.radius = 0.15 - (zoom / 100);
+            cfg2.radius = 0.15 - (zoom / 100);
         }
-        if (zoom < 9 && map.hasLayer(violenceMarkerGroup)) {
+        if (zoom <= 9 && map.hasLayer(violenceMarkerGroup)) {
             map.removeLayer(violenceMarkerGroup);
+            cfg.radius = 0.15;
+            cfg2.radius = 0.15;
+
         }
         if (zoom > 9 && map.hasLayer(violenceMarkerGroup) == false) {
             map.addLayer(violenceMarkerGroup);
+            cfg.radius = 0.15 - (zoom / 100);
+            cfg2.radius = 0.15 - (zoom / 100);
         }
 
     }
