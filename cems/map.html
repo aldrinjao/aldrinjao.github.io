@@ -45,7 +45,7 @@
 
 
 
-    
+
 </script>
 
 
@@ -454,7 +454,7 @@
             '1': '#FFC234'
         },
         "radius": .15,
-        "maxOpacity": .8,
+        "maxOpacity": 1,
         // scales the radius based on map zoom
         "scaleRadius": true,
         // if set to false the heatmap uses the global maximum for colorization
@@ -468,7 +468,7 @@
         valueField: 'count'
     };
 
-    // #FFC234
+
     var cfg2 = {
         // radius should be small ONLY if scaleRadius is true (or small radius is intended)
         // if scaleRadius is false it will be the constant radius used in pixels
@@ -480,7 +480,7 @@
             '1': '#A82C15'
         },
         "radius": .15,
-        "maxOpacity": .8,
+        "maxOpacity": 1,
         // scales the radius based on map zoom
         "scaleRadius": true,
         // if set to false the heatmap uses the global maximum for colorization
@@ -495,8 +495,9 @@
     };
 
 
-    var tenheatmapLayer = new HeatmapOverlay(cfg);
-    var heatmapLayer = new HeatmapOverlay(cfg2);
+
+    var heatmapLayer = new HeatmapOverlay(cfg);
+    var heatmapLayer2 = new HeatmapOverlay(cfg2);
 
 
 
@@ -519,6 +520,16 @@
         iconUrl: './icons/red.png',
     })
 
+
+    // Define an icon called cssIcon
+    var cssIcon = L.divIcon({
+        // Specify a class name we can refer to in CSS.
+        className: 'css-icon',
+        html: '<div class="gps_ring"></div>'
+        // Set marker width and height
+        , iconSize: [80, 80]
+        // ,iconAnchor: [11,11]
+    });
 
 
     // add markers
@@ -740,11 +751,11 @@
         var flag = document.getElementById("respondentcbox").checked;
 
         if (flag) {
-            map.getPane('respondents').style.zIndex = 300;
+            map.getPane('respondents').style.zIndex = 200;
             resGroup.addTo(map);
 
         } else {
-            map.getPane('respondents').style.zIndex = 300;
+            map.getPane('respondents').style.zIndex = 200;
             map.removeLayer(resGroup);
         }
     }
@@ -757,6 +768,8 @@
         var govcheckBox = document.getElementById("govcbox");
         // Get the output text
 
+
+
         // If the checkbox is checked, display the output text
         if (tencheckBox.checked) {
             allIssues = allIssues.concat(tenIssues);
@@ -767,41 +780,44 @@
 
         if (tencheckBox.checked && viocheckBox.checked) {
             console.log('both checked');
-            cfg2.gradient = {
-                '0': '#FF6600',
-                '1': '#FF6600'
-            }
+            // cfg.gradient = {
+            //     '0': '#FF6600',
+            //     '1': '#FF6600'
+            // }
             console.log(document.getElementById("gradient-legend"));
             document.getElementById("gradient-legend").style.backgroundImage = "linear-gradient(90deg,rgba(0,0,0,.0), #FF6600)";
+            createHeatMapLayer(tenIssues, vioIssues);
 
 
         } else if (tencheckBox.checked && !(viocheckBox.checked)) {
             console.log('ten checked');
 
-            cfg2.gradient = {
-                '0': '#FFC234',
-                '1': '#FFC234'
-            }
-            document.getElementById("gradient-legend").style.backgroundImage= "linear-gradient(90deg,rgba(0,0,0,.0), #FFC234)";
+            // cfg.gradient = {
+            //     '0': '#FFC234',
+            //     '1': '#FFC234'
+            // }
+            document.getElementById("gradient-legend").style.backgroundImage = "linear-gradient(90deg,rgba(0,0,0,.0), #FFC234)";
+        createHeatMapLayer(tenIssues, []);
 
         } else if (!(tencheckBox.checked) && viocheckBox.checked) {
-            console.log('vio checked');
-
-            cfg2.gradient = {
-                '0': '#A82C15',
-                '1': '#A82C15'
-            }
-            document.getElementById("gradient-legend").style.backgroundImage= "linear-gradient(90deg,rgba(0,0,0,.0), #A82C15)";
+        
+            // cfg.gradient = {
+            //     '0': '#A82C15',
+            //     '1': '#A82C15'
+            // }
+            document.getElementById("gradient-legend").style.backgroundImage = "linear-gradient(90deg,rgba(0,0,0,.0), #A82C15)";
+        createHeatMapLayer([], vioIssues);
 
         }
 
-        console.log(cfg2.gradient);
+
+
         tensionMarkerGroup.clearLayers();
         violenceMarkerGroup.clearLayers();
 
         createMarkers();
         hideMarkersOnZoom();
-        createHeatMapLayer(allIssues);
+
         // createHeatMapLayer(tenIssues, tenheatmapLayer);
 
 
@@ -1126,20 +1142,29 @@
     }
 
 
-    function createHeatMapLayer(data) {
+    function createHeatMapLayer(tensiondata,violencedata) {
 
         map.removeLayer(heatmapLayer);
-        this.heatmapLayer = new HeatmapOverlay(cfg2);
+        this.heatmapLayer = new HeatmapOverlay(cfg);
 
-        console.log(data.length);
+        map.removeLayer(heatmapLayer2);
+        this.heatmapLayer2 = new HeatmapOverlay(cfg2);
 
-        if (data.length > 0) {
+        if (tensiondata.length > 0) {
+            console.log(tensiondata.length);
 
-            heatmapLayer.setData(arrangeIssuesData(data));
+            heatmapLayer.setData(arrangeIssuesData(tensiondata));
             heatmapLayer.addTo(map);
 
         }
 
+
+        if (violencedata.length > 0) {
+            console.log(violencedata.length);
+            heatmapLayer2.setData(arrangeIssuesData(violencedata));
+            heatmapLayer2.addTo(map);
+
+        }
 
         // enable event forwarding
     }
@@ -1150,19 +1175,16 @@
 
     function plotCoverage() {
 
-
-
+        var iconSize = cssIcon;
 
         for (let i = 0; i < coverage.length; i++) {
 
-            var circle = L.circleMarker([coverage[i].lat, coverage[i].lng], {
-                opacity: 0,
-                fillColor: "#14B7FB",
-                fillOpacity: 0.5,
-                radius: 10,
-                pane: 'respondents'
-            }).addTo(resGroup);
+            var markerOptions = {
+                icon: iconSize,
+                radius: 10
 
+            }
+            L.marker([coverage[i].lat, coverage[i].lng], markerOptions).addTo(resGroup);
 
         }
 
@@ -1180,22 +1202,31 @@
             cfg.radius = 0.15;
             cfg2.radius = 0.15;
 
+            
+
         }
         if (zoom > 9 && map.hasLayer(tensionMarkerGroup) == false) {
             map.addLayer(tensionMarkerGroup);
             cfg.radius = 0.15 - (zoom / 100);
             cfg2.radius = 0.15 - (zoom / 100);
+            
         }
         if (zoom <= 9 && map.hasLayer(violenceMarkerGroup)) {
             map.removeLayer(violenceMarkerGroup);
             cfg.radius = 0.15;
             cfg2.radius = 0.15;
 
+
         }
         if (zoom > 9 && map.hasLayer(violenceMarkerGroup) == false) {
             map.addLayer(violenceMarkerGroup);
             cfg.radius = 0.15 - (zoom / 100);
             cfg2.radius = 0.15 - (zoom / 100);
+            
+        }
+
+        if (zoom > 9 && map.hasLayer(resGroup)){
+            console.log( "adjust");
         }
 
     }
@@ -1228,7 +1259,8 @@
 
     function adjustMarkers() {
         hideMarkersOnZoom();
-        resizeCircleradius();
+        plotCoverage();
+        // resizeCircleradius();
 
     }
 
