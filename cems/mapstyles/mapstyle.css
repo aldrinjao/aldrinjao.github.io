@@ -22,8 +22,8 @@
 #introModal {
     z-index: 2000;
     width: 700px;
-    min-height: 620px;
-    height: 620px;
+    min-height: 640px;
+    height: 640px;
     background-color: rgba(255, 255, 255, 0.95);
     position: absolute;
     left: 20%;
@@ -106,6 +106,7 @@
 .leaflet-map-pane canvas {
     z-index: 600;
 }
+
 /* .testClass {
     width: 40px !important;
     height: 40px !important;
@@ -172,7 +173,7 @@
     padding: 6px 8px;
     font: 14px/16px Arial, Helvetica, sans-serif;
     background: white;
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.9);
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
     border-radius: 5px;
 }
@@ -206,10 +207,10 @@
 
 
 
-#gradient-legend{
-    width:100px;
-    height:10px;
-    background-image: linear-gradient(90deg,rgba(0,0,0,.0), #FF6600);
+#gradient-legend {
+    width: 100px;
+    height: 10px;
+    background-image: linear-gradient(90deg, rgba(0, 0, 0, .0), #FF6600);
 
 }
 
@@ -218,6 +219,8 @@
 
 }
 
+
+
 #boundaryPanel {
 
     margin: 25px 0px 0px 0px;
@@ -225,7 +228,7 @@
     font: 14px/16px Arial, Helvetica, sans-serif;
     background: rgba(250, 250, 250, 0.8);
     border-radius: 5px;
-    height: 100px;
+    height: 150px;
 
 }
 
@@ -246,7 +249,7 @@
     font: 14px/16px Arial, Helvetica, sans-serif;
     background: rgba(250, 250, 250, 0.8);
     border-radius: 5px;
-    height: 240px;
+    height: 150px;
 
 }
 
@@ -274,6 +277,11 @@
     background: gray;
     font-weight: bold;
     color: white;
+}
+
+.disabledButton{
+    color: gray;
+    background: rgb(200,200,200);
 }
 
 .clear {
@@ -346,30 +354,42 @@
 }
 
 /* turn off pointer interaction with heatmap so hover still works */
-.leaflet-overlay-pane{
+.leaflet-overlay-pane {
     pointer-events: none;
     opacity: 1;
 }
 
 
 
-.gps_ring { 
-    border: 3px dashed rgba(19, 183, 251,.15);
-     -webkit-border-radius: 300px;
-     height: 80px;
-     width: 80px;       
+.gps_ring {
+    border: 3px dashed rgba(19, 183, 251, .15);
+    -webkit-border-radius: 300px;
+    height: 80px;
+    width: 80px;
     -webkit-animation: pulsate ease-out;
     animation-duration: 4s;
 
-    -webkit-animation-iteration-count: infinite; 
+    -webkit-animation-iteration-count: infinite;
     /*opacity: 0.0*/
 }
 
 @-webkit-keyframes pulsate {
-        0% {-webkit-transform: scale(0.1, 0.1); opacity: 0.0;}
-        50% {opacity: 1.0;}
-        100% {-webkit-transform: scale(1.2, 1.2); opacity: 0.0;}
+    0% {
+        -webkit-transform: scale(0.1, 0.1);
+        opacity: 0.0;
+    }
+
+    50% {
+        opacity: 1.0;
+    }
+
+    100% {
+        -webkit-transform: scale(1.2, 1.2);
+        opacity: 0.0;
+    }
 }
 
 /* do not remove; if removed the 2 heatmaps will not be displayed at the same time */
-.leaflet-zoom-hide { position: absolute !important; }
+.leaflet-zoom-hide {
+    position: absolute !important;
+}

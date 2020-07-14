@@ -29,36 +29,13 @@
 <script type="text/javascript" src="./data/provincialdata.js"></script>
 <script type="text/javascript" src="./data/date.js"></script>
 <script type="text/javascript" src="./data/coverage.js"></script>
-<script type="text/javascript" src="./brgy.js"></script>
+<script type="text/javascript" src="./data/brgy.js"></script>
 
 <style>
     .leaflet-left {
         left: 300;
     }
 </style>
-
-
-
-
-
-<script>
-
-
-
-
-</script>
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 <div id="mapid">
@@ -104,9 +81,8 @@
             <div style="float: left;width: 100px;">
                 <img class="img-valign" src="./icons/tutmarkers.png" style="width: 100px;">
             </div>
-            <div style="float: left;width: 490px;"><span style="font-weight: bold;">Check</span> the checkboxes to
-                display
-                the reported incidents related to
+            <div style="float: left;width: 490px;"><span style="font-weight: bold;">Check</span> the boxes to toggle the
+                displayed reported incidents related to
                 COVID-19</div>
 
         </div>
@@ -114,11 +90,10 @@
 
         <div class="tutItem">
             <div style="float: left;width: 100px;">
-                <img class="img-valign" src="./icons/tutmarker.png" style="width: 100px;">
+                <img class="img-valign" src="./icons/search.png" style="width: 100px;">
             </div>
-            <div style="float: left;width: 490px;"><span style="font-weight: bold;">Click</span> the circle icon on the
-                map to see
-                all reports within that area</div>
+            <div style="float: left;width: 490px;"><span style="font-weight: bold;">Type</span> in the box to search
+                trough the data.</div>
 
         </div>
 
@@ -132,8 +107,14 @@
 
         </div>
 
-        <div style="position: absolute;bottom: 1%;text-align: center;width: 93%;">
-            Click to close
+        <div style="text-align: center;">
+            <img class="img-valign" src="./icons/info.svg" style="height: 34px;padding-right: 20px;"><span>Click this
+                icon located at the menu to see this tutorial again</span>
+        </div>
+
+
+        <div style="position: absolute;bottom: 1%;text-align: center;width: 93%;font-size: .8em;">
+            Click anywhere to close
         </div>
 
 
@@ -152,6 +133,8 @@
             <span style="font-size:20px;line-height: normal;font-weight: 300;"> MAP OF COVID-19 RELATED INCIDENTS</span>
         </div>
 
+
+
         <div id="boundaryPanel">
             <div style="width: 100%;margin: auto;width: 100%;" class="tooltip">
                 <span style="font-size: 16px;padding:10px;" class="clickabletitle">Boundaries</span>
@@ -161,9 +144,12 @@
             </div>
 
             <div id="locreg" class='boundarybutton bbleft' onclick="locButtonSelected(this)">Region</div>
-            <div id="locprov" class='boundarybutton bbright  selected' onclick="locButtonSelected(this)">Province</div>
-            <div id="locmun" class='boundarybutton bbleft' onclick="locButtonSelected(this)">Municipality</div>
-            <div id="locbrg" class='boundarybutton bbright' onclick="locButtonSelected(this)">None</div>
+            <div id="locprov" class='boundarybutton bbright' onclick="locButtonSelected(this)">Province</div>
+            <div id="locmun" class='boundarybutton bbleft selected' onclick="locButtonSelected(this)">Municipality</div>
+            <div id="locbrg" class='boundarybutton bbright' onclick="checkIfZoomed();">Barangay</div>
+            <div id="locnone" class='boundarybutton bbleft' style="margin-left: 25%;" onclick="locButtonSelected(this)">
+                None</div>
+
         </div>
 
         <div id="issuesPanel">
@@ -219,7 +205,7 @@
             <p class="clear">&nbsp;</p>
 
 
-
+            <!-- 
             <div style="margin:10px">
                 <div style="float: left;">
                     <img class="img-valign" src='./icons/cluster.png' style="width: 30px;">
@@ -232,7 +218,7 @@
                     <span class="tooltiptext tooltiptextincident">These numbered markers show how many individual
                         reports there are around the area.</span>
                 </div>
-            </div>
+            </div> -->
 
         </div>
 
@@ -296,11 +282,6 @@
 
             </div>
 
-
-
-
-
-
         </div>
 
 
@@ -340,7 +321,7 @@
         maxZoom: 15
     }
 
-    var map = L.map('mapid', mapOptions).setView([12, 120], 5);
+    var map = L.map('mapid', mapOptions).setView([14.5995, 120.9842], 5);
 
     disableMapInteraction();
 
@@ -348,11 +329,11 @@
 
 
     map.setMaxBounds(map.getBounds());
-    map.setView([12, 120], 6);
+    map.setView([14.5995, 120.9842], 10);
     map.createPane('labels');
     map.createPane('markerspane');
     map.createPane('respondents');
-    map.createPane('boundarypane').style.zIndex = 201;
+    map.createPane('boundarypane').style.zIndex = 400;
     map.getPane('respondents').style.zIndex = 300;
     map.getPane('labels').style.zIndex = 500;
     map.getPane('markerspane').style.zIndex = 501;
@@ -360,13 +341,13 @@
 
 
 
-    var currentstlye = {
+    var currentstyle = {
         fillColor: 'white',
         weight: 2,
-        opacity: .1,
-        color: 'white',
+        opacity: .8,
+        color: 'black',
         dashArray: '3',
-        fillOpacity: .3
+        fillOpacity: 0
     };
 
 
@@ -434,14 +415,37 @@
     }
 
 
-    // // add initial overlay 
-    geojson = L.geoJson(provincialdata, {
+    var vectorGrid = L.vectorGrid.slicer(brgy_daya, {
+        maxZoom: 15,
+        minZoom: 10,
+        rendererFactory: L.svg.tile,
+        vectorTileLayerStyles: {
+            sliced: style1
+        }
+    });
+
+    var municipalLayer = L.geoJson(municipaldata, {
         style: style1,
         onEachFeature: onEachFeature,
         pane: 'boundarypane'
-    }).addTo(map);
+    })
+
+    var provincialLayer = L.geoJson(provincialdata, {
+        style: style1,
+        onEachFeature: onEachFeature,
+        pane: 'boundarypane'
+    })
+
+    var regionalLayer = L.geoJson(regionaldata, {
+        style: style1,
+        onEachFeature: onEachFeature,
+        pane: 'boundarypane'
+    })
 
 
+    // // add initial overlay 
+    geojson = municipalLayer;
+    geojson.addTo(map);
 
     var cfg = {
         // radius should be small ONLY if scaleRadius is true (or small radius is intended)
@@ -454,7 +458,7 @@
             '1': '#FFC234'
         },
         "radius": .15,
-        "maxOpacity": 1,
+        "maxOpacity": .8,
         // scales the radius based on map zoom
         "scaleRadius": true,
         // if set to false the heatmap uses the global maximum for colorization
@@ -480,7 +484,7 @@
             '1': '#A82C15'
         },
         "radius": .15,
-        "maxOpacity": 1,
+        "maxOpacity": .8,
         // scales the radius based on map zoom
         "scaleRadius": true,
         // if set to false the heatmap uses the global maximum for colorization
@@ -590,7 +594,7 @@
 
     var controlSearch = new L.Control.Search({
         position: 'topleft',
-        layer: markers,
+        layer: tensionMarkerGroup,
         initial: false,
         zoom: 18,
         marker: L.circleMarker([0, 0], { radius: 30 })
@@ -615,7 +619,7 @@
             this._div.innerHTML = '<h4>Hover over an area</h4>';
 
         } else {
-            if (currentstlye == style0) {
+            if (currentstyle == style0) {
 
                 this._div.innerHTML =
                     '<h4>Covid Cases (May 25, 2020)</h4>' +
@@ -673,7 +677,7 @@
         var div = L.DomUtil.create('div', 'info legend');
 
         // loop through our density intervals and generate a label with a colored square for each interval
-        div.innerHTML = "<div onmouseover='disableMapInteraction()' onmouseout='enableMapInteraction()'><img class='img-valign' src='./icons/opacity.png' style='height: 13.64px;'> <span>Heatmap Opacity</span><br><img class='img-valign' src='./icons/minus.png' style='margin-top:-13.64;height: 13.64px;'><input type='range' min='0' max='100' value='0' class='slider' id='myRange' style='width:129px;'><img class='img-valign' src='./icons/plus.png' style='margin-top:-13.64;height: 13.64px;'></div>";
+        div.innerHTML = "<div onmouseover='disableMapInteraction()' onmouseout='enableMapInteraction()'><img class='img-valign' src='./icons/opacity.png' style='height: 13.64px;'> <span>Heatmap Opacity</span><br><img class='img-valign' src='./icons/minus.png' style='margin-top:-13.64;height: 13.64px;'><input type='range' min='0' max='100' value='80' class='slider' id='myRange' style='width:129px;'><img class='img-valign' src='./icons/plus.png' style='margin-top:-13.64;height: 13.64px;'></div>";
 
         return div;
     };
@@ -688,11 +692,17 @@
         var div = L.DomUtil.create('div', 'info legend');
 
         // loop through our density intervals and generate a label with a colored square for each interval
-        div.innerHTML = "<div onmouseover='disableMapInteraction()' onmouseout='enableMapInteraction()'><img class='img-valign' src='./icons/opacity.png' style='height: 13.64px;'> <span>Boundary Opacity</span><br><img class='img-valign' src='./icons/minus.png' style='margin-top:-13.64;height: 13.64px;'><input type='range' min='0' max='100' value='30' class='slider' id='1myRange' style='width:129px;'><img class='img-valign' src='./icons/plus.png' style='margin-top:-13.64;height: 13.64px;'></div>";
+        div.innerHTML = "<div onmouseover='disableMapInteraction()' onmouseout='enableMapInteraction()'><img class='img-valign' src='./icons/opacity.png' style='height: 13.64px;'> <span>Boundary Opacity</span><br><img class='img-valign' src='./icons/minus.png' style='margin-top:-13.64;height: 13.64px;'><input type='range' min='0' max='100' value='0' class='slider' id='1myRange' style='width:129px;'><img class='img-valign' src='./icons/plus.png' style='margin-top:-13.64;height: 13.64px;'></div>";
 
         return div;
     };
 
+
+    L.control.zoom({
+        position: 'topright'
+    }).addTo(map);
+
+    L.control.layers(baseMaps, overlays, { position: 'topright' }).addTo(map);
 
 
 
@@ -707,27 +717,13 @@
     info.addTo(map);
 
 
-    L.control.zoom({
-        position: 'bottomright'
-    }).addTo(map);
-
-    L.control.layers(baseMaps, overlays, { position: 'bottomright' }).addTo(map);
-
 
 
     var slider = document.getElementById("myRange");
 
     slider.oninput = function () {
-
-        var fillOpacity = (100 - this.value) / 100
-
+        var fillOpacity = this.value / 100
         document.getElementsByClassName("leaflet-overlay-pane")[0].style.opacity = fillOpacity.toString();
-
-
-        // geojson.setStyle({
-
-        //     fillOpacity: (100 - this.value) / 100
-        // });
 
     }
 
@@ -736,7 +732,7 @@
     slider.oninput = function () {
         geojson.setStyle({
 
-            fillOpacity: (100 - this.value) / 100
+            fillOpacity: this.value / 100
         });
 
     }
@@ -779,34 +775,17 @@
         }
 
         if (tencheckBox.checked && viocheckBox.checked) {
-            console.log('both checked');
-            // cfg.gradient = {
-            //     '0': '#FF6600',
-            //     '1': '#FF6600'
-            // }
-            console.log(document.getElementById("gradient-legend"));
             document.getElementById("gradient-legend").style.backgroundImage = "linear-gradient(90deg,rgba(0,0,0,.0), #FF6600)";
             createHeatMapLayer(tenIssues, vioIssues);
 
 
         } else if (tencheckBox.checked && !(viocheckBox.checked)) {
-            console.log('ten checked');
-
-            // cfg.gradient = {
-            //     '0': '#FFC234',
-            //     '1': '#FFC234'
-            // }
             document.getElementById("gradient-legend").style.backgroundImage = "linear-gradient(90deg,rgba(0,0,0,.0), #FFC234)";
-        createHeatMapLayer(tenIssues, []);
+            createHeatMapLayer(tenIssues, []);
 
         } else if (!(tencheckBox.checked) && viocheckBox.checked) {
-        
-            // cfg.gradient = {
-            //     '0': '#A82C15',
-            //     '1': '#A82C15'
-            // }
             document.getElementById("gradient-legend").style.backgroundImage = "linear-gradient(90deg,rgba(0,0,0,.0), #A82C15)";
-        createHeatMapLayer([], vioIssues);
+            createHeatMapLayer([], vioIssues);
 
         }
 
@@ -872,7 +851,7 @@
             } else if (allIssues[i].issue == 'Violence') {
                 var marker = L.circleMarker(new L.LatLng(allIssues[i].lat, allIssues[i].lng), markerOptions);
                 marker.bindPopup(popuphtml);
-                violenceMarkerGroup.addLayer(marker);
+                tensionMarkerGroup.addLayer(marker);
 
             }
 
@@ -880,7 +859,7 @@
         }
 
         map.addLayer(tensionMarkerGroup);
-        map.addLayer(violenceMarkerGroup);
+        // map.addLayer(violenceMarkerGroup);
         // map.addLayer(markers2);
 
 
@@ -939,16 +918,16 @@
 
         var opacity
         if (document.getElementById("1myRange") != null) {
-            opacity = (100 - document.getElementById("1myRange").value) / 100;
+            opacity = document.getElementById("1myRange").value / 100;
         } else {
-            opacity = ".3";
+            opacity = "0";
 
         }
 
         return {
             fillColor: 'white',
-            weight: 1,
-            opacity: 1,
+            weight: 2,
+            opacity: .8,
             color: 'black',
             dashArray: '3',
             fillOpacity: opacity
@@ -963,7 +942,6 @@
     }
 
     function resetHighlight(e) {
-        // geojson.resetStyle(e.target);
 
         temp = {
             covidcases: '- ',
@@ -989,33 +967,39 @@
 
 
     function switchlayer(layer) {
-        map.removeLayer(geojson);
 
-
-        if (layer == 'locbrg') {
-            document.getElementById('show').classList.remove('selected');
-            document.getElementById('dontshow').classList.add('selected');
-            currentstlye = style1
-            map.removeControl(legend);
-
-        } else {
-            if (layer == 'locreg') {
-                layer = regionaldata;
-
-            } else if (layer == 'locmun') {
-                layer = municipaldata;
-            } else if (layer == 'locprov') {
-                layer = provincialdata;
-            }
-
-            geojson = L.geoJson(layer, {
-                style: currentstlye,
-                onEachFeature: onEachFeature,
-                pane: 'boundarypane'
-
-            }).addTo(map);
+        if (map.hasLayer(geojson)) {
+            map.removeLayer(geojson)
         }
 
+        if (map.hasLayer(vectorGrid)) {
+            map.removeLayer(vectorGrid);
+        }
+
+        if (layer == 'locnone') {
+            document.getElementById('show').classList.remove('selected');
+            document.getElementById('dontshow').classList.add('selected');
+            currentstyle = style1
+            map.removeControl(legend);
+
+        } else if (layer == 'locreg') {
+            regionalLayer.setStyle(currentstyle);
+            regionalLayer.addTo(map);
+            geojson = regionalLayer;
+
+        } else if (layer == 'locmun') {
+            municipalLayer.setStyle(currentstyle);
+            municipalLayer.addTo(map);
+            geojson = municipalLayer;
+
+        } else if (layer == 'locprov') {
+            provincialLayer.setStyle(currentstyle);
+            provincialLayer.addTo(map);
+            geojson = provincialLayer;
+
+        } else if (layer = 'locbrg') {
+            vectorGrid.addTo(map);
+        }
 
 
     }
@@ -1032,7 +1016,7 @@
         document.getElementById('locprov').classList.remove('selected');
         document.getElementById('locmun').classList.remove('selected');
         document.getElementById('locbrg').classList.remove('selected');
-
+        document.getElementById('locnone').classList.remove('selected');
     }
 
     function setSelected(id) {
@@ -1044,15 +1028,15 @@
         removeSelected();
         setSelected(t.id);
         if (t.id == 'dontshow') {
-            currentstlye = style1
+            currentstyle = style1
             map.removeControl(legend);
         }
         else {
-            currentstlye = style0
+            currentstyle = style0
 
             map.addControl(legend);
         }
-        geojson.setStyle(currentstlye);
+        geojson.setStyle(currentstyle);
     }
 
 
@@ -1142,7 +1126,7 @@
     }
 
 
-    function createHeatMapLayer(tensiondata,violencedata) {
+    function createHeatMapLayer(tensiondata, violencedata) {
 
         map.removeLayer(heatmapLayer);
         this.heatmapLayer = new HeatmapOverlay(cfg);
@@ -1151,7 +1135,6 @@
         this.heatmapLayer2 = new HeatmapOverlay(cfg2);
 
         if (tensiondata.length > 0) {
-            console.log(tensiondata.length);
 
             heatmapLayer.setData(arrangeIssuesData(tensiondata));
             heatmapLayer.addTo(map);
@@ -1160,7 +1143,7 @@
 
 
         if (violencedata.length > 0) {
-            console.log(violencedata.length);
+
             heatmapLayer2.setData(arrangeIssuesData(violencedata));
             heatmapLayer2.addTo(map);
 
@@ -1202,14 +1185,13 @@
             cfg.radius = 0.15;
             cfg2.radius = 0.15;
 
-            
 
         }
         if (zoom > 9 && map.hasLayer(tensionMarkerGroup) == false) {
             map.addLayer(tensionMarkerGroup);
             cfg.radius = 0.15 - (zoom / 100);
             cfg2.radius = 0.15 - (zoom / 100);
-            
+
         }
         if (zoom <= 9 && map.hasLayer(violenceMarkerGroup)) {
             map.removeLayer(violenceMarkerGroup);
@@ -1222,12 +1204,10 @@
             map.addLayer(violenceMarkerGroup);
             cfg.radius = 0.15 - (zoom / 100);
             cfg2.radius = 0.15 - (zoom / 100);
-            
+
         }
 
-        if (zoom > 9 && map.hasLayer(resGroup)){
-            console.log( "adjust");
-        }
+
 
     }
 
@@ -1257,10 +1237,55 @@
 
     }
 
+
+    function adjustAdminborders() {
+        var zoom = map.getZoom();
+        var weight = 1;
+        if (zoom >= 9) {
+            weight = 2;
+        }
+        geojson.setStyle({
+            weight: weight
+        });
+
+
+    }
+
+    function switchFromBrgyOnZoom() {
+        var zoom = map.getZoom();
+        if (zoom >= 9) {
+            locButtonSelected(document.getElementById('locmun'));
+        }
+
+    }
+
+
+    function checkIfZoomed() {
+        if (map.getZoom() >= 9) {
+            locButtonSelected(document.getElementById('locbrg'));
+
+        }
+
+    }
+
+    function disableBrgy() {
+        var zoom = map.getZoom();
+
+        if (zoom < 9) {
+            document.getElementById('locbrg').classList.add("disabledButton");
+        } else {
+
+            document.getElementById('locbrg').classList.remove("disabledButton");
+        }
+    }
+
     function adjustMarkers() {
+
         hideMarkersOnZoom();
         plotCoverage();
-        // resizeCircleradius();
+        adjustAdminborders();
+        switchFromBrgyOnZoom();
+        disableBrgy();
 
     }
 
@@ -1268,27 +1293,7 @@
     map.on('zoomend', adjustMarkers);
 
 
-    var vectorGrid = L.vectorGrid.slicer(brgy_daya, {
-        maxZoom: 15,
-        minZoom: 10,
-        rendererFactory: L.svg.tile,
-        vectorTileLayerStyles: {
-            sliced: function (properties, zoom) {
-                var p = '#FFFFFF';
-                return {
-                    fillColor: '#FF0033',
-                    fillOpacity: 0,
-                    //fillOpacity: 1,
-                    stroke: true,
-                    fill: true,
-                    color: '#000000',
-                    //opacity: 0.2,
-                    weight: 1,
-                }
-            }
-        },
-        interactive: true
-    })
 
-        .addTo(map);
+
+
 </script>
