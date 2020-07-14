@@ -14,6 +14,9 @@
 
 <link rel="stylesheet" href="./mapstyles/mapstyle.css" />
 <link rel="stylesheet" href="./leaflet-search/leaflet-search.css">
+
+<script src="./marker-cluster/dist/leaflet.markercluster-src.js"></script>
+
 <script src="./leaflet-search/leaflet-search.js"></script>
 
 <script type="text/javascript" src="https://unpkg.com/leaflet.vectorgrid@1.2.0"></script>
@@ -538,23 +541,23 @@
 
 
 
-    var markers = L.markerClusterGroup({
-        disableClusteringAtZoom: 13,
-        iconCreateFunction: function (cluster) {
-            var violenceount = 0;
-            var tensionscount = 0;
-            var markers222 = cluster.getAllChildMarkers();
+    // var markers = L.markerClusterGroup({
+    //     disableClusteringAtZoom: 13,
+    //     iconCreateFunction: function (cluster) {
+    //         var violenceount = 0;
+    //         var tensionscount = 0;
+    //         var markers222 = cluster.getAllChildMarkers();
 
-            markers222.forEach(element => {
-                if (element.options.type == "Violence") {
-                    violenceount++;
-                } else {
-                    tensionscount++;
-                }
-            });
-            return L.divIcon({ html: '<div class=\'halfmarker\'>' + tensionscount + '<br><span class=\'violencecount\'>' + violenceount + '</span></div>', className: 'testclass' });
-        }
-    });
+    //         markers222.forEach(element => {
+    //             if (element.options.type == "Violence") {
+    //                 violenceount++;
+    //             } else {
+    //                 tensionscount++;
+    //             }
+    //         });
+    //         return L.divIcon({ html: '<div class=\'halfmarker\'>' + tensionscount + '<br><span class=\'violencecount\'>' + violenceount + '</span></div>', className: 'testclass' });
+    //     }
+    // });
 
 
 
