@@ -279,9 +279,9 @@
     color: white;
 }
 
-.disabledButton{
+.disabledButton {
     color: gray;
-    background: rgb(200,200,200);
+    background: rgb(200, 200, 200);
 }
 
 .clear {
@@ -362,10 +362,22 @@
 
 
 .gps_ring {
-    border: 3px dashed rgba(19, 183, 251, .15);
+    border: 3px dashed rgba(19, 183, 251, .85);
     -webkit-border-radius: 300px;
-    height: 80px;
-    width: 80px;
+    height: 140px;
+    width: 140px;
+    -webkit-animation: pulsate ease-out;
+    animation-duration: 4s;
+
+    -webkit-animation-iteration-count: infinite;
+    /*opacity: 0.0*/
+}
+
+.smaller_gps_ring {
+    border: 3px dashed rgba(19, 183, 251, .85);
+    -webkit-border-radius: 300px;
+    height: 50px;
+    width: 50px;
     -webkit-animation: pulsate ease-out;
     animation-duration: 4s;
 
@@ -392,4 +404,14 @@
 /* do not remove; if removed the 2 heatmaps will not be displayed at the same time */
 .leaflet-zoom-hide {
     position: absolute !important;
+    
+}
+
+/* for the search bar icon */
+.leaflet-left {
+    left: 300;
+}
+
+.leaflet-overlay-pane{
+    z-index: 401;
 }
