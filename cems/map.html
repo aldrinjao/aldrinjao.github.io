@@ -1058,10 +1058,23 @@
 
 
 
+  function adjustMarkers() {
 
+        // document.getElementById('zoomleveldiv').innerHTML = "zoom level: " + map.getZoom();
+
+        hideMarkersOnZoom();
+        plotCoverage();
+        adjustAdminborders();
+        switchFromBrgyOnZoom();
+        disableBrgy();
+        resizeCircleradius();
+
+
+
+    }
 
     map.on('zoomend', adjustMarkers);
-    document.getElementById('dimmedOverlay').onmouseover = disableMapInteraction();
+    
 
 
 

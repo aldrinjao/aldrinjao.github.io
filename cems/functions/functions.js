@@ -520,7 +520,7 @@
 
     function switchFromBrgyOnZoom() {
         var zoom = map.getZoom();
-        if (zoom >= 9) {
+        if (zoom > 9) {
             locButtonSelected(document.getElementById('locmun'));
         }
 
@@ -528,7 +528,7 @@
 
 
     function checkIfZoomed() {
-        if (map.getZoom() >= 9) {
+        if (map.getZoom() > 9) {
             locButtonSelected(document.getElementById('locbrg'));
 
         }
@@ -538,7 +538,7 @@
     function disableBrgy() {
         var zoom = map.getZoom();
 
-        if (zoom < 9) {
+        if (zoom <= 9) {
             document.getElementById('locbrg').classList.add("disabledButton");
         } else {
 
