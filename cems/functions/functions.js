@@ -154,7 +154,7 @@
         }
         return {
             fillColor: getColor(feature.properties.covidcases),
-            weight: 2,
+            weight: 1,
             opacity: .1,
             color: 'white',
             dashArray: '3',
@@ -175,7 +175,7 @@
 
         return {
             fillColor: 'white',
-            weight: 2,
+            weight: 1,
             opacity: .75,
             color: 'black',
             dashArray: '3',

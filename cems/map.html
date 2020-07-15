@@ -675,7 +675,12 @@
     }).addTo(map);
 
 
-    var positronLabels = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png', {
+    var positronLabelsdark = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}.png', {
+        attribution: '©OpenStreetMap, ©CartoDB',
+        pane: 'labels'
+    }).addTo(map);
+
+    var positronLabelslight = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png', {
         attribution: '©OpenStreetMap, ©CartoDB',
         pane: 'labels'
     }).addTo(map);
@@ -725,7 +730,8 @@
     };
 
     var overlays = {
-        "Carto DB Labels": positronLabels
+        "Carto DB Labels (light)": positronLabelslight,
+        "Carto DB Labels (dark)": positronLabelsdark
     }
 
 
