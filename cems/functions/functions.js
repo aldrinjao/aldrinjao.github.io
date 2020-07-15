@@ -548,7 +548,7 @@
 
     function adjustMarkers() {
 
-        document.getElementById('zoomleveldiv').innerHTML = "zoom level: " + map.getZoom();
+        // document.getElementById('zoomleveldiv').innerHTML = "zoom level: " + map.getZoom();
 
         hideMarkersOnZoom();
         plotCoverage();
