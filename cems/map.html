@@ -554,7 +554,7 @@
         <div
             style="display:flex;justify-content:space-between;position: absolute;bottom: 10; left: 10px;width: 260px;align-items: center;">
             <img src="./icons/book.png" onclick="tutmodalOpen()" width="25px" style="cursor: pointer;">
-            <div style="cursor: pointer;margin-left:5px;">
+            <div style="cursor: pointer;margin-left:-20px;">
                 <span onclick="tutmodalOpen()">Read the manual</span>
             </div>
             <div style="display:flex;align-items:flex-end;">
@@ -1058,20 +1058,7 @@
 
 
 
-  function adjustMarkers() {
 
-        // document.getElementById('zoomleveldiv').innerHTML = "zoom level: " + map.getZoom();
-
-        hideMarkersOnZoom();
-        plotCoverage();
-        adjustAdminborders();
-        switchFromBrgyOnZoom();
-        disableBrgy();
-        resizeCircleradius();
-
-
-
-    }
 
     map.on('zoomend', adjustMarkers);
     
