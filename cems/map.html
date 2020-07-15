@@ -448,7 +448,7 @@
             <div id="locreg" class='boundarybutton bbleft' onclick="locButtonSelected(this)">Region</div>
             <div id="locprov" class='boundarybutton bbright' onclick="locButtonSelected(this)">Province</div>
             <div id="locmun" class='boundarybutton bbleft selected' onclick="locButtonSelected(this)">Municipality</div>
-            <div id="locbrg" class='boundarybutton bbright' onclick="checkIfZoomed();">Barangay</div>
+            <div id="locbrg" class='boundarybutton bbright disabledButton' onclick="checkIfZoomed();">Barangay</div>
             <div id="locnone" class='boundarybutton bbleft' style="margin-left: 25%;" onclick="locButtonSelected(this)">
                 None</div>
 
@@ -657,7 +657,7 @@
 
     var currentstyle = {
         fillColor: 'white',
-        weight: 2,
+        weight: 1,
         opacity: .75,
         color: 'black',
         dashArray: '3',
@@ -1039,7 +1039,7 @@
         position: 'topright'
     }).addTo(map);
 
-    L.control.layers(baseMaps,{} ,{ position: 'topright' }).addTo(map);
+    L.control.layers(baseMaps, {}, { position: 'topright' }).addTo(map);
 
 
 
@@ -1076,13 +1076,52 @@
 
 
 
-
+    var controlobject;
 
 
     map.on('zoomend', adjustMarkers);
 
 
 
+    window.onload = (event) => {
+        controlobject = document.getElementsByName('leaflet-base-layers_3603');
+        for (let index = 0; index < controlobject.length; index++) {
+            const element = controlobject[index];
+            element.onclick = function () {
+                if (index == 0) {
+                    currentstyle = {
+                        fillColor: 'white',
+                        weight: 1,
+                        opacity: .75,
+                        color: 'black',
+                        dashArray: '3',
+                        fillOpacity: 0
+                    };
 
+
+
+                } else if (index == 1) {
+                    currentstyle = {
+                        fillColor: 'white',
+                        weight: 1,
+                        opacity: .75,
+                        color: 'white',
+                        dashArray: '3',
+                        fillOpacity: 0
+                    };
+
+                }
+                geojson.setStyle(currentstyle);
+
+
+            }
+
+
+
+        }
+
+
+
+    };
 
 </script>

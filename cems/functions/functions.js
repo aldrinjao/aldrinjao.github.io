@@ -228,7 +228,6 @@
         if (layer == 'locnone') {
             document.getElementById('show').classList.remove('selected');
             document.getElementById('dontshow').classList.add('selected');
-            currentstyle = style1
             map.removeControl(legend);
 
         } else if (layer == 'locreg') {
@@ -325,7 +324,7 @@
     }
 
     function disableMapInteraction() {
-        console.log('disable');
+        
         map.dragging.disable();
         map.touchZoom.disable();
         map.doubleClickZoom.disable();
@@ -338,7 +337,6 @@
 
     function modalClose() {
         enableMapInteraction()
-
         document.getElementById('dimmedOverlay').classList.add('hiddenmodal');
         document.getElementById('introModal').classList.add('hiddenmodal');
         document.getElementById('tutorialModal').classList.add('hiddenmodal');
@@ -355,7 +353,7 @@
 
 
     function tutmodalOpen() {
-        console.log("disable map");
+        
 
         document.getElementById('dimmedOverlay').classList.remove('hiddenmodal');
         document.getElementById('tutorialModal').classList.remove('hiddenmodal');
