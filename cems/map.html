@@ -664,32 +664,32 @@
         fillOpacity: 0
     };
 
-
-
+    var group1 = L.featureGroup().addTo(map);
+    var group2 = L.featureGroup();
 
 
     // initialize basemaps
 
     var positron = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
         attribution: '©OpenStreetMap, ©CartoDB'
-    }).addTo(map);
+    }).addTo(group1);
 
 
     var positronLabelsdark = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}.png', {
         attribution: '©OpenStreetMap, ©CartoDB',
         pane: 'labels'
-    });
+    }).addTo(group2);;
 
     var positronLabelslight = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png', {
         attribution: '©OpenStreetMap, ©CartoDB',
         pane: 'labels'
-    }).addTo(map);
+    }).addTo(group1);
 
 
     var CartoDB_DarkMatterNoLabels = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
 
-    });
+    }).addTo(group2);;
 
 
     var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -722,17 +722,13 @@
     });
 
     var baseMaps = {
-        "Carto DB White": positron,
-        "Carto DB Black": CartoDB_DarkMatterNoLabels,
+        "Carto DB White": group1,
+        "Carto DB Black": group2,
         "Google Satellite (satellite image)": googleSat,
         "Google Streets (digitized and labeled)": googleStreets,
         "Google Terrain (digitized with elevation info)": googleTerrain
     };
 
-    var overlays = {
-        "Carto DB Labels (light)": positronLabelslight,
-        "Carto DB Labels (dark)": positronLabelsdark
-    }
 
 
     var vectorGrid = L.vectorGrid.slicer(brgy_daya, {
@@ -1043,7 +1039,7 @@
         position: 'topright'
     }).addTo(map);
 
-    L.control.layers(baseMaps, overlays, { position: 'topright' }).addTo(map);
+    L.control.layers(baseMaps,{} ,{ position: 'topright' }).addTo(map);
 
 
 
