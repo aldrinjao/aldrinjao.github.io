@@ -441,31 +441,27 @@
         var zoom = map.getZoom();
         if (zoom <= 9 && map.hasLayer(tensionMarkerGroup)) {
             map.removeLayer(tensionMarkerGroup);
-            cfg.radius = 0.15;
-            cfg2.radius = 0.15;
 
 
         }
         if (zoom > 9 && map.hasLayer(tensionMarkerGroup) == false) {
             map.addLayer(tensionMarkerGroup);
-            cfg.radius = 0.15 - (zoom / 100);
-            cfg2.radius = 0.15 - (zoom / 100);
-
+            // cfg.radius = 0.05;
+            // cfg2.radius = 0.05;
+            
         }
         if (zoom <= 9 && map.hasLayer(violenceMarkerGroup)) {
             map.removeLayer(violenceMarkerGroup);
-            cfg.radius = 0.15;
-            cfg2.radius = 0.15;
 
 
         }
         if (zoom > 9 && map.hasLayer(violenceMarkerGroup) == false) {
             map.addLayer(violenceMarkerGroup);
-            cfg.radius = 0.15 - (zoom / 100);
-            cfg2.radius = 0.15 - (zoom / 100);
 
         }
-
+        cfg.radius = heatmapradius[zoom];
+        cfg2.radius = heatmapradius[zoom];
+        
 
 
     }
@@ -524,7 +520,10 @@
 
     function switchFromBrgyOnZoom() {
         var zoom = map.getZoom();
-        if (zoom > 9) {
+        console.log('zoom :>> ', zoom);
+
+        if ((zoom <= 9) && map.hasLayer(vectorGrid) ) {
+            
             locButtonSelected(document.getElementById('locmun'));
         }
 
@@ -532,7 +531,7 @@
 
 
     function checkIfZoomed() {
-        if (map.getZoom() > 10) {
+        if (map.getZoom() >= 10) {
             locButtonSelected(document.getElementById('locbrg'));
 
         }
@@ -542,7 +541,7 @@
     function disableBrgy() {
         var zoom = map.getZoom();
 
-        if (zoom <= 10) {
+        if (zoom <= 9) {
             document.getElementById('locbrg').classList.add("disabledButton");
         } else {
 
