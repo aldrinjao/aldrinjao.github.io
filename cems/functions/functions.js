@@ -157,7 +157,7 @@
             weight: 1,
             opacity: .1,
             color: 'white',
-            dashArray: '4',
+            dashArray: '3',
             fillOpacity: opacity
         };
     }
@@ -179,7 +179,7 @@
             weight: 1,
             opacity: .75,
             color: 'black',
-            dashArray: '4',
+            dashArray: '3',
             fillOpacity: opacity
         };
     }
@@ -507,10 +507,10 @@
     function adjustAdminborders() {
         var zoom = map.getZoom();
         var weight = 1;
-        var dashArray = "2 4";
+        var dashArray = "3";
 
-        if (zoom >= 9) {
-            weight = 2;
+        if (zoom > 9) {
+            weight = 1;
             dashArray = "5 10";
             console.log('adjust dash')
         }
@@ -556,10 +556,10 @@
 
         hideMarkersOnZoom();
         plotCoverage();
-        adjustAdminborders();
         switchFromBrgyOnZoom();
         disableBrgy();
         resizeCircleradius();
+        adjustAdminborders();
 
 
 
