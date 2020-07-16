@@ -144,12 +144,12 @@
 
 
     function style0(feature) {
-        var opacity
-
+        var opacity;
         if (document.getElementById("1myRange") != null) {
+            document.getElementById("1myRange").value = 75;
             opacity = document.getElementById("1myRange").value / 100;
         } else {
-            opacity = ".9";
+            opacity = ".75";
 
         }
         return {
@@ -157,16 +157,17 @@
             weight: 1,
             opacity: .1,
             color: 'white',
-            dashArray: '3',
+            dashArray: '4',
             fillOpacity: opacity
         };
     }
 
 
     function style1() {
-
+        
         var opacity
         if (document.getElementById("1myRange") != null) {
+            document.getElementById("1myRange").value = 0;
             opacity = document.getElementById("1myRange").value / 100;
         } else {
             opacity = "0";
@@ -178,7 +179,7 @@
             weight: 1,
             opacity: .75,
             color: 'black',
-            dashArray: '3',
+            dashArray: '4',
             fillOpacity: opacity
         };
     }
@@ -506,11 +507,16 @@
     function adjustAdminborders() {
         var zoom = map.getZoom();
         var weight = 1;
+        var dashArray = "2 4";
+
         if (zoom >= 9) {
             weight = 2;
+            dashArray = "5 10";
+            console.log('adjust dash')
         }
         geojson.setStyle({
-            weight: weight
+            weight: weight,
+            dashArray: dashArray
         });
 
 

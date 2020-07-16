@@ -660,7 +660,7 @@
         weight: 1,
         opacity: .75,
         color: 'black',
-        dashArray: '3',
+        dashArray: '3 6',
         fillOpacity: 0
     };
 
@@ -678,18 +678,19 @@
     var positronLabelsdark = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}.png', {
         attribution: '©OpenStreetMap, ©CartoDB',
         pane: 'labels'
-    }).addTo(group2);;
+    });;
 
     var positronLabelslight = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png', {
         attribution: '©OpenStreetMap, ©CartoDB',
         pane: 'labels'
     }).addTo(group1);
-
-
+    positronLabelslight.addTo(group2);
+    
+    
     var CartoDB_DarkMatterNoLabels = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
 
-    }).addTo(group2);;
+    }).addTo(group2);
 
 
     var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -702,7 +703,7 @@
 
     var googleSat = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}&language=EN', {
         subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
-    });
+    }).addTo(group2);
 
     var googleTerrain = L.tileLayer('http://{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={z}&language=EN', {
         subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
@@ -723,8 +724,8 @@
 
     var baseMaps = {
         "Carto DB White": group1,
-        "Carto DB Black": group2,
-        "Google Satellite (satellite image)": googleSat,
+        // "Carto DB Black": group2,
+        "Google Satellite (satellite image)": group2,
         "Google Streets (digitized and labeled)": googleStreets,
         "Google Terrain (digitized with elevation info)": googleTerrain
     };
@@ -740,7 +741,7 @@
                 fillColor: 'white',
                 weight: 1,
                 color: 'black',
-                dashArray: '3',
+                dashArray: '3 6',
                 fillOpacity: 0.75
             }
         }
@@ -1083,45 +1084,45 @@
 
 
 
-    window.onload = (event) => {
-        controlobject = document.getElementsByName('leaflet-base-layers_3603');
-        for (let index = 0; index < controlobject.length; index++) {
-            const element = controlobject[index];
-            element.onclick = function () {
-                if (index == 0) {
-                    currentstyle = {
-                        fillColor: 'white',
-                        weight: 1,
-                        opacity: .75,
-                        color: 'black',
-                        dashArray: '3',
-                        fillOpacity: 0
-                    };
+    // window.onload = (event) => {
+    //     controlobject = document.getElementsByName('leaflet-base-layers_3603');
+    //     for (let index = 0; index < controlobject.length; index++) {
+    //         const element = controlobject[index];
+    //         element.onclick = function () {
+    //             if (index == 0) {
+    //                 currentstyle = {
+    //                     fillColor: 'white',
+    //                     weight: 1,
+    //                     opacity: .75,
+    //                     color: 'black',
+    //                     dashArray: '3 6',
+    //                     fillOpacity: 0
+    //                 };
 
 
 
-                } else if (index == 1) {
-                    currentstyle = {
-                        fillColor: 'white',
-                        weight: 1,
-                        opacity: .75,
-                        color: 'white',
-                        dashArray: '3',
-                        fillOpacity: 0
-                    };
+    //             } else if (index == 1) {
+    //                 currentstyle = {
+    //                     fillColor: 'white',
+    //                     weight: 1,
+    //                     opacity: .75,
+    //                     color: 'white',
+    //                     dashArray: '3 6',
+    //                     fillOpacity: 0
+    //                 };
 
-                }
-                geojson.setStyle(currentstyle);
-
-
-            }
+    //             }
+    //             geojson.setStyle(currentstyle);
 
 
-
-        }
+    //         }
 
 
 
-    };
+    //     }
+
+
+
+    // };
 
 </script>
