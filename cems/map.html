@@ -7,31 +7,26 @@
     integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
     crossorigin="" />
 
-    <script src="https://unpkg.com/topojson@3.0.2/dist/topojson.min.js"></script>
-
+<script src="https://unpkg.com/topojson@3.0.2/dist/topojson.min.js"></script>
 
 <script src="https://unpkg.com/sql.js@0.3.2/js/sql.js"></script>
 
-
 <link rel="stylesheet" href="./mapstyles/mapstyle.css" />
 <link rel="stylesheet" href="./leaflet-search/leaflet-search.css">
-
-<script src="./marker-cluster/dist/leaflet.markercluster-src.js"></script>
-
 <script src="./leaflet-search/leaflet-search.js"></script>
 
 <script type="text/javascript" src="https://unpkg.com/leaflet.vectorgrid@1.2.0"></script>
 
 
+<script type="text/javascript" src="./data/date.js"></script>
+<script type="text/javascript" src="./functions/functions.js"></script>
 
 <script type="text/javascript" src="./data/incidentdata.js"></script>
 <script type="text/javascript" src="./data/municipaldata.js"></script>
 <script type="text/javascript" src="./data/regionaldata.js"></script>
 <script type="text/javascript" src="./data/provincialdata.js"></script>
-<script type="text/javascript" src="./data/date.js"></script>
 <script type="text/javascript" src="./data/coverage.js"></script>
 <script type="text/javascript" src="./data/brgy.js"></script>
-<script type="text/javascript" src="./functions/functions.js"></script>
 
 <div id="mapid">
 
@@ -779,13 +774,6 @@ L.TopoJSON = L.GeoJSON.extend({
     });
 
 
-    console.log('vectorGrid :>> ', vectorGrid);
-
-    // var vectorGrid = L.topoJson(brgy_daya, {
-    //     style: style1,
-    //     onEachFeature: onEachFeature,
-    //     pane: 'boundarypane'
-    // })
 
 
 
