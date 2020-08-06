@@ -199,7 +199,8 @@ var AppComponent = /** @class */ (function () {
             'Sugarcane',
             'Tomato',
             'Banana',
-            'Soybean'
+            'Soybean',
+            'Coconut'
         ];
         this.sites = new _angular_forms__WEBPACK_IMPORTED_MODULE_6__["FormControl"]();
         // tslint:disable-next-line:max-line-length
@@ -303,6 +304,7 @@ var AppComponent = /** @class */ (function () {
     }
     AppComponent.prototype.createMarkers = function (items) {
         var _this = this;
+        console.log('22222');
         items.forEach(function (samplepoint) {
             console.log(samplepoint.crop);
             var regularIcon = _this.markers.iconList[samplepoint.crop].regular;
@@ -459,7 +461,8 @@ var AppComponent = /** @class */ (function () {
         this.dataSource1.paginator = this.paginator;
         this.dataSource1.sort = this.sort;
         this.createMarkers(res);
-        this.map.fitBounds(this.itemsLevel1.getBounds());
+        console.log(this.itemsLevel1.getBounds());
+        // this.map.fitBounds(this.itemsLevel1.getBounds());
     };
     AppComponent.prototype.mouseEnter = function () {
         this.map.dragging.disable();
@@ -506,7 +509,7 @@ var AppComponent = /** @class */ (function () {
         this.kHighValue = 10;
         this.omLowValue = 0;
         this.omHighValue = 100;
-        this.map.fitBounds(this.itemsLevel1.getBounds());
+        // this.map.fitBounds(this.itemsLevel1.getBounds());
     };
     AppComponent.prototype.scrollToMap = function () {
         window.scrollTo({ top: 0, behavior: 'smooth' });
