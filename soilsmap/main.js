@@ -345,7 +345,7 @@ var AppComponent = /** @class */ (function () {
         leaflet__WEBPACK_IMPORTED_MODULE_2__["control"].zoom({
             position: 'topright'
         }).addTo(map);
-        // this.map.setMaxBounds(map.getBounds());
+        this.map.setMaxBounds(map.getBounds());
         this.map.setView([14.1699, 121.2441], 13);
         leaflet__WEBPACK_IMPORTED_MODULE_2__["control"].layers(this.basemaps).addTo(map);
     };
@@ -509,7 +509,7 @@ var AppComponent = /** @class */ (function () {
         this.kHighValue = 10;
         this.omLowValue = 0;
         this.omHighValue = 100;
-        // this.map.fitBounds(this.itemsLevel1.getBounds());
+        this.map.fitBounds(this.itemsLevel1.getBounds());
     };
     AppComponent.prototype.scrollToMap = function () {
         window.scrollTo({ top: 0, behavior: 'smooth' });
