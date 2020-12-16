@@ -1,0 +1,152 @@
+{
+  "configVersion": 1,
+  "timestamp": 1608082828161,
+  "index": "/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/favicon.ico",
+        "/index.html",
+        "/main.5c2f640489c283bd9ba1.js",
+        "/manifest.webmanifest",
+        "/polyfills.35a5ca1855eb057f016a.js",
+        "/runtime.acf0dec4155e77772545.js",
+        "/styles.97e454abc2a1bb5a94e8.css"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/assets/banana images/Cardaba.png",
+        "/assets/banana images/Lakatan.png",
+        "/assets/banana images/cardaba/60.png",
+        "/assets/banana images/cardaba/61.png",
+        "/assets/banana images/cardaba/63.png",
+        "/assets/banana images/cardaba/65.png",
+        "/assets/banana images/cardaba/69.png",
+        "/assets/banana images/cardaba/70.png",
+        "/assets/banana images/cardaba/71.png",
+        "/assets/banana images/cardaba/75.png",
+        "/assets/banana images/cardaba/79.png",
+        "/assets/banana images/lakatan/60.png",
+        "/assets/banana images/lakatan/61.png",
+        "/assets/banana images/lakatan/63.png",
+        "/assets/banana images/lakatan/65.png",
+        "/assets/banana images/lakatan/67.png",
+        "/assets/banana images/lakatan/69.png",
+        "/assets/banana images/lakatan/70.png",
+        "/assets/banana images/lakatan/71.png",
+        "/assets/banana images/lakatan/73.png",
+        "/assets/banana images/lakatan/75.png",
+        "/assets/banana images/lakatan/77.png",
+        "/assets/banana images/lakatan/79.png",
+        "/assets/banana-leaf-lead.jpg",
+        "/assets/banana-leaf-lead.png",
+        "/assets/calendar.png",
+        "/assets/dost-pcaarrd-uplb.png",
+        "/assets/header_green.png",
+        "/assets/header_green_mobile.png",
+        "/assets/icons/icon-128x128.png",
+        "/assets/icons/icon-144x144.png",
+        "/assets/icons/icon-152x152.png",
+        "/assets/icons/icon-192x192.png",
+        "/assets/icons/icon-384x384.png",
+        "/assets/icons/icon-512x512.png",
+        "/assets/icons/icon-72x72.png",
+        "/assets/icons/icon-96x96.png",
+        "/assets/sarai-logo-xs.png",
+        "/assets/sarai-logo.png",
+        "/assets/schedule.png",
+        "/assets/tractor.png",
+        "/assets/variety1.png",
+        "/assets/welcome_bg.png",
+        "/banana-leaf-lead.ccbbcc95b7624c313ae2.png"
+      ],
+      "patterns": []
+    }
+  ],
+  "dataGroups": [],
+  "hashTable": {
+    "/assets/banana images/Cardaba.png": "b4575a04f5dfaea6e0916fb4bc7bad39b5609259",
+    "/assets/banana images/Lakatan.png": "c740ae5ede2dd40fbf599479028402c5c3b7f52f",
+    "/assets/banana images/cardaba/60.png": "be7a4d53567297bf8e1ab70dbd321a6398d47bc0",
+    "/assets/banana images/cardaba/61.png": "a064a4bf6fcd47c15193aef1386a72393df16e9f",
+    "/assets/banana images/cardaba/63.png": "be14a761e090eb1bdad943042ec0a0871cbc1310",
+    "/assets/banana images/cardaba/65.png": "b59be47fbe87b893c2380f5c0c3d7deb3df3467b",
+    "/assets/banana images/cardaba/69.png": "ab7178643f9c7024042fad1389b81853bb0330a8",
+    "/assets/banana images/cardaba/70.png": "3d754f28fad56dade86669f8fe8de6643c4e3c5f",
+    "/assets/banana images/cardaba/71.png": "3b10d0140a20214e0ccdb142239a9915e687b1f0",
+    "/assets/banana images/cardaba/75.png": "35e131ec7c8aceae418123eada741d62804c59ee",
+    "/assets/banana images/cardaba/79.png": "cb6493f48012283b038bd57c4a6abd6f9b5859b5",
+    "/assets/banana images/lakatan/60.png": "57f59035f3c9ff9f430ad871e8eab29105c596cf",
+    "/assets/banana images/lakatan/61.png": "3fc64c0af19640d889411d362150a603765b6497",
+    "/assets/banana images/lakatan/63.png": "ea0ec472623541d68ed4cdc2a2b705a26bb29172",
+    "/assets/banana images/lakatan/65.png": "436728eb65769d38c06b90e38ebea3181482777c",
+    "/assets/banana images/lakatan/67.png": "8aecaeec69a4a1eb015a0773fd7eb1140b6b245d",
+    "/assets/banana images/lakatan/69.png": "19a78a2781fb7ce8b204658d02b67de82da3d68d",
+    "/assets/banana images/lakatan/70.png": "cc22021ff328383f45353bdda6ffcd7ce0741ddc",
+    "/assets/banana images/lakatan/71.png": "1c2949cc47b1b80fa762ef616e87da9d22bbf6de",
+    "/assets/banana images/lakatan/73.png": "162c7a9a9ddc6e1bcdab89dd3c6b7036b1f8dc09",
+    "/assets/banana images/lakatan/75.png": "100ccb4b0d765bd34c3d4aaee0368fa08ff7199a",
+    "/assets/banana images/lakatan/77.png": "f7215c292772a7ce9496e6fd76ab293c7db59f8e",
+    "/assets/banana images/lakatan/79.png": "5c485b97464e35d05272a267ae3bc9266d929ee5",
+    "/assets/banana-leaf-lead.jpg": "b713a54e2ca387fc8687a134af68c9c9f751552f",
+    "/assets/banana-leaf-lead.png": "45b1ab3197ed3e84ff8e13de43553db867ae4a48",
+    "/assets/calendar.png": "62120083179fe95a1705010cfc0828e5f7abae4c",
+    "/assets/dost-pcaarrd-uplb.png": "4e3df8a4e28b24256b3e2119d927ee3123bdb21b",
+    "/assets/header_green.png": "48df0b144c8ded36cc6d5a64482a3f55c64358dc",
+    "/assets/header_green_mobile.png": "cca544dbe7a4960c1574d9c73a6160e51e9f89d0",
+    "/assets/icons/icon-128x128.png": "dae3b6ed49bdaf4327b92531d4b5b4a5d30c7532",
+    "/assets/icons/icon-144x144.png": "b0bd89982e08f9bd2b642928f5391915b74799a7",
+    "/assets/icons/icon-152x152.png": "7479a9477815dfd9668d60f8b3b2fba709b91310",
+    "/assets/icons/icon-192x192.png": "1abd80d431a237a853ce38147d8c63752f10933b",
+    "/assets/icons/icon-384x384.png": "329749cd6393768d3131ed6304c136b1ca05f2fd",
+    "/assets/icons/icon-512x512.png": "559d9c4318b45a1f2b10596bbb4c960fe521dbcc",
+    "/assets/icons/icon-72x72.png": "c457e56089a36952cd67156f9996bc4ce54a5ed9",
+    "/assets/icons/icon-96x96.png": "3914125a4b445bf111c5627875fc190f560daa41",
+    "/assets/sarai-logo-xs.png": "c161f9379071b921d4e931e38cf121175f79ddf9",
+    "/assets/sarai-logo.png": "58d91e394e1914e8345fe570199f8be5839b30f2",
+    "/assets/schedule.png": "51857e394258ae184b0f7ba8ae0e5c1156735f4c",
+    "/assets/tractor.png": "69adc0e82582ad257ccb2f9eb9b8fa3789461d6b",
+    "/assets/variety1.png": "6a3daf1a9a5f3f877fa8e2f92692ac79f6fceba7",
+    "/assets/welcome_bg.png": "6df6ee24ae1e7d64d134ef1a2c34890b549d0356",
+    "/banana-leaf-lead.ccbbcc95b7624c313ae2.png": "45b1ab3197ed3e84ff8e13de43553db867ae4a48",
+    "/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
+    "/index.html": "0a08dacfafbb4f8ebe8d253df2834b278ba44bab",
+    "/main.5c2f640489c283bd9ba1.js": "52befd993bbda2ad9933b9cb3cee4e32b57379e7",
+    "/manifest.webmanifest": "138ad9a7ff370ac65954ef895bb47b006c07b18c",
+    "/polyfills.35a5ca1855eb057f016a.js": "578360d24ce37383f261c7ef63b1f822d28e8dde",
+    "/runtime.acf0dec4155e77772545.js": "a9aafcf49f49145093fc831efd9b8e2f6c71bb9c",
+    "/styles.97e454abc2a1bb5a94e8.css": "9748053880728c2240c1c90d1d1d38790f1368d1"
+  },
+  "navigationUrls": [
+    {
+      "positive": true,
+      "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*\\.[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
+    }
+  ]
+}
