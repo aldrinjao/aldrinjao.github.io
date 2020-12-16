@@ -1,27 +1,10 @@
 {
   "configVersion": 1,
-  "timestamp": 1608107365471,
+  "timestamp": 1608109687792,
   "index": "/banana/index.html",
   "assetGroups": [
     {
       "name": "app",
-      "installMode": "prefetch",
-      "updateMode": "prefetch",
-      "cacheQueryOptions": {
-        "ignoreVary": true
-      },
-      "urls": [
-        "/banana/favicon.ico",
-        "/banana/index.html",
-        "/banana/main.f5f96e8b784b79426d83.js",
-        "/banana/polyfills.35a5ca1855eb057f016a.js",
-        "/banana/runtime.acf0dec4155e77772545.js",
-        "/banana/styles.97e454abc2a1bb5a94e8.css"
-      ],
-      "patterns": []
-    },
-    {
-      "name": "assets",
       "installMode": "prefetch",
       "updateMode": "prefetch",
       "cacheQueryOptions": {
@@ -51,12 +34,36 @@
         "/banana/assets/banana images/lakatan/75.png",
         "/banana/assets/banana images/lakatan/77.png",
         "/banana/assets/banana images/lakatan/79.png",
-        "/banana/assets/banana-leaf-lead.jpg",
         "/banana/assets/banana-leaf-lead.png",
         "/banana/assets/calendar.png",
         "/banana/assets/dost-pcaarrd-uplb.png",
         "/banana/assets/header_green.png",
         "/banana/assets/header_green_mobile.png",
+        "/banana/assets/sarai-logo-xs.png",
+        "/banana/assets/sarai-logo.png",
+        "/banana/assets/schedule.png",
+        "/banana/assets/tractor.png",
+        "/banana/assets/variety1.png",
+        "/banana/assets/welcome_bg.png",
+        "/banana/favicon.ico",
+        "/banana/index.html",
+        "/banana/main.7ccbe2df2c659357c8d2.js",
+        "/banana/manifest.webmanifest",
+        "/banana/polyfills.35a5ca1855eb057f016a.js",
+        "/banana/runtime.acf0dec4155e77772545.js",
+        "/banana/styles.97e454abc2a1bb5a94e8.css"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/banana/assets/banana-leaf-lead.jpg",
         "/banana/assets/icons/icon-128x128.png",
         "/banana/assets/icons/icon-144x144.png",
         "/banana/assets/icons/icon-152x152.png",
@@ -65,12 +72,6 @@
         "/banana/assets/icons/icon-512x512.png",
         "/banana/assets/icons/icon-72x72.png",
         "/banana/assets/icons/icon-96x96.png",
-        "/banana/assets/sarai-logo-xs.png",
-        "/banana/assets/sarai-logo.png",
-        "/banana/assets/schedule.png",
-        "/banana/assets/tractor.png",
-        "/banana/assets/variety1.png",
-        "/banana/assets/welcome_bg.png",
         "/banana/banana-leaf-lead.ccbbcc95b7624c313ae2.png"
       ],
       "patterns": []
@@ -123,8 +124,9 @@
     "/banana/assets/welcome_bg.png": "6df6ee24ae1e7d64d134ef1a2c34890b549d0356",
     "/banana/banana-leaf-lead.ccbbcc95b7624c313ae2.png": "45b1ab3197ed3e84ff8e13de43553db867ae4a48",
     "/banana/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
-    "/banana/index.html": "5bd8e46192da5b1c41b6a15a3883684b1646b978",
-    "/banana/main.f5f96e8b784b79426d83.js": "c4fc2cc917008889c8de1541512ada0d42a621a1",
+    "/banana/index.html": "c3976a96269fc28004bf3a5389a4c1d63c37e495",
+    "/banana/main.7ccbe2df2c659357c8d2.js": "40778c7f7e4336ce08071bf115e077ebbb0fce64",
+    "/banana/manifest.webmanifest": "138ad9a7ff370ac65954ef895bb47b006c07b18c",
     "/banana/polyfills.35a5ca1855eb057f016a.js": "578360d24ce37383f261c7ef63b1f822d28e8dde",
     "/banana/runtime.acf0dec4155e77772545.js": "a9aafcf49f49145093fc831efd9b8e2f6c71bb9c",
     "/banana/styles.97e454abc2a1bb5a94e8.css": "9748053880728c2240c1c90d1d1d38790f1368d1"
