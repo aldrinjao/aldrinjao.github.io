@@ -1,10 +1,27 @@
 {
   "configVersion": 1,
-  "timestamp": 1608105973005,
+  "timestamp": 1608107365471,
   "index": "/banana/index.html",
   "assetGroups": [
     {
       "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/banana/favicon.ico",
+        "/banana/index.html",
+        "/banana/main.f5f96e8b784b79426d83.js",
+        "/banana/polyfills.35a5ca1855eb057f016a.js",
+        "/banana/runtime.acf0dec4155e77772545.js",
+        "/banana/styles.97e454abc2a1bb5a94e8.css"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "assets",
       "installMode": "prefetch",
       "updateMode": "prefetch",
       "cacheQueryOptions": {
@@ -54,24 +71,6 @@
         "/banana/assets/tractor.png",
         "/banana/assets/variety1.png",
         "/banana/assets/welcome_bg.png",
-        "/banana/favicon.ico",
-        "/banana/index.html",
-        "/banana/main.f06767976c019606dc8a.js",
-        "/banana/manifest.webmanifest",
-        "/banana/polyfills.35a5ca1855eb057f016a.js",
-        "/banana/runtime.acf0dec4155e77772545.js",
-        "/banana/styles.97e454abc2a1bb5a94e8.css"
-      ],
-      "patterns": []
-    },
-    {
-      "name": "assets",
-      "installMode": "prefetch",
-      "updateMode": "prefetch",
-      "cacheQueryOptions": {
-        "ignoreVary": true
-      },
-      "urls": [
         "/banana/banana-leaf-lead.ccbbcc95b7624c313ae2.png"
       ],
       "patterns": []
@@ -124,9 +123,8 @@
     "/banana/assets/welcome_bg.png": "6df6ee24ae1e7d64d134ef1a2c34890b549d0356",
     "/banana/banana-leaf-lead.ccbbcc95b7624c313ae2.png": "45b1ab3197ed3e84ff8e13de43553db867ae4a48",
     "/banana/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
-    "/banana/index.html": "847511b42e19326b1c367dc73d2d590db37d7366",
-    "/banana/main.f06767976c019606dc8a.js": "ff7649d2a23d3f969d17c7d11de46755eca4e1ce",
-    "/banana/manifest.webmanifest": "138ad9a7ff370ac65954ef895bb47b006c07b18c",
+    "/banana/index.html": "5bd8e46192da5b1c41b6a15a3883684b1646b978",
+    "/banana/main.f5f96e8b784b79426d83.js": "c4fc2cc917008889c8de1541512ada0d42a621a1",
     "/banana/polyfills.35a5ca1855eb057f016a.js": "578360d24ce37383f261c7ef63b1f822d28e8dde",
     "/banana/runtime.acf0dec4155e77772545.js": "a9aafcf49f49145093fc831efd9b8e2f6c71bb9c",
     "/banana/styles.97e454abc2a1bb5a94e8.css": "9748053880728c2240c1c90d1d1d38790f1368d1"
