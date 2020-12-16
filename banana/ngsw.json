@@ -1,29 +1,11 @@
 {
   "configVersion": 1,
-  "timestamp": 1608102383290,
+  "timestamp": 1608103430288,
   "index": "/index.html",
   "assetGroups": [
     {
       "name": "app",
       "installMode": "prefetch",
-      "updateMode": "prefetch",
-      "cacheQueryOptions": {
-        "ignoreVary": true
-      },
-      "urls": [
-        "/favicon.ico",
-        "/index.html",
-        "/main.f06767976c019606dc8a.js",
-        "/manifest.webmanifest",
-        "/polyfills.35a5ca1855eb057f016a.js",
-        "/runtime.acf0dec4155e77772545.js",
-        "/styles.97e454abc2a1bb5a94e8.css"
-      ],
-      "patterns": []
-    },
-    {
-      "name": "assets",
-      "installMode": "lazy",
       "updateMode": "prefetch",
       "cacheQueryOptions": {
         "ignoreVary": true
@@ -72,6 +54,24 @@
         "/assets/tractor.png",
         "/assets/variety1.png",
         "/assets/welcome_bg.png",
+        "/favicon.ico",
+        "/index.html",
+        "/main.f06767976c019606dc8a.js",
+        "/manifest.webmanifest",
+        "/polyfills.35a5ca1855eb057f016a.js",
+        "/runtime.acf0dec4155e77772545.js",
+        "/styles.97e454abc2a1bb5a94e8.css"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
         "/banana-leaf-lead.ccbbcc95b7624c313ae2.png"
       ],
       "patterns": []
