@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1608184872121,
+  "timestamp": 1608206618265,
   "index": "/banana/index.html",
   "assetGroups": [
     {
@@ -47,13 +47,16 @@
         "/banana/assets/welcome_bg.png",
         "/banana/favicon.ico",
         "/banana/index.html",
-        "/banana/main.7ccbe2df2c659357c8d2.js",
+        "/banana/main.1db282fd1110bf0e6373.js",
         "/banana/manifest.webmanifest",
         "/banana/polyfills.35a5ca1855eb057f016a.js",
         "/banana/runtime.acf0dec4155e77772545.js",
         "/banana/styles.97e454abc2a1bb5a94e8.css"
       ],
-      "patterns": []
+      "patterns": [
+        "https:\\/\\/fonts\\.googleapis\\.com\\/css\\?family=Roboto:300,400,500&amp;display=swap",
+        "https:\\/\\/fonts\\.googleapis\\.com\\/icon\\?family=Material\\+Icons"
+      ]
     },
     {
       "name": "assets",
@@ -124,8 +127,8 @@
     "/banana/assets/welcome_bg.png": "6df6ee24ae1e7d64d134ef1a2c34890b549d0356",
     "/banana/banana-leaf-lead.ccbbcc95b7624c313ae2.png": "45b1ab3197ed3e84ff8e13de43553db867ae4a48",
     "/banana/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
-    "/banana/index.html": "c3976a96269fc28004bf3a5389a4c1d63c37e495",
-    "/banana/main.7ccbe2df2c659357c8d2.js": "40778c7f7e4336ce08071bf115e077ebbb0fce64",
+    "/banana/index.html": "b803fc7ba5a034b6d896f35a698ed1c27d4a07d8",
+    "/banana/main.1db282fd1110bf0e6373.js": "b3ae4b5fc2beedb70ab606b44b755092b09f1aeb",
     "/banana/manifest.webmanifest": "138ad9a7ff370ac65954ef895bb47b006c07b18c",
     "/banana/polyfills.35a5ca1855eb057f016a.js": "578360d24ce37383f261c7ef63b1f822d28e8dde",
     "/banana/runtime.acf0dec4155e77772545.js": "a9aafcf49f49145093fc831efd9b8e2f6c71bb9c",
