@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1608260265075,
+  "timestamp": 1608263954915,
   "index": "/banana/index.html",
   "assetGroups": [
     {
@@ -11,6 +11,7 @@
         "ignoreVary": true
       },
       "urls": [
+        "/banana/assets/2fcrYFNaTjcS6g4U3t-Y5ZjZjT5FdEJ140U2DJYC3mY.woff2",
         "/banana/assets/banana images/Cardaba.png",
         "/banana/assets/banana images/Lakatan.png",
         "/banana/assets/banana images/cardaba/60.png",
@@ -53,16 +54,17 @@
         "/banana/assets/sarai-logo-xs.png",
         "/banana/assets/sarai-logo.png",
         "/banana/assets/schedule.png",
+        "/banana/assets/threedots.svg",
         "/banana/assets/tractor.png",
         "/banana/assets/variety1.png",
         "/banana/assets/welcome_bg.png",
         "/banana/favicon.ico",
         "/banana/index.html",
-        "/banana/main.67eadb98f6f3324d4299.js",
+        "/banana/main.a5727b0ac1f91ae29224.js",
         "/banana/manifest.webmanifest",
         "/banana/polyfills.35a5ca1855eb057f016a.js",
         "/banana/runtime.acf0dec4155e77772545.js",
-        "/banana/styles.97e454abc2a1bb5a94e8.css"
+        "/banana/styles.c492da7aab17fcc5089c.css"
       ],
       "patterns": [
         "https:\\/\\/fonts\\.googleapis\\.com\\/css\\?family=Roboto:300,400,500&amp;display=swap",
@@ -77,7 +79,10 @@
         "ignoreVary": true
       },
       "urls": [
-        "/banana/banana-leaf-lead.ccbbcc95b7624c313ae2.png"
+        "/banana/MaterialIcons-Regular.8c7a828f64ca89c71474.woff",
+        "/banana/MaterialIcons-Regular.a36c7514ef1c23af53f1.woff2",
+        "/banana/MaterialIcons-Regular.f19c679e91ad7ca6f4d6.ttf",
+        "/banana/threedots.92c4f7cbf64adc2c5f9b.svg"
       ],
       "patterns": [
         "https:\\/\\/fonts\\.googleapis\\.com\\/css\\?family=Roboto:300,400,500&amp;display=swap",
@@ -87,6 +92,10 @@
   ],
   "dataGroups": [],
   "hashTable": {
+    "/banana/MaterialIcons-Regular.8c7a828f64ca89c71474.woff": "0763b227084cbf3615caf44ad7058be7e799fb59",
+    "/banana/MaterialIcons-Regular.a36c7514ef1c23af53f1.woff2": "a5e80afd4ea3a9497927aaba3b31b787fa586ad3",
+    "/banana/MaterialIcons-Regular.f19c679e91ad7ca6f4d6.ttf": "3fcaaa4b849d364d67d4f4a07934d0aafd879a99",
+    "/banana/assets/2fcrYFNaTjcS6g4U3t-Y5ZjZjT5FdEJ140U2DJYC3mY.woff2": "992659de2c5e48883293d34f17410340164869f4",
     "/banana/assets/banana images/Cardaba.png": "b4575a04f5dfaea6e0916fb4bc7bad39b5609259",
     "/banana/assets/banana images/Lakatan.png": "c740ae5ede2dd40fbf599479028402c5c3b7f52f",
     "/banana/assets/banana images/cardaba/60.png": "be7a4d53567297bf8e1ab70dbd321a6398d47bc0",
@@ -129,17 +138,18 @@
     "/banana/assets/sarai-logo-xs.png": "c161f9379071b921d4e931e38cf121175f79ddf9",
     "/banana/assets/sarai-logo.png": "58d91e394e1914e8345fe570199f8be5839b30f2",
     "/banana/assets/schedule.png": "51857e394258ae184b0f7ba8ae0e5c1156735f4c",
+    "/banana/assets/threedots.svg": "cc42eee472e671bc6236711634dcba8d67a2c454",
     "/banana/assets/tractor.png": "69adc0e82582ad257ccb2f9eb9b8fa3789461d6b",
     "/banana/assets/variety1.png": "6a3daf1a9a5f3f877fa8e2f92692ac79f6fceba7",
     "/banana/assets/welcome_bg.png": "6df6ee24ae1e7d64d134ef1a2c34890b549d0356",
-    "/banana/banana-leaf-lead.ccbbcc95b7624c313ae2.png": "45b1ab3197ed3e84ff8e13de43553db867ae4a48",
     "/banana/favicon.ico": "d7d35991262471439c137bc0c7a7673b7ca7f465",
-    "/banana/index.html": "07e64d51d15d1f433c563c6046e57dd13041383b",
-    "/banana/main.67eadb98f6f3324d4299.js": "2adfe579902b0956bd2d598e835efa4da62400f4",
+    "/banana/index.html": "19f89e9bd8ed078bae5cf2ce6a97bbce084163e9",
+    "/banana/main.a5727b0ac1f91ae29224.js": "82c6c70153c53af18dd42b81d8d0deb0cfc2e2ea",
     "/banana/manifest.webmanifest": "138ad9a7ff370ac65954ef895bb47b006c07b18c",
     "/banana/polyfills.35a5ca1855eb057f016a.js": "578360d24ce37383f261c7ef63b1f822d28e8dde",
     "/banana/runtime.acf0dec4155e77772545.js": "a9aafcf49f49145093fc831efd9b8e2f6c71bb9c",
-    "/banana/styles.97e454abc2a1bb5a94e8.css": "9748053880728c2240c1c90d1d1d38790f1368d1"
+    "/banana/styles.c492da7aab17fcc5089c.css": "dc1a04eaf928f35e0ec7d23e55c045b076d432cb",
+    "/banana/threedots.92c4f7cbf64adc2c5f9b.svg": "cc42eee472e671bc6236711634dcba8d67a2c454"
   },
   "navigationUrls": [
     {
