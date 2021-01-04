@@ -1,0 +1,94 @@
+{
+  "configVersion": 1,
+  "timestamp": 1609744433092,
+  "index": "/satracker/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/satracker/4.146b6ef25aa32dcbac2b.js",
+        "/satracker/favicon.ico",
+        "/satracker/index.html",
+        "/satracker/main.1b4601bc8526d92a9fa9.js",
+        "/satracker/manifest.webmanifest",
+        "/satracker/polyfills.35a5ca1855eb057f016a.js",
+        "/satracker/runtime.328e1591d85f056a42d3.js",
+        "/satracker/styles.37f6e1c58a9a6f6b81aa.css"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/satracker/assets/fist.png",
+        "/satracker/assets/fist1.png",
+        "/satracker/assets/hj.png",
+        "/satracker/assets/hj2.png",
+        "/satracker/assets/icons/icon-128x128.png",
+        "/satracker/assets/icons/icon-144x144.png",
+        "/satracker/assets/icons/icon-152x152.png",
+        "/satracker/assets/icons/icon-192x192.png",
+        "/satracker/assets/icons/icon-384x384.png",
+        "/satracker/assets/icons/icon-512x512.png",
+        "/satracker/assets/icons/icon-72x72.png",
+        "/satracker/assets/icons/icon-96x96.png",
+        "/satracker/assets/mouth.png",
+        "/satracker/assets/sex.png"
+      ],
+      "patterns": []
+    }
+  ],
+  "dataGroups": [],
+  "hashTable": {
+    "/satracker/4.146b6ef25aa32dcbac2b.js": "33793ba355df5fb91a2dcddd912281c34d27a8ac",
+    "/satracker/assets/fist.png": "4a43d4b107d2bf0de2cd3aae8834452a267555ef",
+    "/satracker/assets/fist1.png": "9978c2171a366813f47757437260e2240973b85a",
+    "/satracker/assets/hj.png": "2aa99134e7fe8b1786444ea59cd6ff4e4f4c0ca0",
+    "/satracker/assets/hj2.png": "4559d44b51581ea4b665a728c36c6110f69265f1",
+    "/satracker/assets/icons/icon-128x128.png": "dae3b6ed49bdaf4327b92531d4b5b4a5d30c7532",
+    "/satracker/assets/icons/icon-144x144.png": "b0bd89982e08f9bd2b642928f5391915b74799a7",
+    "/satracker/assets/icons/icon-152x152.png": "7479a9477815dfd9668d60f8b3b2fba709b91310",
+    "/satracker/assets/icons/icon-192x192.png": "1abd80d431a237a853ce38147d8c63752f10933b",
+    "/satracker/assets/icons/icon-384x384.png": "329749cd6393768d3131ed6304c136b1ca05f2fd",
+    "/satracker/assets/icons/icon-512x512.png": "559d9c4318b45a1f2b10596bbb4c960fe521dbcc",
+    "/satracker/assets/icons/icon-72x72.png": "c457e56089a36952cd67156f9996bc4ce54a5ed9",
+    "/satracker/assets/icons/icon-96x96.png": "3914125a4b445bf111c5627875fc190f560daa41",
+    "/satracker/assets/mouth.png": "3cf346330b1e76f9f0c7f6833133cffa9e8ae3f2",
+    "/satracker/assets/sex.png": "f884e39d3c3a0976fecfe4b79792446238678ee9",
+    "/satracker/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
+    "/satracker/index.html": "9c71db0a780dabbef5e5f4adcbc0758f02c842e3",
+    "/satracker/main.1b4601bc8526d92a9fa9.js": "1b633a86c157a9bfe24d0a9d0e1cb0cb98d29866",
+    "/satracker/manifest.webmanifest": "043742a7f4672f0e33a9cb61ae8928d92163438f",
+    "/satracker/polyfills.35a5ca1855eb057f016a.js": "578360d24ce37383f261c7ef63b1f822d28e8dde",
+    "/satracker/runtime.328e1591d85f056a42d3.js": "1ece7e76ec74a4b62afb44f71e582e8d2833d451",
+    "/satracker/styles.37f6e1c58a9a6f6b81aa.css": "be5674c4ba56061ee4850325a2d747071daae5ce"
+  },
+  "navigationUrls": [
+    {
+      "positive": true,
+      "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*\\.[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
+    }
+  ]
+}
