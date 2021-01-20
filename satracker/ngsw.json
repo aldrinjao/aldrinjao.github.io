@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1611043867838,
+  "timestamp": 1611114922462,
   "index": "/satracker/index.html",
   "assetGroups": [
     {
@@ -14,7 +14,7 @@
         "/satracker/4.146b6ef25aa32dcbac2b.js",
         "/satracker/favicon.ico",
         "/satracker/index.html",
-        "/satracker/main.e21b46054b3cd3cc45d0.js",
+        "/satracker/main.29532e8b5682bfcb80f2.js",
         "/satracker/manifest.webmanifest",
         "/satracker/polyfills.35a5ca1855eb057f016a.js",
         "/satracker/runtime.328e1591d85f056a42d3.js",
@@ -34,6 +34,7 @@
         "/satracker/assets/checklist.png",
         "/satracker/assets/fist.png",
         "/satracker/assets/fist1.png",
+        "/satracker/assets/fist2.png",
         "/satracker/assets/hj.png",
         "/satracker/assets/hj2.png",
         "/satracker/assets/icons/icon-128x128.png",
@@ -57,6 +58,7 @@
     "/satracker/assets/checklist.png": "5dd913bf2b79c82edd75fd6ea8a778596fca11d2",
     "/satracker/assets/fist.png": "4a43d4b107d2bf0de2cd3aae8834452a267555ef",
     "/satracker/assets/fist1.png": "9978c2171a366813f47757437260e2240973b85a",
+    "/satracker/assets/fist2.png": "933520bf5f7b2f015e1a485b92a92f68e711efd1",
     "/satracker/assets/hj.png": "2aa99134e7fe8b1786444ea59cd6ff4e4f4c0ca0",
     "/satracker/assets/hj2.png": "4559d44b51581ea4b665a728c36c6110f69265f1",
     "/satracker/assets/icons/icon-128x128.png": "62a929d58e5182ed10db14e0ad24de30f196b455",
@@ -70,8 +72,8 @@
     "/satracker/assets/mouth.png": "3cf346330b1e76f9f0c7f6833133cffa9e8ae3f2",
     "/satracker/assets/sex.png": "f884e39d3c3a0976fecfe4b79792446238678ee9",
     "/satracker/favicon.ico": "c2ad2f23f2e3cdc9a2390ecd83f4e57d6dfc8b65",
-    "/satracker/index.html": "d0491158861c1042900ae908cc0de9eb5d288cf3",
-    "/satracker/main.e21b46054b3cd3cc45d0.js": "f602b56d1bb88456ae8c58b0d3aa0830a7a081df",
+    "/satracker/index.html": "b230a4639c2d400bed753261624173f692abe6a6",
+    "/satracker/main.29532e8b5682bfcb80f2.js": "b9a65d9630a849694da2cdf0ffbdf7bfb3d266a6",
     "/satracker/manifest.webmanifest": "043742a7f4672f0e33a9cb61ae8928d92163438f",
     "/satracker/polyfills.35a5ca1855eb057f016a.js": "578360d24ce37383f261c7ef63b1f822d28e8dde",
     "/satracker/runtime.328e1591d85f056a42d3.js": "1ece7e76ec74a4b62afb44f71e582e8d2833d451",
