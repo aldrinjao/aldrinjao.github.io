@@ -12,7 +12,7 @@ var config = {
             id: 'phl',
             alignment: 'right',
             title: 'Community Reporting(?)',
-            image: 'images/image8.jpg',
+            image: 'images/image8.png',
             description: 'Community members act as data sources and harvesters and report the conflict incident via SMS or two-way radio.',
             location: {
                 center: [-75.13080, 39.97790],
