@@ -36,7 +36,7 @@ var config = {
 
         {
             id: 'bike-lanes',
-            alignment: 'left',
+            alignment: 'full',
             title: 'Title 2',
             image: 'images/image7.png',
             description: 'Given their local knowledge, community members, law enforcers, and traditional and religious leaders often provide immediate response to quickly avoid further escalation. This multifaceted assembly also ensures a well-rounded and inclusive response.',
