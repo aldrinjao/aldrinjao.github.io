@@ -36,7 +36,7 @@ var config = {
 
         {
             id: 'bike-lanes',
-            alignment: 'right',
+            alignment: 'left',
             title: 'Title 2',
             image: 'images/image7.png',
             description: 'Given their local knowledge, community members, law enforcers, and traditional and religious leaders often provide immediate response to quickly avoid further escalation. This multifaceted assembly also ensures a well-rounded and inclusive response.',
@@ -81,7 +81,7 @@ var config = {
         },
         {
             id: 'belmont',
-            alignment: 'right',
+            alignment: 'left',
             title: 'Title 3',
             image: 'images/image2.png',
             description: 'Monitoring and responding to critical events that may lead to conflict strings are tackled with much consideration and urgency to prevent further escalation.',
@@ -131,7 +131,7 @@ var config = {
         },
         {
             id: 'pennypack',
-            alignment: 'right',
+            alignment: 'left',
             title: 'Title 3',
             image: 'images/image3.png',
             description: 'The data gathered from this are recorded and goes through a strict encoding process while ensuring interoperability with other tools.',
