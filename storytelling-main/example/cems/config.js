@@ -15,9 +15,9 @@ var config = {
             image: 'images/image8.png',
             description: 'Community members act as data sources and harvesters and report the conflict incident via SMS or two-way radio.',
             location: {
-                center: [120.1308, 15.790],
-                zoom: 6.83,
-                pitch: 0.00,
+                center: [123.1308, 8.790],
+                zoom: 4.83,
+                pitch: 30.00,
                 bearing: 0.00
             },
             onChapterEnter: [
