@@ -53,7 +53,46 @@ var config = {
                 }
             ],
             onChapterExit: []
+        },        {
+            id: 'bike-lanes3',
+            alignment: 'full',
+            title: 'Title 2',
+            image: 'images/image7.png',
+            description: 'Given their local knowledge, community members, law enforcers, and traditional and religious leaders often provide immediate response to quickly avoid further escalation. This multifaceted assembly also ensures a well-rounded and inclusive response.',
+            location: {
+                center: [-75.13901, 39.97085],
+                zoom: 11.62,
+                pitch: 55.50,
+                bearing: -7.20
+            },
+            onChapterEnter: [
+                {
+                    layer: 'phl-bike-network',
+                    opacity: 1
+                }
+            ],
+            onChapterExit: []
+        },{
+            id: 'bike-lanes4',
+            alignment: 'full',
+            title: 'Title 2',
+            image: 'images/image7.png',
+            description: 'Given their local knowledge, community members, law enforcers, and traditional and religious leaders often provide immediate response to quickly avoid further escalation. This multifaceted assembly also ensures a well-rounded and inclusive response.',
+            location: {
+                center: [-75.13901, 39.97085],
+                zoom: 11.62,
+                pitch: 55.50,
+                bearing: -7.20
+            },
+            onChapterEnter: [
+                {
+                    layer: 'phl-bike-network',
+                    opacity: 1
+                }
+            ],
+            onChapterExit: []
         },
+
         {
             id: 'indego',
             alignment: 'right',
