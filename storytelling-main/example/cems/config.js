@@ -16,8 +16,8 @@ var config = {
             description: 'Community members act as data sources and harvesters and report the conflict incident via SMS or two-way radio.',
             location: {
                 center: [123.1308, 8.790],
-                zoom: 4.83,
-                pitch: 30.00,
+                zoom: 5.23,
+                pitch: 0.00,
                 bearing: 0.00
             },
             onChapterEnter: [
