@@ -137,7 +137,7 @@
 
       <section id="scrolly">
         <article>
-          <div class="step" data-step="v">
+          <div class="step" data-step="1">
             <p>STEP 1</p>
           </div>
           <div class="step" data-step="2">
@@ -152,10 +152,7 @@
         </article>
 
         <figure>
-          <p>0</p>
-        </figure>
-        <figure>
-          <p>0</p>
+          <div>a</div>
         </figure>
       </section>
 
@@ -206,7 +203,8 @@
         });
 
         // update graphic based on step
-        figure.select("p").text(response.index + 1);
+        // figure.select("p").text(response.index + 1);
+        figure.select("div").content('<span>2</span>')
       }
 
       function setupStickyfill() {
