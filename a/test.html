@@ -5,8 +5,12 @@
 <iframe src="https://storymaps.arcgis.com/stories/966293c91057402c8b55d3deff8c98ef" width="100%" height="500px" frameborder="0" allowfullscreen allow="geolocation"></iframe> -->
 <script type="text/javascript">
 
-	window.onload = () => {
-  document.getElementByClassName('sc-metadata').style.display = 'none';
+  window.onload = () => {
+  var x = document.getElementByClassName('sc-metadata');
+  var i;
+	for (i = 0; i < x.length; i++) {
+	  x[i].style.display = "none";
+	}
 };
 	
 
