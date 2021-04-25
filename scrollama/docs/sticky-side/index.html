@@ -59,6 +59,7 @@
         margin: 0 auto 2rem auto;
         background-color: #3b3b3b;
         color: #fff;
+        visibility: hidden;
       }
 
       .step:last-child {
@@ -68,6 +69,7 @@
       .step.is-active {
         background-color: goldenrod;
         color: #3b3b3b;
+        visibility: visible;
       }
 
       .step p {
@@ -128,13 +130,13 @@
           >
         </div>
       </nav>
-      <section id="intro">
+<!--       <section id="intro">
         <h1 class="intro__hed">Sticky Side Example</h1>
         <p class="intro__dek">
           Start scrolling to see how it works.
         </p>
       </section>
-
+ -->
       <section id="scrolly">
         <article>
           <div class="step" data-step="1">
@@ -151,8 +153,8 @@
           </div>
         </article>
 
-        <figure>
-          <img src="pic_trulli.jpg" alt="Trulli" style="width:100%">
+        <figure id='test'>
+          <img src="analytics.jpg" alt="Trulli" style="width:100%">
         </figure>
       </section>
 
@@ -171,6 +173,9 @@
       var figure = scrolly.select("figure");
       var article = scrolly.select("article");
       var step = article.selectAll(".step");
+      var body = d3.select("body");
+
+      var data = ["analytics.jpg","globe.png","analytics.jpg","globe.png"]
 
       // initialize the scrollama
       var scroller = scrollama();
@@ -201,12 +206,12 @@
         step.classed("is-active", function(d, i) {
           return i === response.index;
         });
-        console.log('s');
-        console.log(figure.select("img"));
 
         // update graphic based on step
         // figure.select("p").text(response.index + 1);
-        figure.select("img").src('<span>2</span>')
+        var img = figure.select("img").attr('src', data[response.index]).style("opacity", 0);
+        img.transition().duration(500).ease(d3.easeLinear).style("opacity", 1);
+
       }
 
       function setupStickyfill() {
@@ -227,7 +232,7 @@
         scroller
           .setup({
             step: "#scrolly article .step",
-            offset: 0.33,
+            offset: .2,
             debug: true
           })
           .onStepEnter(handleStepEnter);
