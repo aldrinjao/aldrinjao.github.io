@@ -7,6 +7,9 @@
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
     <link href="https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.css" rel="stylesheet">
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.js"></script>
+    <script src='https://unpkg.com/@turf/turf@6.3.0/turf.min.js'></script>
+
+
     <style>
         body {
             margin: 0;
@@ -53,10 +56,9 @@
             background: linear-gradient(to right, #fca107, #7f3121);
         }
 
-        .map-overlay input {
+        .map-overlay.sliderclass {
             background-color: transparent;
             display: inline-block;
-            width: 100%;
             position: relative;
             margin: 0;
             cursor: ew-resize;
@@ -69,10 +71,28 @@
         <div class="map-overlay-inner">
             <h2>Year: <label id="year"></label></h2>
 
-            <input id="slider" type="range" min="0" max="8" step="1" value="0">
+            <input id="slider" class='sliderclass' style="width: 100%;" type="range" min="0" max="8" step="1" value="0">
         </div>
-
     </div>
+
+    <div class="map-overlay" style="top:100px;">
+        <div class="map-overlay-inner">
+            <input type="checkbox" id="opt1" name="opt1" value="opt1" checked onchange="switcher(event)">
+            <label for="vehicle1"> Points</label><br>
+            <input type="checkbox" id="opt2" name="opt2" value="opt2" checked onchange="switcher(event)">
+            <label for="vehicle2"> Clusters</label><br>
+            <input type="checkbox" id="opt3" name="opt3" value="opt3" checked>
+            <label for="vehicle3"> Choropleth</label><br>
+
+        </div>
+    </div>
+
+
+
+
+
+
+
 
     <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script>
@@ -98,6 +118,121 @@
             2019
         ];
 
+        var mag1 = ['==', ['get', 'cause_category'], 1];
+        var mag2 = ['==', ['get', 'cause_category'], 2];
+        var mag3 = ['==', ['get', 'cause_category'], 3];
+        var mag4 = ['==', ['get', 'cause_category'], 4];
+        var mag5 = ['==', ['get', 'cause_category'], 5];
+        var mag6 = ['==', ['get', 'cause_category'], 6];
+        var mag7 = ['==', ['get', 'cause_category'], 7];
+        var mag8 = ['==', ['get', 'cause_category'], 8];
+        var mag9 = ['==', ['get', 'cause_category'], 9];
+
+        var colors = ['#d53e4f', '#f46d43', '#fdae61', '#fc4e2a', '#e6f598', '#fed976', '#66c2a5', '#3288bd', '#abdda4', '#e31a1c'];
+        var incidentPointsLayer = {
+            'id': 'incpoints',
+            'type': 'circle',
+            'source': 'barmmpoints',
+            // 'paint': {
+            //     'circle-radius': 6,
+            //     'circle-color': '#B42222'
+            // },
+
+            'paint': {
+                'circle-radius': 3,
+                'circle-stroke-width': 1,
+                'circle-stroke-color': '#000',
+
+                'circle-color': [
+                    'match',
+                    ['get', 'cause_category'],
+                    1, '#d53e4f',
+                    2, '#f46d43',
+                    3, '#fdae61',
+                    5, '#e6f598',
+                    7, '#66c2a5',
+                    8, '#3288bd',
+                    9, '#abdda4',
+                    '#000'
+                ]
+            }
+
+        };
+
+        var incidentClustersLayer = {
+            id: 'clusters',
+            type: 'circle',
+            source: 'barmm',
+            maxzoom: 8,
+            filter: ['has', 'point_count'],
+            paint: {
+                // Use step expressions (https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-step)
+                // with three steps to implement three types of circles:
+                //   * Blue, 20px circles when point count is less than 100
+                //   * Yellow, 30px circles when point count is between 100 and 750
+                //   * Pink, 40px circles when point count is greater than or equal to 750
+                'circle-color': [
+                    'step',
+                    ['get', 'point_count'],
+                    '#51bbd6',
+                    100,
+                    '#f1f075',
+                    500,
+                    '#f28cb1'
+                ],
+                // 'circle-radius': [
+                //     'step',
+                //     ['get', 'point_count'],
+                //     10,
+                //     100,
+                //     30,
+                //     500,
+                //     50
+                // ],
+
+                'circle-radius': 100,
+                'circle-opacity': 0.25
+            }
+        };
+
+
+
+        function switcher(e) {
+
+            switch (e.target.value) {
+                case 'opt1':
+                    if (e.target.checked) {
+                        map.addLayer(incidentPointsLayer);
+                    } else {
+                        map.removeLayer('incpoints');
+                    }
+
+                    break;
+                case 'opt2':
+                    if (e.target.checked) {
+                        map.addLayer(incidentClustersLayer);
+                    } else {
+                        map.removeLayer('clusters');
+                    }
+
+                    break;
+
+                case 'opt3':
+                    if (e.target.checked) {
+                        map.addLayer(incidentClustersLayer);
+                    } else {
+                        map.removeLayer('clusters');
+                    }
+
+                    break;
+
+                default:
+                    break;
+            }
+
+
+
+        }
 
         function filterBy(year) {
             var filters = ['==', 'incyr', years[year]];
@@ -108,59 +243,245 @@
         }
 
 
+        function filterSource(year, json_obj) {
+
+            const newGeoJSON = { ...json_obj };
+            newGeoJSON.features = json_obj.features.filter(feature => feature.properties.incyr === years[year]);
+            map.getSource('barmm').setData(newGeoJSON);
+            map.getSource('barmmpoints').setData(newGeoJSON);
+            document.getElementById('year').textContent = years[year];
+        }
+
+        function Get(yourUrl) {
+            var Httpreq = new XMLHttpRequest(); // a new request
+            Httpreq.open("GET", yourUrl, false);
+            Httpreq.send(null);
+            return Httpreq.responseText;
+        }
 
         map.on('load', function () {
 
+
+            var json_obj = JSON.parse(Get('https://aldrinjao.github.io/incidents.geojson'));
+
+
             map.addSource('barmm', {
                 'type': 'geojson',
-                'data':
-                    'https://aldrinjao.github.io/incidents.geojson'
-            });
+                'data': json_obj,
+                'cluster': true,
+                'clusterRadius': 100,
+                'clusterProperties': {
+                    // keep separate counts for each magnitude category in a cluster
+                    'mag1': ['+', ['case', mag1, 1, 0]],
+                    'mag2': ['+', ['case', mag2, 1, 0]],
+                    'mag3': ['+', ['case', mag3, 1, 0]],
+                    'mag4': ['+', ['case', mag4, 1, 0]],
+                    'mag5': ['+', ['case', mag5, 1, 0]],
+                    'mag6': ['+', ['case', mag6, 1, 0]],
+                    'mag7': ['+', ['case', mag7, 1, 0]],
+                    'mag8': ['+', ['case', mag8, 1, 0]],
+                    'mag9': ['+', ['case', mag9, 1, 0]]
 
-
-            map.addLayer({
-                'id': 'incpoints',
-                'type': 'circle',
-                'source': 'barmm',
-                // 'paint': {
-                //     'circle-radius': 6,
-                //     'circle-color': '#B42222'
-                // },
-
-                'paint': {
-                    'circle-radius': 3,
-                    'circle-stroke-width': 1,
-                    'circle-stroke-color': '#000',
-
-                    'circle-color': [
-                        'match',
-                        ['get', 'cause_category'],
-                        1, '#d53e4f',
-                        2, '#f46d43',
-                        3, '#fdae61',
-                        5, '#e6f598',
-                        7, '#66c2a5',
-                        8, '#3288bd',
-                        9, '#abdda4',
-                        '#000'
-                    ]
                 }
+            });
+
+
+
+            map.addSource('barmmpoints', {
+                'type': 'geojson',
+                'data': json_obj
 
             });
 
 
 
+            map.addLayer(incidentClustersLayer);
 
-            console.log(map.getStyle().layers);
-            filterBy(0);
+
+            map.addLayer(incidentPointsLayer);
+
+
+
+
+
+            
+            // filterBy(0);
+            filterSource(0, json_obj);
             document
                 .getElementById('slider')
                 .addEventListener('input', function (e) {
                     var year = parseInt(e.target.value, 10);
-                    filterBy(year);
+                    // filterBy(year);
+                    filterSource(year, json_obj);
+
                 });
 
+
+
+
+            ////////////////////////////
+
+            // objects for caching and keeping track of HTML marker objects (for performance)
+            var markers = {};
+            var markersOnScreen = {};
+
+            function updateMarkers() {
+                var newMarkers = {};
+                var features = map.querySourceFeatures('barmm');
+
+                // for every cluster on the screen, create an HTML marker for it (if we didn't yet),
+                // and add it to the map if it's not there already
+                for (var i = 0; i < features.length; i++) {
+                    var coords = features[i].geometry.coordinates;
+                    var props = features[i].properties;
+                    if (!props.cluster) continue;
+                    var id = props.cluster_id;
+
+                    var marker = markers[id];
+                    if (!marker) {
+                        var el = createDonutChart(props);
+                        marker = markers[id] = new mapboxgl.Marker({
+                            element: el
+                        }).setLngLat(coords);
+                    }
+                    newMarkers[id] = marker;
+
+                    if (!markersOnScreen[id]) marker.addTo(map);
+                }
+                // for every marker we've added previously, remove those that are no longer visible
+                for (id in markersOnScreen) {
+                    if (!newMarkers[id]) markersOnScreen[id].remove();
+                }
+                markersOnScreen = newMarkers;
+            }
+
+            // after the GeoJSON data is loaded, update markers on the screen on every frame
+            map.on('render', function () {
+                if (!map.isSourceLoaded('barmm')) return;
+                updateMarkers();
+            });
+
+
+            /////////////////////////////
+
+
+
+
+
+
+
         });
+
+
+        // code for creating an SVG donut chart from feature properties
+        function createDonutChart(props) {
+            var offsets = [];
+            var counts = [
+                props.mag1,
+                props.mag2,
+                props.mag3,
+                props.mag4,
+                props.mag5,
+                props.mag6,
+                props.mag7,
+                props.mag8,
+                props.mag9
+            ];
+
+            
+            var total = 0;
+            for (var i = 0; i < counts.length; i++) {
+                offsets.push(total);
+                total += counts[i];
+            }
+            var fontSize =
+                total >= 1000 ? 22 : total >= 100 ? 20 : total >= 10 ? 18 : 16;
+            var r = total >= 1000 ? 50 : total >= 100 ? 32 : total >= 10 ? 24 : 18;
+            var r0 = Math.round(r * 0.6);
+            var w = r * 2;
+
+            var html =
+                '<div><svg width="' +
+                w +
+                '" height="' +
+                w +
+                '" viewbox="0 0 ' +
+                w +
+                ' ' +
+                w +
+                '" text-anchor="middle" style="font: ' +
+                fontSize +
+                'px sans-serif; display: block">';
+
+            for (i = 0; i < counts.length; i++) {
+                html += donutSegment(
+                    offsets[i] / total,
+                    (offsets[i] + counts[i]) / total,
+                    r,
+                    r0,
+                    colors[i]
+                );
+            }
+            html +=
+                '<circle cx="' +
+                r +
+                '" cy="' +
+                r +
+                '" r="' +
+                r0 +
+                '" fill="white" /><text dominant-baseline="central" transform="translate(' +
+                r +
+                ', ' +
+                r +
+                ')">' +
+                total.toLocaleString() +
+                '</text></svg></div>';
+
+            var el = document.createElement('div');
+            el.innerHTML = html;
+            return el.firstChild;
+        }
+
+        function donutSegment(start, end, r, r0, color) {
+            if (end - start === 1) end -= 0.00001;
+            var a0 = 2 * Math.PI * (start - 0.25);
+            var a1 = 2 * Math.PI * (end - 0.25);
+            var x0 = Math.cos(a0),
+                y0 = Math.sin(a0);
+            var x1 = Math.cos(a1),
+                y1 = Math.sin(a1);
+            var largeArc = end - start > 0.5 ? 1 : 0;
+
+            return [
+                '<path d="M',
+                r + r0 * x0,
+                r + r0 * y0,
+                'L',
+                r + r * x0,
+                r + r * y0,
+                'A',
+                r,
+                r,
+                0,
+                largeArc,
+                1,
+                r + r * x1,
+                r + r * y1,
+                'L',
+                r + r0 * x1,
+                r + r0 * y1,
+                'A',
+                r0,
+                r0,
+                0,
+                largeArc,
+                0,
+                r + r0 * x0,
+                r + r0 * y0,
+                '" fill="' + color + '" />'
+            ].join(' ');
+        }
+
 
     </script>
 
