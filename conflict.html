@@ -63,6 +63,19 @@
             margin: 0;
             cursor: ew-resize;
         }
+
+        .legendbox {
+            width: 12px;
+            height: 12px;
+            border: 1px solid rgb(58, 58, 58);
+        }
+
+        .legendrow {
+            display: flex;
+            flex-direction: row;
+            justify-content: start;
+            align-items: center;
+        }
     </style>
 
     <div id="map"></div>
@@ -75,14 +88,66 @@
         </div>
     </div>
 
-    <div class="map-overlay" style="top:100px;">
+    <div class="map-overlay" style="top:90px;">
         <div class="map-overlay-inner">
             <input type="checkbox" id="opt1" name="opt1" value="opt1" checked onchange="switcher(event)">
-            <label for="vehicle1"> Points</label><br>
+            <label for="opt1"> Points</label><br>
             <input type="checkbox" id="opt2" name="opt2" value="opt2" checked onchange="switcher(event)">
-            <label for="vehicle2"> Clusters</label><br>
+            <label for="opt2"> Clusters</label><br>
             <input type="checkbox" id="opt3" name="opt3" value="opt3" checked>
-            <label for="vehicle3"> Choropleth</label><br>
+            <label for="opt3"> Choropleth</label><br>
+
+        </div>
+    </div>
+
+    <div class="map-overlay" style="top:190px;">
+        <div class="map-overlay-inner">
+            <div class="legendrow">
+                <div class='legendbox' style="background-color: #a6cee3;"></div>
+                <span style="margin-left: 10px;">Common Crimes</span>
+            </div>
+
+            <div class="legendrow">
+                <div class='legendbox' style="background-color: #1f78b4;"></div>
+                <span style="margin-left: 10px;">Governance Issues</span>
+            </div>
+
+
+            <div class="legendrow">
+                <div class='legendbox' style="background-color: #b2df8a;"></div>
+                <span style="margin-left: 10px;">Identity Issues</span>
+            </div>
+
+
+            <div class="legendrow">
+                <div class='legendbox' style="background-color: #fb9a99;"></div>
+                <span style="margin-left: 10px;">Political Issues</span>
+            </div>
+
+
+            <div class="legendrow">
+                <div class='legendbox' style="background-color: #e31a1c;"></div>
+                <span style="margin-left: 10px;">Extremist violence</span>
+            </div>
+
+
+            <div class="legendrow">
+                <div class='legendbox' style="background-color: #fdbf6f;"></div>
+                <span style="margin-left: 10px;">Resource issues</span>
+            </div>
+
+
+            <div class="legendrow">
+                <div class='legendbox' style="background-color: #ff7f00;"></div>
+                <span style="margin-left: 10px;">Shadow economies</span>
+            </div>
+
+
+            <div class="legendrow">
+                <div class='legendbox' style="background-color: #cab2d6;"></div>
+                <span style="margin-left: 10px;">Undetermined</span>
+            </div>
+
 
         </div>
     </div>
@@ -128,7 +193,18 @@
         var mag8 = ['==', ['get', 'cause_category'], 8];
         var mag9 = ['==', ['get', 'cause_category'], 9];
 
-        var colors = ['#d53e4f', '#f46d43', '#fdae61', '#fc4e2a', '#e6f598', '#fed976', '#66c2a5', '#3288bd', '#abdda4', '#e31a1c'];
+
+        var colors = [
+            '#a6cee3',
+            '#1f78b4',
+            '#b2df8a',
+            '#33a02c',
+            '#fb9a99',
+            '#e31a1c',
+            '#fdbf6f',
+            '#ff7f00',
+            '#cab2d6'
+            ];
         var incidentPointsLayer = {
             'id': 'incpoints',
             'type': 'circle',
@@ -146,13 +222,13 @@
                 'circle-color': [
                     'match',
                     ['get', 'cause_category'],
-                    1, '#d53e4f',
-                    2, '#f46d43',
-                    3, '#fdae61',
-                    5, '#e6f598',
-                    7, '#66c2a5',
-                    8, '#3288bd',
-                    9, '#abdda4',
+                    1, colors[0],
+                    2, colors[1],
+                    3, colors[2],
+                    5, colors[4],
+                    7, colors[6],
+                    8, colors[7],
+                    9, colors[8],
                     '#000'
                 ]
             }
@@ -304,7 +380,7 @@
 
 
 
-            
+
             // filterBy(0);
             filterSource(0, json_obj);
             document
@@ -388,7 +464,7 @@
                 props.mag9
             ];
 
-            
+
             var total = 0;
             for (var i = 0; i < counts.length; i++) {
                 offsets.push(total);
