@@ -100,7 +100,7 @@
         </div>
     </div>
 
-    <div class="map-overlay" style="top:190px;">
+    <div class="map-overlay" style="top:190px;min-width: 160px;">
         <div class="map-overlay-inner">
             <div class="legendrow">
                 <div class='legendbox' style="background-color: #a6cee3;"></div>
@@ -167,7 +167,7 @@
             style: 'mapbox://styles/conflictalert/cknxzmh1y023r17mphj1p8ng5',
             center: [122, 7],
             zoom: 7,
-            minZoom:7,
+            minZoom: 7,
             maxZoom: 12
         });
 
@@ -205,7 +205,95 @@
             '#fdbf6f',
             '#ff7f00',
             '#cab2d6'
-            ];
+        ];
+
+
+        var causeCat = {
+            1: 'Common Crimes',
+            2: 'Governance Issues',
+            3: 'Identity Issues',
+            4: 'aa',
+            5: 'Political Issues',
+            6: 'Extremist violence',
+            7: 'Resource issues',
+            8: 'Shadow economies',
+            9: 'Undetermined'
+        }
+
+
+        var specificCause = {
+            1001: 'Breach of contract except land related, indebtedness and seizure of properties',
+            1002: 'Conflict arising from intoxication',
+            1003: 'Damage to properties',
+            1004: 'Humiliation and bullying',
+            1007: 'Robbery',
+            1008: 'Other common crimes',
+            1012: 'Child abuse',
+            1013: 'Looting - Marawi war 2017',
+            2001: 'Competition over non-elective position',
+            2002: 'Conflict between and among military and police',
+            2003: 'Corruption of public office',
+            2004: 'Exclusion/Unequal access to public/welfare goods',
+            2006: 'Law enforcements',
+            2007: 'Mis-fires and mis-encounters by government security sectors',
+            2008: 'Tender-related competitions',
+            2009: 'Other governance issues',
+            2010: 'Implementation of government decisions and policies',
+            2011: 'Implementation of government projects',
+            2013: 'Executive and judicial decisions (beginning 2017)',
+            2014: 'Executive and judicial positions (beginning 2017)',
+            3001: 'Gender-related issues',
+            3003: 'Inter and intra-gang rivalries',
+            3004: 'Loss of honor',
+            3005: 'Personal grudge',
+            3006: 'Clan feud',
+            3007: 'Other identity issues',
+            3015: 'Violent extremism - Identity component (deactivated for 2019 incidents)',
+            3016: 'Political identity',
+            3017: 'Violent extremism -Identity component (active starting 2019 replacing 3015)',
+            5002: 'Conflict between and among rebel groups',
+            5003: 'Conflict within and among political parties',
+            5005: 'Exercise of democratic freedom',
+            5006: 'Mis-fires and mis-encounters by non-state actors',
+            5007: 'Political repression',
+            5008: 'Rebellion',
+            5009: 'Other political issues',
+            5011: 'Elections ',
+            5012: 'Conflict between and among elected officials',
+            5015: 'Conflict between and among member-based groups',
+            5017: 'Violent extremism - Political component',
+            7001: 'Control over natural resources',
+            7003: 'Labor and management ',
+            7004: 'Land conflict ',
+            7006: 'Water conflict',
+            7007: 'Other resource issues',
+            7008: 'Conflict over control of non-metallic minerals such as lime, sand, gravel including soil',
+            7009: 'Contested property rights',
+            7012: 'Resource capture',
+            7015: 'Urban resources (beginning 2017)',
+            7016: 'Resource predation (beginning 2017)',
+            8001: 'Cattle rustling',
+            8002: 'Cross-border trade',
+            8003: 'Human trafficking',
+            8004: 'Illegal drugs',
+            8005: 'Illegal gambling',
+            8006: 'Illegal logging',
+            8007: 'Illicit financial instruments and transactions',
+            8008: 'Illicit firearms',
+            8009: 'Kidnap-for-ransom ',
+            8010: 'Illicit taxes and toll fees including forced pay-offs',
+            8012: 'Carjacking',
+            8014: 'Other shadow economy activities',
+            8022: 'Carjacking - motor vehicle (Violent)',
+            8023: 'Carjacking - motorcycle (Violent)',
+            8024: 'Carnapping - motor vehicle (Nonviolent)',
+            8025: 'Carnapping - motorcycle (Nonviolent)',
+            8026: 'Illicit financial instruments and transactions',
+            8028: 'Illicit financial instruments and transactions',
+            9001: 'Undetermined'
+
+        }
+
         var incidentPointsLayer = {
             'id': 'incpoints',
             'type': 'circle',
@@ -216,9 +304,11 @@
             // },
 
             'paint': {
-                'circle-radius': 3,
+                'circle-radius': {
+                    stops: [[7, 3], [8, 4], [9, 5], [10, 6], [11, 7]]
+                },
                 'circle-stroke-width': 1,
-                'circle-stroke-color': '#000',
+                'circle-stroke-color': '#222222',
 
                 'circle-color': [
                     'match',
@@ -267,7 +357,7 @@
                 //     50
                 // ],
 
-                'circle-radius': 1,
+                'circle-radius': 2,
                 'circle-opacity': 0.25
             }
         };
@@ -337,7 +427,7 @@
         }
 
         map.on('load', function () {
-            
+
 
             var json_obj = JSON.parse(Get('https://aldrinjao.github.io/incidents.geojson'));
 
@@ -449,6 +539,35 @@
 
         });
 
+
+
+        map.on('click', 'incpoints', function (e) {
+
+            var coordinates = e.features[0].geometry.coordinates.slice();
+            var year = e.features[0].properties.incyr;
+            var cause = e.features[0].properties.incident_causes_code;
+            var province = e.features[0].properties.province_psgc;
+            var category = e.features[0].properties.cause_category;
+
+            var popuphtml = "<strong>Year:</strong> " + year + "<br>";
+            popuphtml = popuphtml + "<strong>Province</strong>: " + province + "<br><br>";
+            popuphtml = popuphtml + "<strong>Cause Category</strong>: " + causeCat[category] + "<br>";
+            popuphtml = popuphtml + "<strong>Incident Cause</strong>: " + specificCause[cause] + "<br>";
+
+
+            new mapboxgl.Popup()
+                .setLngLat(coordinates)
+                .setHTML(popuphtml)
+                .addTo(map);
+        });
+        map.on('mouseenter', 'incpoints', function () {
+            map.getCanvas().style.cursor = 'pointer';
+        });
+
+        // Change it back to a pointer when it leaves.
+        map.on('mouseleave', 'incpoints', function () {
+            map.getCanvas().style.cursor = '';
+        });
 
         // code for creating an SVG donut chart from feature properties
         function createDonutChart(props) {
