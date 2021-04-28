@@ -53,7 +53,7 @@
         .map-overlay .legend .bar {
             height: 10px;
             width: 100%;
-            background: linear-gradient(to right, #fca107, #7f3121);
+            background: linear-gradient(to right, #fee5d9, #a50f15);
         }
 
         .map-overlay.sliderclass {
@@ -84,24 +84,27 @@
         <div class="map-overlay-inner">
             <h2>Year: <label id="year"></label></h2>
 
-            <input id="slider" class='sliderclass' style="width: 100%;" type="range" min="0" max="8" step="1" value="0">
+            <input id="slider" class='sliderclass' style="width: 100%;cursor: ew-resize;" type="range" min="0" max="8"
+                step="1" value="0">
         </div>
     </div>
 
-    <div class="map-overlay" style="top:90px;">
+    <div class="map-overlay" style="top:90px">
         <div class="map-overlay-inner">
+            <h3>Layer Control</h3>
             <input type="checkbox" id="opt1" name="opt1" value="opt1" checked onchange="switcher(event)">
             <label for="opt1"> Points</label><br>
             <input type="checkbox" id="opt2" name="opt2" value="opt2" checked onchange="switcher(event)">
             <label for="opt2"> Clusters</label><br>
-            <input type="checkbox" id="opt3" name="opt3" value="opt3" checked>
+            <input type="checkbox" id="opt3" name="opt3" value="opt3" checked onchange="switcher(event)">
             <label for="opt3"> Choropleth</label><br>
 
         </div>
     </div>
 
-    <div class="map-overlay" style="top:190px;min-width: 160px;">
+    <div class="map-overlay" style="top:230px;min-width: 160px;">
         <div class="map-overlay-inner">
+            <h3>Incident Causes (Marker Color)</h3>
             <div class="legendrow">
                 <div class='legendbox' style="background-color: #a6cee3;"></div>
                 <span style="margin-left: 10px;">Common Crimes</span>
@@ -152,14 +155,56 @@
         </div>
     </div>
 
+    <div class="map-overlay" style="top:465px">
+        <div class="map-overlay-inner">
+            <div id="legend" class="legend">
+                <h3>Incident Count (Polygon Fill)</h3>
+                <div class="legendrow">
+                    <div class='legendbox' style="background-color: #eeeeee;"></div>
+                    <span style="margin-left: 10px;">No Data</span>
+                </div>
+                <div class="legendrow">
+                    <div class='legendbox' style="background-color: #fcbba1;"></div>
+                    <span style="margin-left: 10px;">1 - 100</span>
+
+                </div>
+
+                <div class="legendrow">
+                    <div class='legendbox' style="background-color: #fc9272;"></div>
+                    <span style="margin-left: 10px;">100 - 500</span>
+
+                </div>
+
+
+                <div class="legendrow">
+                    <div class='legendbox' style="background-color: #fb6a4a;"></div>
+                    <span style="margin-left: 10px;">500 - 1000</span>
+
+                </div>
+
+
+                <div class="legendrow">
+                    <div class='legendbox' style="background-color: #de2d26;"></div>
+                    <span style="margin-left: 10px;">1000 - 2000</span>
+
+                </div>
+
+                <div class="legendrow">
+                    <div class='legendbox' style="background-color: #a50f15;"></div>
+                    <span style="margin-left: 10px;">Above 2000</span>
+
+                </div>
 
 
 
-
-
-
+            </div>
+        </div>
+    </div>
 
     <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+
+
+
     <script>
         mapboxgl.accessToken = 'pk.eyJ1IjoiY29uZmxpY3RhbGVydCIsImEiOiJja253c3p2Z3AwZ2JxMm5xZHZibTk2cHkzIn0.j29K1BrZjO-gnWDYHE0kiA';
         var map = new mapboxgl.Map({
@@ -362,42 +407,116 @@
             }
         };
 
+        var provincialFill = {
+            id: 'provfill',
+            type: 'fill',
+            source: 'provSource',
+            maxzoom: 8,
+            paint: {
+                'fill-color': [
+                    'interpolate',
+                    ['linear'],
+                    ['get', '2011'],
+                    -1,
+                    '#eeeeee',
+                    1,
+                    '#fcbba1',
+                    100,
+                    '#fc9272',
+                    500,
+                    '#fb6a4a',
+                    1000,
+                    '#de2d26',
+                    2000,
+                    '#a50f15'
 
+
+                ],
+                'fill-opacity': 0.75,
+            }
+        };
+
+        var provincialOutline = {
+            'id': 'provoutline',
+            'type': 'line',
+            'source': 'provSource',
+            'layout': {},
+            'paint': {
+                'line-color': '#FFF',
+                'line-width': 1
+            }
+        };
 
         function switcher(e) {
 
-            switch (e.target.value) {
-                case 'opt1':
-                    if (e.target.checked) {
-                        map.addLayer(incidentPointsLayer);
-                    } else {
-                        map.removeLayer('incpoints');
-                    }
+            var mapLayer = map.getLayer('incpoints');
+            if (typeof mapLayer !== 'undefined') {
+                map.removeLayer('incpoints');
 
-                    break;
-                case 'opt2':
-                    if (e.target.checked) {
-                        map.addLayer(incidentClustersLayer);
-                    } else {
-                        map.removeLayer('clusters');
-                    }
-
-                    break;
-
-                case 'opt3':
-                    if (e.target.checked) {
-                        map.addLayer(incidentClustersLayer);
-                    } else {
-                        map.removeLayer('clusters');
-                    }
-
-                    break;
-
-                default:
-                    break;
             }
 
+            var mapLayer = map.getLayer('clusters');
+            if (typeof mapLayer !== 'undefined') {
+                map.removeLayer('clusters');
 
+            }
+
+            var mapLayer = map.getLayer('provfill');
+            if (typeof mapLayer !== 'undefined') {
+                map.removeLayer('provfill');
+                map.removeLayer('provoutline');
+
+            }
+
+            if (document.getElementById('opt3').checked) {
+
+                var column = String(years[document.getElementById('slider').value]);
+
+
+                provincialFill = {
+                    'id': 'provfill',
+                    'type': 'fill',
+                    'source': 'provSource',
+                    'maxzoom': 8,
+                    'paint': {
+                        'fill-color': [
+                            'interpolate',
+                            ['linear'],
+                            ['get', column],
+                            -1,
+                            '#eeeeee',
+                            1,
+                            '#fcbba1',
+                            100,
+                            '#fc9272',
+                            500,
+                            '#fb6a4a',
+                            1000,
+                            '#de2d26',
+                            2000,
+                            '#a50f15'
+
+
+
+
+                        ],
+                        'fill-opacity': 0.75,
+                    }
+                };
+
+                map.addLayer(provincialFill, 'bridge-simple');
+                map.addLayer(provincialOutline, 'bridge-simple');
+            }
+
+            if (document.getElementById('opt1').checked) {
+                map.addLayer(incidentPointsLayer);
+
+            }
+
+            if (document.getElementById('opt2').checked) {
+                map.addLayer(incidentClustersLayer);
+
+            }
 
         }
 
@@ -419,6 +538,34 @@
             document.getElementById('year').textContent = years[year];
         }
 
+        function switchChoropleth(year) {
+            var column = String(years[year]);
+
+            var paintOptions = [
+                'interpolate',
+                ['linear'],
+                ['get', column],
+
+                -1,
+                '#eeeeee',
+                1,
+                '#fcbba1',
+                100,
+                '#fc9272',
+                500,
+                '#fb6a4a',
+                1000,
+                '#de2d26',
+                2000,
+                '#a50f15'
+
+
+
+            ];
+            map.setPaintProperty("provfill", 'fill-color', paintOptions);
+        }
+
+
         function Get(yourUrl) {
             var Httpreq = new XMLHttpRequest(); // a new request
             Httpreq.open("GET", yourUrl, false);
@@ -430,7 +577,7 @@
 
 
             var json_obj = JSON.parse(Get('https://aldrinjao.github.io/incidents.geojson'));
-
+            var prov_obj = JSON.parse(Get('https://aldrinjao.github.io/mindanao.geojson'));
 
             map.addSource('barmm', {
                 'type': 'geojson',
@@ -460,18 +607,18 @@
 
             });
 
+            map.addSource('provSource', {
+                'type': 'geojson',
+                'data': prov_obj
+
+            });
 
 
+            map.addLayer(provincialFill, 'bridge-simple');
+            map.addLayer(provincialOutline, 'bridge-simple');
             map.addLayer(incidentClustersLayer);
-
-
             map.addLayer(incidentPointsLayer);
-
-
-
-
-
-
+            console.log(map.getStyle().layers);
             // filterBy(0);
             filterSource(0, json_obj);
             document
@@ -480,7 +627,7 @@
                     var year = parseInt(e.target.value, 10);
                     // filterBy(year);
                     filterSource(year, json_obj);
-
+                    switchChoropleth(year);
                 });
 
 
