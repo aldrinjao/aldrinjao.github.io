@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>BARMM CA incidents</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.js"></script>
+    <script src='https://unpkg.com/@turf/turf@6.3.0/turf.min.js'></script>
+    <link href="./distribute/nouislider.css" rel="stylesheet">
+    <script src="./distribute/nouislider.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+
+    </style>
+</head>
+
+<body>
+    <style>
+        .map-overlay {
+            font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+            position: absolute;
+            width: 25%;
+            top: 0;
+            left: 0;
+            padding: 10px;
+        }
+
+        .map-overlay .map-overlay-inner {
+            background-color: #fff;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            border-radius: 3px;
+            padding: 10px;
+            margin-bottom: 10px;
+            padding-bottom: 15px;
+        }
+
+        .map-overlay h2 {
+            line-height: 24px;
+            display: block;
+            margin: 0 0 10px;
+        }
+
+        .map-overlay .legend .bar {
+            height: 10px;
+            width: 100%;
+            background: linear-gradient(to right, #fee5d9, #a50f15);
+        }
+
+        .map-overlay.sliderclass {
+            background-color: transparent;
+            display: inline-block;
+            position: relative;
+            margin: 0;
+            cursor: ew-resize;
+        }
+
+        .legendbox {
+            width: 12px;
+            height: 12px;
+            border: 1px solid rgb(58, 58, 58);
+        }
+
+        .legendrow {
+            display: flex;
+            flex-direction: row;
+            justify-content: start;
+            align-items: center;
+        }
+    </style>
+
+    <div id="map"></div>
+
+    <div class="map-overlay top">
+        <div class="map-overlay-inner">
+            <h2>Year: <label id="year"> 2011 - 2019</label></h2>
+
+            <!-- <input id="slider" class='sliderclass' style="width: 100%;cursor: ew-resize;" type="range" min="0" max="8"
+                step="1" value="0"> -->
+
+            <div id="slider2" style="width: 90%;margin: auto;"></div>
+        </div>
+    </div>
+
+    <div class="map-overlay" style="top:90px">
+        <div class="map-overlay-inner">
+            <h2>Layer Control</h2>
+            <input type="checkbox" id="opt1" name="opt1" value="opt1" checked onchange="switcher(event)">
+            <label for="opt1"> Points</label><br>
+            <input type="checkbox" id="opt2" name="opt2" value="opt2" checked onchange="switcher(event)">
+            <label for="opt2"> Clusters</label><br>
+            <input type="checkbox" id="opt3" name="opt3" value="opt3" checked onchange="switcher(event)">
+            <label for="opt3"> Choropleth</label><br>
+
+        </div>
+    </div>
+
+    <div class="map-overlay" style="top:230px;min-width: 160px;">
+        <div class="map-overlay-inner">
+            <h2>Incident Causes (Marker Color)</h2>
+            <div class="legendrow">
+                <div class='legendbox' style="background-color: #a6cee3;"></div>
+                <span style="margin-left: 10px;">Common Crimes</span>
+            </div>
+
+            <div class="legendrow">
+                <div class='legendbox' style="background-color: #1f78b4;"></div>
+                <span style="margin-left: 10px;">Governance Issues</span>
+            </div>
+
+
+            <div class="legendrow">
+                <div class='legendbox' style="background-color: #b2df8a;"></div>
+                <span style="margin-left: 10px;">Identity Issues</span>
+            </div>
+
+
+            <div class="legendrow">
+                <div class='legendbox' style="background-color: #fb9a99;"></div>
+                <span style="margin-left: 10px;">Political Issues</span>
+            </div>
+
+
+            <div class="legendrow">
+                <div class='legendbox' style="background-color: #e31a1c;"></div>
+                <span style="margin-left: 10px;">Extremist violence</span>
+            </div>
+
+
+            <div class="legendrow">
+                <div class='legendbox' style="background-color: #fdbf6f;"></div>
+                <span style="margin-left: 10px;">Resource issues</span>
+            </div>
+
+
+            <div class="legendrow">
+                <div class='legendbox' style="background-color: #ff7f00;"></div>
+                <span style="margin-left: 10px;">Shadow economies</span>
+            </div>
+
+
+            <div class="legendrow">
+                <div class='legendbox' style="background-color: #cab2d6;"></div>
+                <span style="margin-left: 10px;">Undetermined</span>
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="map-overlay" style="top:460px">
+        <div class="map-overlay-inner">
+            <div id="legend" class="legend">
+                <h2>Incident Count (Polygon Fill)</h2>
+                <div class="legendrow">
+                    <div class='legendbox' style="background-color: #eeeeee;"></div>
+                    <span style="margin-left: 10px;">No Data</span>
+                </div>
+                <div class="legendrow">
+                    <div class='legendbox' style="background-color: #fcbba1;"></div>
+                    <span style="margin-left: 10px;">1 - 100</span>
+
+                </div>
+
+                <div class="legendrow">
+                    <div class='legendbox' style="background-color: #fc9272;"></div>
+                    <span style="margin-left: 10px;">100 - 500</span>
+
+                </div>
+
+
+                <div class="legendrow">
+                    <div class='legendbox' style="background-color: #fb6a4a;"></div>
+                    <span style="margin-left: 10px;">500 - 1000</span>
+
+                </div>
+
+
+                <div class="legendrow">
+                    <div class='legendbox' style="background-color: #de2d26;"></div>
+                    <span style="margin-left: 10px;">1000 - 2000</span>
+
+                </div>
+
+                <div class="legendrow">
+                    <div class='legendbox' style="background-color: #a50f15;"></div>
+                    <span style="margin-left: 10px;">Above 2000</span>
+
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+
+    <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+
+
+
+    <script>
+
+        var slider2 = document.getElementById('slider2');
+
+        noUiSlider.create(slider2, {
+            start: [0, 8],
+            step: 1,
+            connect: true,
+            range: {
+                'min': 0,
+                'max': 8
+            }
+        });
+
+
+
+
+
+
+        mapboxgl.accessToken = 'pk.eyJ1IjoiY29uZmxpY3RhbGVydCIsImEiOiJja253c3p2Z3AwZ2JxMm5xZHZibTk2cHkzIn0.j29K1BrZjO-gnWDYHE0kiA';
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/conflictalert/cknxzmh1y023r17mphj1p8ng5',
+            center: [122, 7],
+            zoom: 7,
+            minZoom: 7
+        });
+
+
+        var years = [
+            2011,
+            2012,
+            2013,
+            2014,
+            2015,
+            2016,
+            2017,
+            2018,
+            2019
+        ];
+
+        var mag1 = ['==', ['get', 'cause_category'], 1];
+        var mag2 = ['==', ['get', 'cause_category'], 2];
+        var mag3 = ['==', ['get', 'cause_category'], 3];
+        var mag4 = ['==', ['get', 'cause_category'], 4];
+        var mag5 = ['==', ['get', 'cause_category'], 5];
+        var mag6 = ['==', ['get', 'cause_category'], 6];
+        var mag7 = ['==', ['get', 'cause_category'], 7];
+        var mag8 = ['==', ['get', 'cause_category'], 8];
+        var mag9 = ['==', ['get', 'cause_category'], 9];
+
+
+        var colors = [
+            '#a6cee3',
+            '#1f78b4',
+            '#b2df8a',
+            '#33a02c',
+            '#fb9a99',
+            '#e31a1c',
+            '#fdbf6f',
+            '#ff7f00',
+            '#cab2d6'
+        ];
+
+
+        var causeCat = {
+            1: 'Common Crimes',
+            2: 'Governance Issues',
+            3: 'Identity Issues',
+            4: 'aa',
+            5: 'Political Issues',
+            6: 'Extremist violence',
+            7: 'Resource issues',
+            8: 'Shadow economies',
+            9: 'Undetermined'
+        }
+
+
+        var specificCause = {
+            1001: 'Breach of contract except land related, indebtedness and seizure of properties',
+            1002: 'Conflict arising from intoxication',
+            1003: 'Damage to properties',
+            1004: 'Humiliation and bullying',
+            1007: 'Robbery',
+            1008: 'Other common crimes',
+            1012: 'Child abuse',
+            1013: 'Looting - Marawi war 2017',
+            2001: 'Competition over non-elective position',
+            2002: 'Conflict between and among military and police',
+            2003: 'Corruption of public office',
+            2004: 'Exclusion/Unequal access to public/welfare goods',
+            2006: 'Law enforcements',
+            2007: 'Mis-fires and mis-encounters by government security sectors',
+            2008: 'Tender-related competitions',
+            2009: 'Other governance issues',
+            2010: 'Implementation of government decisions and policies',
+            2011: 'Implementation of government projects',
+            2013: 'Executive and judicial decisions (beginning 2017)',
+            2014: 'Executive and judicial positions (beginning 2017)',
+            3001: 'Gender-related issues',
+            3003: 'Inter and intra-gang rivalries',
+            3004: 'Loss of honor',
+            3005: 'Personal grudge',
+            3006: 'Clan feud',
+            3007: 'Other identity issues',
+            3015: 'Violent extremism - Identity component (deactivated for 2019 incidents)',
+            3016: 'Political identity',
+            3017: 'Violent extremism -Identity component (active starting 2019 replacing 3015)',
+            5002: 'Conflict between and among rebel groups',
+            5003: 'Conflict within and among political parties',
+            5005: 'Exercise of democratic freedom',
+            5006: 'Mis-fires and mis-encounters by non-state actors',
+            5007: 'Political repression',
+            5008: 'Rebellion',
+            5009: 'Other political issues',
+            5011: 'Elections ',
+            5012: 'Conflict between and among elected officials',
+            5015: 'Conflict between and among member-based groups',
+            5017: 'Violent extremism - Political component',
+            7001: 'Control over natural resources',
+            7003: 'Labor and management ',
+            7004: 'Land conflict ',
+            7006: 'Water conflict',
+            7007: 'Other resource issues',
+            7008: 'Conflict over control of non-metallic minerals such as lime, sand, gravel including soil',
+            7009: 'Contested property rights',
+            7012: 'Resource capture',
+            7015: 'Urban resources (beginning 2017)',
+            7016: 'Resource predation (beginning 2017)',
+            8001: 'Cattle rustling',
+            8002: 'Cross-border trade',
+            8003: 'Human trafficking',
+            8004: 'Illegal drugs',
+            8005: 'Illegal gambling',
+            8006: 'Illegal logging',
+            8007: 'Illicit financial instruments and transactions',
+            8008: 'Illicit firearms',
+            8009: 'Kidnap-for-ransom ',
+            8010: 'Illicit taxes and toll fees including forced pay-offs',
+            8012: 'Carjacking',
+            8014: 'Other shadow economy activities',
+            8022: 'Carjacking - motor vehicle (Violent)',
+            8023: 'Carjacking - motorcycle (Violent)',
+            8024: 'Carnapping - motor vehicle (Nonviolent)',
+            8025: 'Carnapping - motorcycle (Nonviolent)',
+            8026: 'Illicit financial instruments and transactions',
+            8028: 'Illicit financial instruments and transactions',
+            9001: 'Undetermined'
+
+        }
+
+
+
+
+        var incidentPointsLayer = {
+            'id': 'incpoints',
+            'type': 'circle',
+            'source': 'barmmpoints',
+            // 'paint': {
+            //     'circle-radius': 6,
+            //     'circle-color': '#B42222'
+            // },
+
+            'paint': {
+                'circle-radius': {
+                    stops: [[7, 3], [8, 4], [9, 5], [10, 6], [11, 7]]
+                },
+                'circle-stroke-width': 1,
+                'circle-stroke-color': '#222222',
+
+                'circle-color': [
+                    'match',
+                    ['get', 'cause_category'],
+                    1, colors[0],
+                    2, colors[1],
+                    3, colors[2],
+                    5, colors[4],
+                    7, colors[6],
+                    8, colors[7],
+                    9, colors[8],
+                    '#000'
+                ]
+            }
+
+        };
+
+        var incidentClustersLayer = {
+            id: 'clusters',
+            type: 'circle',
+            source: 'barmm',
+            maxzoom: 8,
+            filter: ['has', 'point_count'],
+            paint: {
+                // Use step expressions (https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-step)
+                // with three steps to implement three types of circles:
+                //   * Blue, 20px circles when point count is less than 100
+                //   * Yellow, 30px circles when point count is between 100 and 750
+                //   * Pink, 40px circles when point count is greater than or equal to 750
+                'circle-color': [
+                    'step',
+                    ['get', 'point_count'],
+                    '#51bbd6',
+                    100,
+                    '#f1f075',
+                    500,
+                    '#f28cb1'
+                ],
+                // 'circle-radius': [
+                //     'step',
+                //     ['get', 'point_count'],
+                //     10,
+                //     100,
+                //     30,
+                //     500,
+                //     50
+                // ],
+
+                'circle-radius': 2,
+                'circle-opacity': 0.25
+            }
+        };
+
+        var unClusteredLayer = {
+            id: 'unclustered-point',
+            'type': 'circle',
+            source: 'barmm',
+            filter: ['!', ['has', 'point_count']],
+            // 'paint': {
+            //     'circle-radius': 6,
+            //     'circle-color': '#B42222'
+            // },
+
+            'paint': {
+                'circle-radius': {
+                    stops: [[7, 2], [8, 3], [9, 4], [10, 5], [11, 6]]
+                },
+                'circle-stroke-width': 1,
+                'circle-stroke-color': '#222222',
+
+                'circle-color': [
+                    'match',
+                    ['get', 'cause_category'],
+                    1, colors[0],
+                    2, colors[1],
+                    3, colors[2],
+                    5, colors[4],
+                    7, colors[6],
+                    8, colors[7],
+                    9, colors[8],
+                    '#000'
+                ]
+            }
+
+        };
+
+
+        var provincialFill = {
+            id: 'provfill',
+            type: 'fill',
+            source: 'provSource',
+            maxzoom: 8,
+            paint: {
+                'fill-color': [
+                    'interpolate',
+                    ['linear'],
+                    ['get', '2011'],
+                    -1,
+                    '#eeeeee',
+                    1,
+                    '#fcbba1',
+                    100,
+                    '#fc9272',
+                    500,
+                    '#fb6a4a',
+                    1000,
+                    '#de2d26',
+                    2000,
+                    '#a50f15'
+
+
+                ],
+                'fill-opacity': 0.75,
+            }
+        };
+
+        var provincialOutline = {
+            'id': 'provoutline',
+            'type': 'line',
+            'source': 'provSource',
+            'layout': {},
+            'paint': {
+                'line-color': '#FFF',
+                'line-width': 1
+            }
+        };
+
+        function switcher(e) {
+
+            var incmapLayer = map.getLayer('incpoints');
+            var provmapLayer = map.getLayer('provfill');
+            var clustermapLayer = map.getLayer('clusters');
+
+
+            var dispFlag = document.getElementById('opt1').checked;
+            if ((typeof incmapLayer !== 'undefined') && (!dispFlag)) {
+                map.removeLayer('incpoints');
+
+            }
+
+            dispFlag = document.getElementById('opt2').checked;
+            if ((typeof clustermapLayer !== 'undefined') && (!dispFlag)) {
+                map.removeLayer('clusters');
+                map.removeLayer('unclustered-point');
+
+            }
+
+            dispFlag = document.getElementById('opt3').checked;
+            if ((typeof provmapLayer !== 'undefined') && (!dispFlag)) {
+                map.removeLayer('provfill');
+                map.removeLayer('provoutline');
+
+            }
+
+            if ((typeof provmapLayer === 'undefined') && (document.getElementById('opt3').checked)) {
+
+                var column = String(years[document.getElementById('slider').value]);
+
+                provincialFill = {
+                    'id': 'provfill',
+                    'type': 'fill',
+                    'source': 'provSource',
+                    'maxzoom': 8,
+                    'paint': {
+                        'fill-color': [
+                            'interpolate',
+                            ['linear'],
+                            ['get', column],
+                            -1,
+                            '#eeeeee',
+                            1,
+                            '#fcbba1',
+                            100,
+                            '#fc9272',
+                            500,
+                            '#fb6a4a',
+                            1000,
+                            '#de2d26',
+                            2000,
+                            '#a50f15'
+
+
+
+
+                        ],
+                        'fill-opacity': 0.75,
+                    }
+                };
+
+                map.addLayer(provincialFill, 'bridge-simple');
+                map.addLayer(provincialOutline, 'bridge-simple');
+            }
+
+            if ((typeof incmapLayer === 'undefined') && document.getElementById('opt1').checked) {
+                map.addLayer(incidentPointsLayer);
+
+            }
+
+            if ((typeof clustermapLayer === 'undefined') && document.getElementById('opt2').checked) {
+                map.addLayer(incidentClustersLayer);
+                map.addLayer(unClusteredLayer);
+            }
+
+        }
+
+        function filterBy(year) {
+            var filters = ['==', 'incyr', years[year]];
+            map.setFilter('incpoints', filters);
+
+            // Set the label to the month
+            document.getElementById('year').textContent = years[year];
+        }
+
+
+        function filterBySource(year, json_obj) {
+
+            const newGeoJSON = { ...json_obj };
+            newGeoJSON.features = json_obj.features.filter(feature => feature.properties.incyr === years[year]);
+            map.getSource('barmm').setData(newGeoJSON);
+            map.getSource('barmmpoints').setData(newGeoJSON);
+            document.getElementById('year').textContent = years[year];
+
+        }
+
+        function filterByMSource(syear, eyear, json_obj) {
+
+            const newGeoJSON = { ...json_obj };
+            newGeoJSON.features = json_obj.features.filter(feature =>
+                (feature.properties.incyr >= syear) && (feature.properties.incyr <= eyear)
+            );
+            map.getSource('barmm').setData(newGeoJSON);
+            map.getSource('barmmpoints').setData(newGeoJSON);
+
+        }
+
+
+        function createProv(syear, eyear, prov_obj){
+            const newGeoJSON = { ...prov_obj };
+            newGeoJSON.features = prov_obj.features.map(feature =>{
+                var count = 0;
+                for (let index = syear; index < eyear; index++) {
+                   
+                    count = count + (feature.properties[index]);
+                    
+                }    
+                console.log(count);
+
+            });
+            console.log(newGeoJSON);
+
+
+        }
+
+        function switchChoropleth(year) {
+            var column = String(years[year]);
+
+            var paintOptions = [
+                'interpolate',
+                ['linear'],
+                ['get', column],
+                -1,
+                '#eeeeee',
+                1,
+                '#fcbba1',
+                100,
+                '#fc9272',
+                500,
+                '#fb6a4a',
+                1000,
+                '#de2d26',
+                2000,
+                '#a50f15'
+            ];
+            map.setPaintProperty("provfill", 'fill-color', paintOptions);
+        }
+
+
+        function Get(yourUrl) {
+            var Httpreq = new XMLHttpRequest(); // a new request
+            Httpreq.open("GET", yourUrl, false);
+            Httpreq.send(null);
+            return Httpreq.responseText;
+        }
+
+        map.on('load', function () {
+
+
+            var json_obj = JSON.parse(Get('https://aldrinjao.github.io/incidents.geojson'));
+            var prov_obj = JSON.parse(Get('https://aldrinjao.github.io/mindanao.geojson'));
+
+            createProv(2011, 2019, prov_obj);
+
+            map.addSource('barmm', {
+                'type': 'geojson',
+                'data': json_obj,
+                'cluster': true,
+                'clusterRadius': 100,
+                'clusterProperties': {
+                    // keep separate counts for each magnitude category in a cluster
+                    'mag1': ['+', ['case', mag1, 1, 0]],
+                    'mag2': ['+', ['case', mag2, 1, 0]],
+                    'mag3': ['+', ['case', mag3, 1, 0]],
+                    'mag4': ['+', ['case', mag4, 1, 0]],
+                    'mag5': ['+', ['case', mag5, 1, 0]],
+                    'mag6': ['+', ['case', mag6, 1, 0]],
+                    'mag7': ['+', ['case', mag7, 1, 0]],
+                    'mag8': ['+', ['case', mag8, 1, 0]],
+                    'mag9': ['+', ['case', mag9, 1, 0]]
+
+                }
+            });
+
+
+
+            map.addSource('barmmpoints', {
+                'type': 'geojson',
+                'data': json_obj
+
+            });
+
+            map.addSource('provSource', {
+                'type': 'geojson',
+                'data': prov_obj
+
+            });
+
+
+            map.addLayer(provincialFill, 'bridge-simple');
+            map.addLayer(provincialOutline, 'bridge-simple');
+            map.addLayer(incidentClustersLayer);
+            map.addLayer(unClusteredLayer);
+
+            map.addLayer(incidentPointsLayer);
+    
+            // filterBy(0);
+            // filterBySource(0, json_obj);
+
+            filterByMSource(2011, 2019, json_obj);
+
+            // document
+            //     .getElementById('slider')
+            //     .addEventListener('input', function (e) {
+            //         var year = parseInt(e.target.value, 10);
+            //         // filterBy(year);
+            //         filterBySource(year, json_obj);
+            //         switchChoropleth(year);
+            //     });
+
+            slider2.noUiSlider.on('slide', function () {
+                var startYear = years[Math.round(slider2.noUiSlider.get()[0])];
+                var endYear = years[Math.round(slider2.noUiSlider.get()[1])];
+
+                filterByMSource(startYear, endYear, json_obj);
+                document.getElementById('year').textContent = startYear + ' - ' + endYear;
+                createProv(startYear, endYear, prov_obj);
+            });
+
+
+            ////////////////////////////
+
+            // objects for caching and keeping track of HTML marker objects (for performance)
+            var markers = {};
+            var markersOnScreen = {};
+
+            function updateMarkers() {
+                var newMarkers = {};
+                var features = map.querySourceFeatures('barmm');
+
+                // for every cluster on the screen, create an HTML marker for it (if we  console.log(index)idn't yet),
+                // and add it to the map if it's not there already
+                for (var i = 0; i < features.length; i++) {
+                    var coords = features[i].geometry.coordinates;
+                    var props = features[i].properties;
+                    if (!props.cluster) continue;
+                    var id = props.cluster_id;
+
+                    var marker = markers[id];
+                    if (!marker) {
+                        var el = createDonutChart(props);
+                        marker = markers[id] = new mapboxgl.Marker({
+                            element: el
+                        }).setLngLat(coords);
+                    }
+                    newMarkers[id] = marker;
+
+                    if (!markersOnScreen[id]) marker.addTo(map);
+                }
+                // for every marker we've added previously, remove those that are no longer visible
+                for (id in markersOnScreen) {
+                    if (!newMarkers[id]) markersOnScreen[id].remove();
+                }
+                markersOnScreen = newMarkers;
+            }
+
+            // after the GeoJSON data is loaded, update markers on the screen on every frame
+            map.on('render', function () {
+                if (!map.isSourceLoaded('barmm')) return;
+                updateMarkers();
+            });
+
+        });
+
+
+
+        map.on('click', 'incpoints', function (e) {
+
+            var coordinates = e.features[0].geometry.coordinates.slice();
+            var year = e.features[0].properties.incyr;
+            var cause = e.features[0].properties.incident_causes_code;
+            var province = e.features[0].properties.province_psgc;
+            var category = e.features[0].properties.cause_category;
+
+            var popuphtml = "<strong>Year:</strong> " + year + "<br>";
+            popuphtml = popuphtml + "<strong>Province</strong>: " + province + "<br><br>";
+            popuphtml = popuphtml + "<strong>Cause Category</strong>: " + causeCat[category] + "<br>";
+            popuphtml = popuphtml + "<strong>Incident Cause</strong>: " + specificCause[cause] + "<br>";
+
+
+            new mapboxgl.Popup()
+                .setLngLat(coordinates)
+                .setHTML(popuphtml)
+                .addTo(map);
+        });
+        map.on('mouseenter', 'incpoints', function () {
+            map.getCanvas().style.cursor = 'pointer';
+        });
+
+        // Change it back to a pointer when it leaves.
+        map.on('mouseleave', 'incpoints', function () {
+            map.getCanvas().style.cursor = '';
+        });
+
+        // code for creating an SVG donut chart from feature properties
+        function createDonutChart(props) {
+            var offsets = [];
+            var counts = [
+                props.mag1,
+                props.mag2,
+                props.mag3,
+                props.mag4,
+                props.mag5,
+                props.mag6,
+                props.mag7,
+                props.mag8,
+                props.mag9
+            ];
+
+
+            var total = 0;
+            for (var i = 0; i < counts.length; i++) {
+                offsets.push(total);
+                total += counts[i];
+            }
+            var fontSize =
+                total >= 1000 ? 22 : total >= 100 ? 20 : total >= 10 ? 18 : 16;
+            var r = total >= 1000 ? 50 : total >= 100 ? 32 : total >= 10 ? 24 : 18;
+            var r0 = Math.round(r * 0.6);
+            var w = r * 2;
+
+            var html =
+                '<div><svg width="' +
+                w +
+                '" height="' +
+                w +
+                '" viewbox="0 0 ' +
+                w +
+                ' ' +
+                w +
+                '" text-anchor="middle" style="font: ' +
+                fontSize +
+                'px sans-serif; display: block">';
+
+            for (i = 0; i < counts.length; i++) {
+                html += donutSegment(
+                    offsets[i] / total,
+                    (offsets[i] + counts[i]) / total,
+                    r,
+                    r0,
+                    colors[i]
+                );
+            }
+            html +=
+                '<circle cx="' +
+                r +
+                '" cy="' +
+                r +
+                '" r="' +
+                r0 +
+                '" fill="white" /><text dominant-baseline="central" transform="translate(' +
+                r +
+                ', ' +
+                r +
+                ')">' +
+                total.toLocaleString() +
+                '</text></svg></div>';
+
+            var el = document.createElement('div');
+            el.innerHTML = html;
+            return el.firstChild;
+        }
+
+        function donutSegment(start, end, r, r0, color) {
+            if (end - start === 1) end -= 0.00001;
+            var a0 = 2 * Math.PI * (start - 0.25);
+            var a1 = 2 * Math.PI * (end - 0.25);
+            var x0 = Math.cos(a0),
+                y0 = Math.sin(a0);
+            var x1 = Math.cos(a1),
+                y1 = Math.sin(a1);
+            var largeArc = end - start > 0.5 ? 1 : 0;
+
+            return [
+                '<path d="M',
+                r + r0 * x0,
+                r + r0 * y0,
+                'L',
+                r + r * x0,
+                r + r * y0,
+                'A',
+                r,
+                r,
+                0,
+                largeArc,
+                1,
+                r + r * x1,
+                r + r * y1,
+                'L',
+                r + r0 * x1,
+                r + r0 * y1,
+                'A',
+                r0,
+                r0,
+                0,
+                largeArc,
+                0,
+                r + r0 * x0,
+                r + r0 * y0,
+                '" fill="' + color + '" />'
+            ].join(' ');
+        }
+
+
+    </script>
+
+</body>
+
+</html>
