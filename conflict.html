@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>CA incidents BARMM</title>
+    <title>BARMM CA incidents</title>
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
     <link href="https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.css" rel="stylesheet">
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.js"></script>
@@ -91,7 +91,7 @@
 
     <div class="map-overlay" style="top:90px">
         <div class="map-overlay-inner">
-            <h3>Layer Control</h3>
+            <h2>Layer Control</h2>
             <input type="checkbox" id="opt1" name="opt1" value="opt1" checked onchange="switcher(event)">
             <label for="opt1"> Points</label><br>
             <input type="checkbox" id="opt2" name="opt2" value="opt2" checked onchange="switcher(event)">
@@ -102,9 +102,9 @@
         </div>
     </div>
 
-    <div class="map-overlay" style="top:230px;min-width: 160px;">
+    <div class="map-overlay" style="top:220px;min-width: 160px;">
         <div class="map-overlay-inner">
-            <h3>Incident Causes (Marker Color)</h3>
+            <h2>Incident Causes (Marker Color)</h2>
             <div class="legendrow">
                 <div class='legendbox' style="background-color: #a6cee3;"></div>
                 <span style="margin-left: 10px;">Common Crimes</span>
@@ -155,10 +155,10 @@
         </div>
     </div>
 
-    <div class="map-overlay" style="top:465px">
+    <div class="map-overlay" style="top:470px">
         <div class="map-overlay-inner">
             <div id="legend" class="legend">
-                <h3>Incident Count (Polygon Fill)</h3>
+                <h2>Incident Count (Polygon Fill)</h2>
                 <div class="legendrow">
                     <div class='legendbox' style="background-color: #eeeeee;"></div>
                     <span style="margin-left: 10px;">No Data</span>
@@ -212,8 +212,7 @@
             style: 'mapbox://styles/conflictalert/cknxzmh1y023r17mphj1p8ng5',
             center: [122, 7],
             zoom: 7,
-            minZoom: 7,
-            maxZoom: 15
+            minZoom: 7
         });
 
 
@@ -486,30 +485,34 @@
 
         function switcher(e) {
 
-            var mapLayer = map.getLayer('incpoints');
-            if (typeof mapLayer !== 'undefined') {
+            var incmapLayer = map.getLayer('incpoints');
+            var provmapLayer = map.getLayer('provfill');
+            var clustermapLayer = map.getLayer('clusters');
+
+
+            var dispFlag = document.getElementById('opt1').checked;
+            if ((typeof incmapLayer !== 'undefined') && (!dispFlag)) {
                 map.removeLayer('incpoints');
 
             }
 
-            var mapLayer = map.getLayer('clusters');
-            if (typeof mapLayer !== 'undefined') {
+            dispFlag = document.getElementById('opt2').checked;
+            if ((typeof clustermapLayer !== 'undefined') && (!dispFlag)) {
                 map.removeLayer('clusters');
                 map.removeLayer('unclustered-point');
 
             }
 
-            var mapLayer = map.getLayer('provfill');
-            if (typeof mapLayer !== 'undefined') {
+            dispFlag = document.getElementById('opt3').checked;
+            if ((typeof provmapLayer !== 'undefined') && (!dispFlag)) {
                 map.removeLayer('provfill');
                 map.removeLayer('provoutline');
 
             }
 
-            if (document.getElementById('opt3').checked) {
+            if ((typeof provmapLayer === 'undefined') && (document.getElementById('opt3').checked)) {
 
                 var column = String(years[document.getElementById('slider').value]);
-
 
                 provincialFill = {
                     'id': 'provfill',
@@ -546,12 +549,12 @@
                 map.addLayer(provincialOutline, 'bridge-simple');
             }
 
-            if (document.getElementById('opt1').checked) {
+            if ((typeof incmapLayer === 'undefined') && document.getElementById('opt1').checked) {
                 map.addLayer(incidentPointsLayer);
 
             }
 
-            if (document.getElementById('opt2').checked) {
+            if ((typeof clustermapLayer === 'undefined') && document.getElementById('opt2').checked) {
                 map.addLayer(incidentClustersLayer);
                 map.addLayer(unClusteredLayer);
             }
