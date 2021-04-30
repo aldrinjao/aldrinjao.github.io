@@ -100,53 +100,51 @@
             <label for="opt1"> Points</label><br>
             <input type="checkbox" id="opt2" name="opt2" value="opt2" checked onchange="switcher(event)">
             <label for="opt2"> Clusters</label><br>
-            <input type="checkbox" id="opt3" name="opt3" value="opt3" checked onchange="switcher(event)">
+            <input type="checkbox" id="opt3" name="opt3" value="opt3" onchange="switcher(event)">
             <label for="opt3"> Choropleth</label><br>
 
         </div>
+
     </div>
+
+
+
 
     <div class="map-overlay" style="top:230px;min-width: 160px;">
         <div class="map-overlay-inner">
             <h2>Incident Causes</h2>
             Marker Color
             <div class="legendrow">
-                <div class='legendbox' style="background-color: #a6cee3;"></div>
+                <div class='legendbox' style="background-color: #446177;"></div>
                 <span style="margin-left: 10px;">Common Crimes</span>
             </div>
 
             <div class="legendrow">
-                <div class='legendbox' style="background-color: #1f78b4;"></div>
+                <div class='legendbox' style="background-color: #BEA897;"></div>
                 <span style="margin-left: 10px;">Governance Issues</span>
             </div>
 
 
             <div class="legendrow">
-                <div class='legendbox' style="background-color: #b2df8a;"></div>
+                <div class='legendbox' style="background-color: #c39c49;"></div>
                 <span style="margin-left: 10px;">Identity Issues</span>
             </div>
 
 
             <div class="legendrow">
-                <div class='legendbox' style="background-color: #fb9a99;"></div>
+                <div class='legendbox' style="background-color: #8B3D26;"></div>
                 <span style="margin-left: 10px;">Political Issues</span>
             </div>
 
 
             <div class="legendrow">
-                <div class='legendbox' style="background-color: #e31a1c;"></div>
-                <span style="margin-left: 10px;">Extremist violence</span>
-            </div>
-
-
-            <div class="legendrow">
-                <div class='legendbox' style="background-color: #fdbf6f;"></div>
+                <div class='legendbox' style="background-color: #2E6337;"></div>
                 <span style="margin-left: 10px;">Resource issues</span>
             </div>
 
 
             <div class="legendrow">
-                <div class='legendbox' style="background-color: #ff7f00;"></div>
+                <div class='legendbox' style="background-color: #5a5a5a;"></div>
                 <span style="margin-left: 10px;">Shadow economies</span>
             </div>
 
@@ -236,10 +234,11 @@
             style: 'mapbox://styles/conflictalert/cknxzmh1y023r17mphj1p8ng5',
             center: [122, 7],
             zoom: 7,
-            minZoom: 7
+            minZoom: 7,
+            maxZoom: 12
         });
 
-
+        var zoomThreshold = 9;
         var years = [
             2011,
             2012,
@@ -252,39 +251,31 @@
             2019
         ];
 
-        var mag1 = ['==', ['get', 'cause_category'], 1];
-        var mag2 = ['==', ['get', 'cause_category'], 2];
-        var mag3 = ['==', ['get', 'cause_category'], 3];
-        var mag4 = ['==', ['get', 'cause_category'], 4];
-        var mag5 = ['==', ['get', 'cause_category'], 5];
-        var mag6 = ['==', ['get', 'cause_category'], 6];
-        var mag7 = ['==', ['get', 'cause_category'], 7];
-        var mag8 = ['==', ['get', 'cause_category'], 8];
-        var mag9 = ['==', ['get', 'cause_category'], 9];
 
-
-        var cat1 = ['+', ['get', '1']];
-        var cat2 = ['+', ['get', '2']];
-        var cat3 = ['+', ['get', '3']];
-        var cat4 = ['+', ['get', '4']];
-        var cat5 = ['+', ['get', '5']];
-        var cat6 = ['+', ['get', '6']];
-        var cat7 = ['+', ['get', '7']];
-        var cat8 = ['+', ['get', '8']];
-        var cat9 = ['+', ['get', '9']];
+        var colors_old = [
+            '#a6cee3', // common crimes
+            '#1f78b4', // common crimes
+            '#b2df8a', // common crimes
+            '#33a02c', // common crimes
+            '#fb9a99', // common crimes
+            '#e31a1c', // common crimes
+            '#fdbf6f', // common crimes
+            '#ff7f00', // common crimes
+            '#cab2d6' // common crimes
+        ];
 
 
 
         var colors = [
-            '#a6cee3',
-            '#1f78b4',
-            '#b2df8a',
-            '#33a02c',
-            '#fb9a99',
-            '#e31a1c',
-            '#fdbf6f',
-            '#ff7f00',
-            '#cab2d6'
+            '#446177', // common crimes
+            '#BEA897', // gov
+            '#c39c49', // identity
+            '#aaa', // common crimes
+            '#8B3D26', // political
+            '#aaa', // common crimes
+            '#2E6337', // resource
+            '#5a5a5a', // shadow
+            '#cab2d6' // common crimes
         ];
 
 
@@ -404,71 +395,11 @@
                     8, colors[7],
                     9, colors[8],
                     '#000'
-                ]
-            }
-
-        };
-
-        var incidentClustersLayer = {
-            id: 'clusters',
-            type: 'circle',
-            source: 'barmm',
-            maxzoom: 12,
-            filter: ['has', 'point_count'],
-            paint: {
-                // Use step expressions (https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-step)
-                // with three steps to implement three types of circles:
-                //   * Blue, 20px circles when point count is less than 100
-                //   * Yellow, 30px circles when point count is between 100 and 750
-                //   * Pink, 40px circles when point count is greater than or equal to 750
-                'circle-color': [
-                    'step',
-                    ['get', 'point_count'],
-                    '#51bbd6',
-                    100,
-                    '#f1f075',
-                    500,
-                    '#f28cb1'
                 ],
-
-                'circle-radius': 2,
-                'circle-opacity': 0.25
-            }
-        };
-
-        var unClusteredLayer = {
-            id: 'unclustered-point',
-            'type': 'circle',
-            source: 'barmm',
-            filter: ['!', ['has', 'point_count']],
-            // 'paint': {
-            //     'circle-radius': 6,
-            //     'circle-color': '#B42222'
-            // },
-
-            'paint': {
-                'circle-radius': {
-                    stops: [[7, 2], [8, 3], [9, 4], [10, 5], [11, 6]]
-                },
-                'circle-stroke-width': 1,
-                'circle-stroke-color': '#222222',
-
-                'circle-color': [
-                    'match',
-                    ['get', 'cause_category'],
-                    1, colors[0],
-                    2, colors[1],
-                    3, colors[2],
-                    5, colors[4],
-                    7, colors[6],
-                    8, colors[7],
-                    9, colors[8],
-                    '#000'
-                ]
+                'circle-opacity': 0.75
             }
 
         };
-
 
         var provincialFill = {
             id: 'provfill',
@@ -505,7 +436,7 @@
             'source': 'provSource',
             'layout': {},
             'paint': {
-                'line-color': '#FFF',
+                'line-color': '#000',
                 'line-width': 1
             }
         };
@@ -515,6 +446,7 @@
             var incmapLayer = map.getLayer('incpoints');
             var provmapLayer = map.getLayer('provfill');
             var clustermapLayer = map.getLayer('clusters');
+            var muncclustermapLayer = map.getLayer('muncclusters');
 
 
             var dispFlag = document.getElementById('opt1').checked;
@@ -523,6 +455,7 @@
 
             }
 
+
             dispFlag = document.getElementById('opt2').checked;
             if ((typeof clustermapLayer !== 'undefined') && (!dispFlag)) {
                 map.removeLayer('clusters');
@@ -530,16 +463,20 @@
 
             }
 
+            if ((typeof muncclustermapLayer !== 'undefined') && (!dispFlag)) {
+                map.removeLayer('muncclusters');
+
+
+            }
+
             dispFlag = document.getElementById('opt3').checked;
             if ((typeof provmapLayer !== 'undefined') && (!dispFlag)) {
                 map.removeLayer('provfill');
-                map.removeLayer('provoutline');
 
             }
 
             if ((typeof provmapLayer === 'undefined') && (document.getElementById('opt3').checked)) {
                 map.addLayer(provincialFill, 'bridge-simple');
-                map.addLayer(provincialOutline, 'bridge-simple');
             }
 
             if ((typeof incmapLayer === 'undefined') && document.getElementById('opt1').checked) {
@@ -548,9 +485,30 @@
             }
 
             if ((typeof clustermapLayer === 'undefined') && document.getElementById('opt2').checked) {
-                map.addLayer(incidentClustersLayer);
+                map.addLayer({
+                    id: 'clusters',
+                    type: 'circle',
+                    source: 'barmm',
+                    maxzoom: 9,
+                    filter: ['has', 'point_count'],
+
+                });
 
             }
+
+            if ((typeof muncclustermapLayer === 'undefined') && document.getElementById('opt2').checked) {
+                map.addLayer({
+                    id: 'muncclusters',
+                    type: 'circle',
+                    source: 'muncbarmm',
+                    minzoom: 9,
+                    filter: ['has', 'point_count'],
+
+                });
+
+            }
+
+
 
         }
 
@@ -619,8 +577,14 @@
             var json_obj = JSON.parse(Get('https://aldrinjao.github.io/incidents.geojson'));
             var prov_obj = JSON.parse(Get('https://aldrinjao.github.io/mindanao.geojson'));
             var clus_obj = JSON.parse(Get('https://aldrinjao.github.io/clustered.geojson'));
+            var clus2_obj = JSON.parse(Get('https://aldrinjao.github.io/munc.geojson'));
 
-            filterByMSource(2011, 2019, clus_obj);
+
+
+
+
+            filterByMSource(2011, 2019, clus_obj, clus2_obj);
+            // filterByMSource(2011, 2019, munc_obj);
 
 
             map.addSource('barmmpoints', {
@@ -641,7 +605,7 @@
 
             createProv(2011, 2019, prov_obj);
 
-            map.addLayer(provincialFill, 'bridge-simple');
+            // map.addLayer(provincialFill, 'bridge-simple');
             map.addLayer(provincialOutline, 'bridge-simple');
 
 
@@ -651,12 +615,13 @@
                 var startYear = years[Math.round(slider2.noUiSlider.get()[0])];
                 var endYear = years[Math.round(slider2.noUiSlider.get()[1])];
 
-                filterByMSource(startYear, endYear, clus_obj);
+                filterByMSource(startYear, endYear, clus_obj, clus2_obj);
                 filterByPSource(startYear, endYear, json_obj);
                 createProv(startYear, endYear, prov_obj);
 
                 document.getElementById('year').textContent = startYear + " - " + endYear;
                 updateMarkers();
+                updateMuncMarkers();
             });
 
 
@@ -674,7 +639,7 @@
                 // and add it to the map if it's not there already
                 for (var i = 0; i < features.length; i++) {
 
-                    
+
                     var coords = features[i].geometry.coordinates;
                     var props = features[i].properties;
                     if (!props.cluster) continue;
@@ -699,51 +664,90 @@
                 markersOnScreen = newMarkers;
             }
 
+            var muncmarkers = {};
+            var muncmarkersOnScreen = {};
+
+
+
+            function updateMuncMarkers() {
+                var newmuncMarkers = {};
+                var features = map.querySourceFeatures('muncbarmm');
+
+                // for every cluster on the screen, create an HTML marker for it (if we didn't yet),
+                // and add it to the map if it's not there already
+                for (var i = 0; i < features.length; i++) {
+
+
+                    var coords = features[i].geometry.coordinates;
+                    var props = features[i].properties;
+                    if (!props.cluster) continue;
+                    var id = props.cluster_id;
+
+                    var marker = muncmarkers[id];
+                    if (!marker) {
+
+                        var el = createDonutChart(props);
+                        marker = muncmarkers[id] = new mapboxgl.Marker({
+                            element: el
+                        }).setLngLat(coords);
+                    }
+                    newmuncMarkers[id] = marker;
+
+                    if (!muncmarkersOnScreen[id]) marker.addTo(map);
+                }
+                // for every marker we've added previously, remove those that are no longer visible
+                for (id in muncmarkersOnScreen) {
+                    if (!newmuncMarkers[id]) muncmarkersOnScreen[id].remove();
+                }
+                muncmarkersOnScreen = newmuncMarkers;
+            }
             // after the GeoJSON data is loaded, update markers on the screen on every frame
             map.on('render', function () {
                 if (!map.isSourceLoaded('barmm')) return;
                 updateMarkers();
+                updateMuncMarkers();
             });
 
 
 
-            function filterByMSource(syear, eyear, clus_obj) {
+            function filterByMSource(syear, eyear, clus_obj, clus2_obj) {
 
                 markers = {};
-                
+                muncmarkers = {};
+
                 var yearFilter = ['all', ['>=', ['get', 'incyr'], syear], ['<=', ['get', 'incyr'], eyear]];
-                
-                const newGeoJSON = { ...clus_obj };
-    
+
+                var newGeoJSON = { ...clus_obj };
+
                 var dispFlag = map.getSource('barmm');
 
                 if ((typeof dispFlag !== 'undefined')) {
                     map.removeLayer('clusters');
                     map.removeSource('barmm');
-                    
+                    map.removeLayer('muncclusters');
+                    map.removeSource('muncbarmm');
 
                 }
-
 
                 map.addSource('barmm', {
                     'type': 'geojson',
                     'data': newGeoJSON,
                     'cluster': true,
-                    'clusterRadius': 20,
+                    'clusterRadius': 5,
                     'clusterProperties': {
                         // keep separate counts for each magnitude category in a cluster
 
 
 
-                        'mag1': ['+', ['case', yearFilter, ['get','1'], 0]],
-                        'mag2': ['+', ['case', yearFilter, ['get','2'], 0]],
-                        'mag3': ['+', ['case', yearFilter, ['get','3'], 0]],
-                        'mag4': ['+', ['case', yearFilter, ['get','4'], 0]],
-                        'mag5': ['+', ['case', yearFilter, ['get','5'], 0]],
-                        'mag6': ['+', ['case', yearFilter, ['get','6'], 0]],
-                        'mag7': ['+', ['case', yearFilter, ['get','7'], 0]],
-                        'mag8': ['+', ['case', yearFilter, ['get','8'], 0]],
-                        'mag9': ['+', ['case', yearFilter, ['get','9'], 0]],
+                        'mag1': ['+', ['case', yearFilter, ['get', '1'], 0]],
+                        'mag2': ['+', ['case', yearFilter, ['get', '2'], 0]],
+                        'mag3': ['+', ['case', yearFilter, ['get', '3'], 0]],
+                        'mag4': ['+', ['case', yearFilter, ['get', '4'], 0]],
+                        'mag5': ['+', ['case', yearFilter, ['get', '5'], 0]],
+                        'mag6': ['+', ['case', yearFilter, ['get', '6'], 0]],
+                        'mag7': ['+', ['case', yearFilter, ['get', '7'], 0]],
+                        'mag8': ['+', ['case', yearFilter, ['get', '8'], 0]],
+                        'mag9': ['+', ['case', yearFilter, ['get', '9'], 0]],
                     }
                 });
 
@@ -751,32 +755,50 @@
                     id: 'clusters',
                     type: 'circle',
                     source: 'barmm',
-                    maxzoom: 12,
+                    maxzoom: 9,
                     filter: ['has', 'point_count'],
-                    paint: {
-                        // Use step expressions (https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-step)
-                        // with three steps to implement three types of circles:
-                        //   * Blue, 20px circles when point count is less than 100
-                        //   * Yellow, 30px circles when point count is between 100 and 750
-                        //   * Pink, 40px circles when point count is greater than or equal to 750
-                        'circle-color': [
-                            'step',
-                            ['get', 'point_count'],
-                            '#51bbd6',
-                            100,
-                            '#f1f075',
-                            500,
-                            '#f28cb1'
-                        ],
 
-                        'circle-radius': 2,
-                        'circle-opacity': 0.25
+                });
+
+                newGeoJSON = { ...clus2_obj };
+
+
+                map.addSource('muncbarmm', {
+                    'type': 'geojson',
+                    'data': newGeoJSON,
+                    'cluster': true,
+                    'clusterRadius': 5,
+                    'clusterProperties': {
+                        // keep separate counts for each magnitude category in a cluster
+
+
+
+                        'mag1': ['+', ['case', yearFilter, ['get', '1'], 0]],
+                        'mag2': ['+', ['case', yearFilter, ['get', '2'], 0]],
+                        'mag3': ['+', ['case', yearFilter, ['get', '3'], 0]],
+                        'mag4': ['+', ['case', yearFilter, ['get', '4'], 0]],
+                        'mag5': ['+', ['case', yearFilter, ['get', '5'], 0]],
+                        'mag6': ['+', ['case', yearFilter, ['get', '6'], 0]],
+                        'mag7': ['+', ['case', yearFilter, ['get', '7'], 0]],
+                        'mag8': ['+', ['case', yearFilter, ['get', '8'], 0]],
+                        'mag9': ['+', ['case', yearFilter, ['get', '9'], 0]],
                     }
                 });
 
+                map.addLayer({
+                    id: 'muncclusters',
+                    type: 'circle',
+                    source: 'muncbarmm',
+                    minzoom: 9,
+                    filter: ['has', 'point_count'],
+
+                });
 
 
             }
+
+
+
         });
 
 
@@ -834,7 +856,7 @@
 
             var fontSize =
                 total >= 1000 ? 22 : total >= 100 ? 20 : total >= 10 ? 18 : 16;
-            var r = total >= 1000 ? 50 : total >= 100 ? 32 : total >= 10 ? 24 : 18;
+            var r = total >= 10000 ? 64 : total >= 1000 ? 50 : total >= 100 ? 32 : total >= 10 ? 24 : 18;
             var r0 = Math.round(r * 0.6);
             var w = r * 2;
 
