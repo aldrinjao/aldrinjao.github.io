@@ -405,7 +405,7 @@
             id: 'provfill',
             type: 'fill',
             source: 'provSource',
-            maxzoom: 12,
+            maxzoom: 9,
             paint: {
                 'fill-color': [
                     'interpolate',
@@ -430,16 +430,61 @@
             }
         };
 
+
+        var municipalFill = {
+            id: 'muncfill',
+            type: 'fill',
+            source: 'muncSource',
+            minzoom: 9,
+            paint: {
+                'fill-color': [
+                    'interpolate',
+                    ['linear'],
+                    ['get', 'count'],
+                    -1,
+                    '#eeeeee',
+                    10,
+                    '#fcbba1',
+                    500,
+                    '#fc9272',
+                    1000,
+                    '#fb6a4a',
+                    5000,
+                    '#de2d26',
+                    10000,
+                    '#a50f15'
+
+
+                ],
+                'fill-opacity': 0.75,
+            }
+        };
+
+
         var provincialOutline = {
             'id': 'provoutline',
             'type': 'line',
             'source': 'provSource',
+            'maxzoom': 9,
             'layout': {},
             'paint': {
-                'line-color': '#000',
+                'line-color': '#222',
+                'line-width': 1.5
+            }
+        };
+
+        var municipalOutline = {
+            'id': 'muncoutline',
+            'type': 'line',
+            'source': 'muncSource',
+            'minzoom': 9,
+            'paint': {
+                'line-color': '#222',
                 'line-width': 1
             }
         };
+
+
 
         function switcher(e) {
 
@@ -469,6 +514,7 @@
 
             }
 
+
             dispFlag = document.getElementById('opt3').checked;
             if ((typeof provmapLayer !== 'undefined') && (!dispFlag)) {
                 map.removeLayer('provfill');
@@ -477,7 +523,16 @@
 
             if ((typeof provmapLayer === 'undefined') && (document.getElementById('opt3').checked)) {
                 map.addLayer(provincialFill, 'bridge-simple');
+
             }
+            if ((typeof provmapLayer === 'undefined') && (document.getElementById('opt3').checked)) {
+                map.addLayer(municipalFill, 'bridge-simple');
+
+            }
+
+
+
+
 
             if ((typeof incmapLayer === 'undefined') && document.getElementById('opt1').checked) {
                 map.addLayer(incidentPointsLayer);
@@ -545,7 +600,9 @@
 
 
 
-        function createProv(syear, eyear, prov_obj) {
+        function createProv(syear, eyear, prov_obj, source) {
+
+
             const newGeoJSON = { ...prov_obj };
             newGeoJSON.features = prov_obj.features.map(feature => {
                 var count = 0;
@@ -559,7 +616,7 @@
                 return feature;
             });
 
-            map.getSource('provSource').setData(newGeoJSON);
+            map.getSource(source).setData(newGeoJSON);
 
         }
 
@@ -575,7 +632,8 @@
 
 
             var json_obj = JSON.parse(Get('https://aldrinjao.github.io/incidents.geojson'));
-            var prov_obj = JSON.parse(Get('https://aldrinjao.github.io/mindanao.geojson'));
+            var prov_obj = JSON.parse(Get('https://aldrinjao.github.io/prov_poly.geojson'));
+            var munc_obj = JSON.parse(Get('https://aldrinjao.github.io/munc_poly.geojson'));
             var clus_obj = JSON.parse(Get('https://aldrinjao.github.io/clustered.geojson'));
             var clus2_obj = JSON.parse(Get('https://aldrinjao.github.io/munc.geojson'));
 
@@ -603,10 +661,17 @@
 
             });
 
-            createProv(2011, 2019, prov_obj);
+            map.addSource('muncSource', {
+                'type': 'geojson',
+                'data': munc_obj
 
-            // map.addLayer(provincialFill, 'bridge-simple');
+            });
+
+            createProv(2011, 2019, prov_obj, 'provSource');
+            createProv(2011, 2019, munc_obj, 'muncSource');
+
             map.addLayer(provincialOutline, 'bridge-simple');
+            map.addLayer(municipalOutline, 'bridge-simple');
 
 
 
@@ -617,13 +682,13 @@
 
                 filterByMSource(startYear, endYear, clus_obj, clus2_obj);
                 filterByPSource(startYear, endYear, json_obj);
-                createProv(startYear, endYear, prov_obj);
+                createProv(startYear, endYear, prov_obj, 'provSource');
+                createProv(startYear, endYear, munc_obj, 'muncSource');
 
                 document.getElementById('year').textContent = startYear + " - " + endYear;
                 updateMarkers();
                 updateMuncMarkers();
             });
-
 
             ////////////////////////////
 
