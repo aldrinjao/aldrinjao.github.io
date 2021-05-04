@@ -70,6 +70,7 @@
             width: 12px;
             height: 12px;
             border: 1px solid rgb(58, 58, 58);
+            margin: 0px 10px;
         }
 
         .legendrow {
@@ -96,12 +97,22 @@
     <div class="map-overlay" style="top:90px">
         <div class="map-overlay-inner">
             <h2>Layer Control</h2>
-            <input type="checkbox" id="opt1" name="opt1" value="opt1" checked onchange="switcher(event)">
-            <label for="opt1"> Points</label><br>
-            <input type="checkbox" id="opt2" name="opt2" value="opt2" checked onchange="switcher(event)">
-            <label for="opt2"> Clusters</label><br>
-            <input type="checkbox" id="opt3" name="opt3" value="opt3" onchange="switcher(event)">
-            <label for="opt3"> Choropleth</label><br>
+
+            <div class="legendrow">
+                <input type="checkbox" id="opt1" name="opt1" value="opt1" checked>
+                <label for="opt1"> Points</label>
+            </div>
+            <div class="legendrow">
+
+                <input type="checkbox" id="opt2" name="opt2" value="opt2" checked>
+                <label for="opt2"> Clusters</label>
+            </div>
+
+            <div class="legendrow">
+
+                <input type="checkbox" id="opt3" name="opt3" value="opt3">
+                <label for="opt3"> Choropleth</label>
+            </div>
 
         </div>
 
@@ -115,43 +126,55 @@
             <h2>Incident Causes</h2>
             Marker Color
             <div class="legendrow">
+                <input type="checkbox" id="cat1" name="cat1" value="cat1" checked>
                 <div class='legendbox' style="background-color: #446177;"></div>
-                <span style="margin-left: 10px;">Common Crimes</span>
+                <span>Common Crimes</span>
             </div>
 
             <div class="legendrow">
+                <input type="checkbox" id="cat2" name="cat2" value="cat2" checked>
                 <div class='legendbox' style="background-color: #BEA897;"></div>
-                <span style="margin-left: 10px;">Governance Issues</span>
+                <span>Governance Issues</span>
             </div>
 
 
             <div class="legendrow">
+                <input type="checkbox" id="cat3" name="cat3" value="cat3" checked>
+
                 <div class='legendbox' style="background-color: #c39c49;"></div>
-                <span style="margin-left: 10px;">Identity Issues</span>
+                <span>Identity Issues</span>
             </div>
 
+            <input type="checkbox" id="cat4" name="cat4" value="cat4" style="display: none;">
+            <input type="checkbox" id="cat6" name="cat6" value="cat6" style="display: none;">
 
             <div class="legendrow">
+                <input type="checkbox" id="cat5" name="cat5" value="cat5" checked>
+
                 <div class='legendbox' style="background-color: #8B3D26;"></div>
-                <span style="margin-left: 10px;">Political Issues</span>
+                <span>Political Issues</span>
             </div>
 
 
             <div class="legendrow">
+                <input type="checkbox" id="cat7" name="cat7" value="cat7" checked>
+
                 <div class='legendbox' style="background-color: #2E6337;"></div>
-                <span style="margin-left: 10px;">Resource issues</span>
+                <span>Resource issues</span>
             </div>
 
 
             <div class="legendrow">
+                <input type="checkbox" id="cat8" name="cat8" value="cat8" checked>
                 <div class='legendbox' style="background-color: #5a5a5a;"></div>
-                <span style="margin-left: 10px;">Shadow economies</span>
+                <span>Shadow economies</span>
             </div>
 
 
             <div class="legendrow">
+                <input type="checkbox" id="cat9" name="cat9" value="cat9">
                 <div class='legendbox' style="background-color: #cab2d6;"></div>
-                <span style="margin-left: 10px;">Undetermined</span>
+                <span>Undetermined</span>
             </div>
 
 
@@ -406,6 +429,10 @@
             type: 'fill',
             source: 'provSource',
             maxzoom: 9,
+            'layout': {
+                // Make the layer visible by default.
+                'visibility': 'none'
+            },
             paint: {
                 'fill-color': [
                     'interpolate',
@@ -436,6 +463,10 @@
             type: 'fill',
             source: 'muncSource',
             minzoom: 9,
+            'layout': {
+                // Make the layer visible by default.
+                'visibility': 'none'
+            },
             paint: {
                 'fill-color': [
                     'interpolate',
@@ -486,93 +517,7 @@
 
 
 
-        function switcher(e) {
 
-            var incmapLayer = map.getLayer('incpoints');
-            var provmapLayer = map.getLayer('provfill');
-            var clustermapLayer = map.getLayer('clusters');
-            var muncclustermapLayer = map.getLayer('muncclusters');
-
-
-            var dispFlag = document.getElementById('opt1').checked;
-            if ((typeof incmapLayer !== 'undefined') && (!dispFlag)) {
-                map.removeLayer('incpoints');
-
-            }
-
-
-            dispFlag = document.getElementById('opt2').checked;
-            if ((typeof clustermapLayer !== 'undefined') && (!dispFlag)) {
-                map.removeLayer('clusters');
-
-
-            }
-
-            if ((typeof muncclustermapLayer !== 'undefined') && (!dispFlag)) {
-                map.removeLayer('muncclusters');
-
-
-            }
-
-
-            dispFlag = document.getElementById('opt3').checked;
-            if ((typeof provmapLayer !== 'undefined') && (!dispFlag)) {
-                map.removeLayer('provfill');
-
-            }
-
-            if ((typeof provmapLayer === 'undefined') && (document.getElementById('opt3').checked)) {
-                map.addLayer(provincialFill, 'bridge-simple');
-
-            }
-            if ((typeof provmapLayer === 'undefined') && (document.getElementById('opt3').checked)) {
-                map.addLayer(municipalFill, 'bridge-simple');
-
-            }
-
-
-
-
-
-            if ((typeof incmapLayer === 'undefined') && document.getElementById('opt1').checked) {
-                map.addLayer(incidentPointsLayer);
-
-            }
-
-            if ((typeof clustermapLayer === 'undefined') && document.getElementById('opt2').checked) {
-                map.addLayer({
-                    id: 'clusters',
-                    type: 'circle',
-                    source: 'barmm',
-                    maxzoom: 9,
-                    filter: ['has', 'point_count'],
-
-                });
-
-            }
-
-            if ((typeof muncclustermapLayer === 'undefined') && document.getElementById('opt2').checked) {
-                map.addLayer({
-                    id: 'muncclusters',
-                    type: 'circle',
-                    source: 'muncbarmm',
-                    minzoom: 9,
-                    filter: ['has', 'point_count'],
-
-                });
-
-            }
-
-
-
-        }
-
-        function filterBy(year) {
-            var filters = ['==', 'incyr', years[year]];
-            map.setFilter('incpoints', filters);
-
-            // Set the label to the month
-        }
 
 
         function filterBySource(year, json_obj) {
@@ -589,11 +534,24 @@
 
         function filterByPSource(syear, eyear, json_obj) {
 
+            var checked = [];
+            var wholeFilter = ['all', ["in", "cause_category"]]
+            for (let index = 1; index <= 9; index++) {
+                if (document.getElementById('cat' + index).checked) wholeFilter[1].push(index);
+            }
+
+
+
+            console.log(wholeFilter);
+
             const newGeoJSON = { ...json_obj };
             newGeoJSON.features = json_obj.features.filter(feature =>
                 (feature.properties.incyr >= syear) && (feature.properties.incyr <= eyear)
             );
             map.getSource('barmmpoints').setData(newGeoJSON);
+
+            map.setFilter('incpoints', wholeFilter);
+
 
         }
 
@@ -629,7 +587,6 @@
         }
 
         map.on('load', function () {
-
 
             var json_obj = JSON.parse(Get('https://aldrinjao.github.io/incidents.geojson'));
             var prov_obj = JSON.parse(Get('https://aldrinjao.github.io/prov_poly.geojson'));
@@ -669,7 +626,8 @@
 
             createProv(2011, 2019, prov_obj, 'provSource');
             createProv(2011, 2019, munc_obj, 'muncSource');
-
+            map.addLayer(provincialFill, 'bridge-simple');
+            map.addLayer(municipalFill, 'bridge-simple');
             map.addLayer(provincialOutline, 'bridge-simple');
             map.addLayer(municipalOutline, 'bridge-simple');
 
@@ -767,6 +725,7 @@
                 muncmarkersOnScreen = newmuncMarkers;
             }
             // after the GeoJSON data is loaded, update markers on the screen on every frame
+
             map.on('render', function () {
                 if (!map.isSourceLoaded('barmm')) return;
                 updateMarkers();
@@ -777,10 +736,34 @@
 
             function filterByMSource(syear, eyear, clus_obj, clus2_obj) {
 
+
+
+                var checked = [];
+                for (let index = 1; index <= 9; index++) {
+                    checked[index] = document.getElementById('cat' + index).checked;
+                }
+
+                let checker = checked.every(v => v === false);
+
+
                 markers = {};
                 muncmarkers = {};
 
                 var yearFilter = ['all', ['>=', ['get', 'incyr'], syear], ['<=', ['get', 'incyr'], eyear]];
+
+
+                var categoryFilter = [];
+                for (let index = 1; index <= 9; index++) {
+                    if (checked[index]) {
+
+                        categoryFilter[index] = ['get', String(index)];
+                    }
+                    else {
+                        categoryFilter[index] = 0;
+                    }
+                }
+
+
 
                 var newGeoJSON = { ...clus_obj };
 
@@ -802,18 +785,17 @@
                     'clusterProperties': {
                         // keep separate counts for each magnitude category in a cluster
 
+                        'mag1': ['+', ['case', yearFilter, categoryFilter[1], 0]],
+                        'mag2': ['+', ['case', yearFilter, categoryFilter[2], 0]],
+                        'mag3': ['+', ['case', yearFilter, categoryFilter[3], 0]],
+                        'mag4': ['+', ['case', yearFilter, categoryFilter[4], 0]],
+                        'mag5': ['+', ['case', yearFilter, categoryFilter[5], 0]],
+                        'mag6': ['+', ['case', yearFilter, categoryFilter[6], 0]],
+                        'mag7': ['+', ['case', yearFilter, categoryFilter[7], 0]],
+                        'mag8': ['+', ['case', yearFilter, categoryFilter[8], 0]],
+                        'mag9': ['+', ['case', yearFilter, categoryFilter[9], 0]],
+                    },
 
-
-                        'mag1': ['+', ['case', yearFilter, ['get', '1'], 0]],
-                        'mag2': ['+', ['case', yearFilter, ['get', '2'], 0]],
-                        'mag3': ['+', ['case', yearFilter, ['get', '3'], 0]],
-                        'mag4': ['+', ['case', yearFilter, ['get', '4'], 0]],
-                        'mag5': ['+', ['case', yearFilter, ['get', '5'], 0]],
-                        'mag6': ['+', ['case', yearFilter, ['get', '6'], 0]],
-                        'mag7': ['+', ['case', yearFilter, ['get', '7'], 0]],
-                        'mag8': ['+', ['case', yearFilter, ['get', '8'], 0]],
-                        'mag9': ['+', ['case', yearFilter, ['get', '9'], 0]],
-                    }
                 });
 
                 map.addLayer({
@@ -821,7 +803,10 @@
                     type: 'circle',
                     source: 'barmm',
                     maxzoom: 9,
-                    filter: ['has', 'point_count'],
+                    filter: ['>', ['get', 'point_count'], 0],
+                    paint: {
+                        'circle-opacity': 0
+                    }
 
                 });
 
@@ -836,17 +821,15 @@
                     'clusterProperties': {
                         // keep separate counts for each magnitude category in a cluster
 
-
-
-                        'mag1': ['+', ['case', yearFilter, ['get', '1'], 0]],
-                        'mag2': ['+', ['case', yearFilter, ['get', '2'], 0]],
-                        'mag3': ['+', ['case', yearFilter, ['get', '3'], 0]],
-                        'mag4': ['+', ['case', yearFilter, ['get', '4'], 0]],
-                        'mag5': ['+', ['case', yearFilter, ['get', '5'], 0]],
-                        'mag6': ['+', ['case', yearFilter, ['get', '6'], 0]],
-                        'mag7': ['+', ['case', yearFilter, ['get', '7'], 0]],
-                        'mag8': ['+', ['case', yearFilter, ['get', '8'], 0]],
-                        'mag9': ['+', ['case', yearFilter, ['get', '9'], 0]],
+                        'mag1': ['+', ['case', yearFilter, categoryFilter[1], 0]],
+                        'mag2': ['+', ['case', yearFilter, categoryFilter[2], 0]],
+                        'mag3': ['+', ['case', yearFilter, categoryFilter[3], 0]],
+                        'mag4': ['+', ['case', yearFilter, categoryFilter[4], 0]],
+                        'mag5': ['+', ['case', yearFilter, categoryFilter[5], 0]],
+                        'mag6': ['+', ['case', yearFilter, categoryFilter[6], 0]],
+                        'mag7': ['+', ['case', yearFilter, categoryFilter[7], 0]],
+                        'mag8': ['+', ['case', yearFilter, categoryFilter[8], 0]],
+                        'mag9': ['+', ['case', yearFilter, categoryFilter[9], 0]],
                     }
                 });
 
@@ -855,13 +838,70 @@
                     type: 'circle',
                     source: 'muncbarmm',
                     minzoom: 9,
-                    filter: ['has', 'point_count'],
+                    filter: ['>', ['get', 'point_count'], 0],
+                    paint: {
+                        'circle-opacity': 0
+                    }
 
                 });
 
 
             }
 
+
+            for (let index = 1; index <= 9; index++) {
+
+                checkbox = document.getElementById('cat' + index);
+                checkbox.addEventListener('change', e => {
+
+                    var startYear = years[Math.round(slider2.noUiSlider.get()[0])];
+                    var endYear = years[Math.round(slider2.noUiSlider.get()[1])];
+
+                    filterByMSource(startYear, endYear, clus_obj, clus2_obj);
+                    filterByPSource(startYear, endYear, json_obj);
+                    updateMarkers();
+                    updateMuncMarkers();
+
+
+                });
+
+            }
+
+
+
+            for (let index = 1; index <= 3; index++) {
+
+                checkbox = document.getElementById('opt' + index);
+                checkbox.addEventListener('change', e => {
+
+                    switcher();
+
+                });
+
+            }
+
+            function switcher() {
+                let layers = [[],['incpoints'], ['clusters', 'muncclusters'],['provfill', 'muncfill'],];
+
+
+                for (let index = 1; index <= 3; index++) {
+
+                    let pointFlag = document.getElementById('opt' + index).checked;
+
+                    let visibileFlag = pointFlag ? 'visible' : 'none';
+
+
+                    layers[index].forEach(element => {
+                        map.setLayoutProperty(
+                            element,
+                            'visibility',
+                            visibileFlag
+                        );
+
+                    });
+
+                }
+            }
 
 
         });
@@ -920,10 +960,12 @@
             }
 
             var fontSize =
-                total >= 1000 ? 22 : total >= 100 ? 20 : total >= 10 ? 18 : 16;
-            var r = total >= 10000 ? 64 : total >= 1000 ? 50 : total >= 100 ? 32 : total >= 10 ? 24 : 18;
+                total >= 1000 ? 22 : total >= 100 ? 20 : total >= 10 ? 18 : total >= 1 ? 16 : 1;
+            var r = total >= 10000 ? 64 : total >= 1000 ? 50 : total >= 100 ? 32 : total >= 10 ? 24 : total >= 1 ? 16 : 1;
             var r0 = Math.round(r * 0.6);
             var w = r * 2;
+
+
 
             var html =
                 '<div><svg width="' +
@@ -947,6 +989,14 @@
                     colors[i]
                 );
             }
+
+            let color = 'white';
+            let totalCount = total;
+            if (total === 0) {
+                totalCount = '';
+                color = 'none';
+            }
+            totalCount = totalCount.toLocaleString()
             html +=
                 '<circle cx="' +
                 r +
@@ -954,12 +1004,12 @@
                 r +
                 '" r="' +
                 r0 +
-                '" fill="white" /><text dominant-baseline="central" transform="translate(' +
+                '" fill="' + color + '" /><text dominant-baseline="central" transform="translate(' +
                 r +
                 ', ' +
                 r +
                 ')">' +
-                total.toLocaleString() +
+                totalCount +
                 '</text></svg></div>';
 
             var el = document.createElement('div');
