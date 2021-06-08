@@ -20,7 +20,7 @@ function markerCheckBox() {
     // Get the checkbox
     var tencheckBox = document.getElementById("tencbox");
     var viocheckBox = document.getElementById("viocbox");
-    var govcheckBox = document.getElementById("govcbox");
+    // var govcheckBox = document.getElementById("govcbox");
     // Get the output text
 
 
@@ -33,9 +33,9 @@ function markerCheckBox() {
         allIssues = allIssues.concat(vioIssues);
     }
 
-    if (govcheckBox.checked) {
-        allIssues = allIssues.concat(govIssues);
-    }
+    // if (govcheckBox.checked) {
+    //     allIssues = allIssues.concat(govIssues);
+    // }
 
     tensionMarkerGroup.clearLayers();
     violenceMarkerGroup.clearLayers();
