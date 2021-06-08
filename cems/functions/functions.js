@@ -60,11 +60,11 @@ function toggleMarkers() {
 }
 
 function toggleHeatmap() {
-    var hcheckBox = document.getElementById("heatmapcbox");
+    // var hcheckBox = document.getElementById("heatmapcbox");
     var tencheckBox = document.getElementById("tencbox");
     var viocheckBox = document.getElementById("viocbox");
 
-    if (hcheckBox.checked) {
+    // if (hcheckBox.checked) {
         if (tencheckBox.checked && viocheckBox.checked) {
             document.getElementById("gradient-legend").style.backgroundImage = "linear-gradient(90deg,rgba(0,0,0,.0), #FF6600)";
             createHeatMapLayer(tenIssues, vioIssues);
@@ -82,10 +82,10 @@ function toggleHeatmap() {
             createHeatMapLayer([], []);
 
         }
-    } else {
-        createHeatMapLayer([], []);
+    // } else {
+    //     createHeatMapLayer([], []);
 
-    }
+    // }
 }
 
 
