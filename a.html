@@ -1,0 +1,49 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+</head>
+<body>
+
+
+</body>
+</html>
+
+
+
+
+
+<script type="text/javascript">
+	
+
+var url = "https://api.mapbox.com/tokens/v2/conflictalert?access_token=sk.eyJ1IjoiY29uZmxpY3RhbGVydCIsImEiOiJja3Fra3Ezd2MwZDd3Mnduc2M2c2Y3bW02In0.q53YHXf0QoDx-dJEOcCHQg";
+
+var xhr = new XMLHttpRequest();
+xhr.open("POST", url);
+
+xhr.setRequestHeader("Accept", "application/json");
+xhr.setRequestHeader("Content-Type", "application/json");
+
+xhr.onreadystatechange = function () {
+   if (xhr.readyState === 4) {
+      console.log(xhr.status);
+      console.log(xhr.responseText);
+   }};
+
+var diff = 30;
+var oldDateObj = new Date();
+var newDateObj = new Date(oldDateObj.getTime() + diff*60000);
+
+var data = `{
+"expires":`+
+newDateObj.toString()
++`,
+"scopes": ["styles:read", "fonts:read"]
+}
+
+`;
+
+xhr.send(data);
+</script>
