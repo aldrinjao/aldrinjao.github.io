@@ -1,1 +1,1 @@
-temporary hosting for small projects
+[![Netlify Status](https://api.netlify.com/api/v1/badges/7037329a-91a1-4c75-afe5-ab788f9d8f01/deploy-status)](https://app.netlify.com/sites/rumpmap/deploys)
