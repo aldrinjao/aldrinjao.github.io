@@ -54,7 +54,7 @@
         "name": "Flood Susceptibility",
         "description": "",
         "type": "fill",
-        "url": "rump-conflictalert.kapai_flood",
+        "url": "rump-conflictalert.kapai_tla",
         "column": "flood_susceptibility",
         "opacity": 100,
         "checked": false
