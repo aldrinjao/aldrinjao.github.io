@@ -698,7 +698,7 @@
         function filterByPSource(syear, eyear, json_obj) {
 
             var checked = [];
-            var wholeFilter = ['all', ["in", "cause_category"]]
+            var wholeFilter = ['all', ["in", "cause_category"]];
             for (let index = 1; index <= CATEGORIES; index++) {
                 if (document.getElementById('cat' + index).checked) wholeFilter[1].push(index);
             }
@@ -713,7 +713,7 @@
             );
             map.getSource('barmmpoints').setData(newGeoJSON);
 
-            map.setFilter('incpoints', wholeFilter);
+            // map.setFilter('incpoints', wholeFilter);
 
 
         }
@@ -751,7 +751,7 @@
 
         map.on('load', function () {
 
-            var json_obj = JSON.parse(Get('https://aldrinjao.github.io/incidents.geojson'));
+            var json_obj = JSON.parse(Get('https://aldrinjao.github.io/barmm/incidents_new.geojson'));
             var prov_obj = JSON.parse(Get('https://aldrinjao.github.io/prov_poly.geojson'));
             var munc_obj = JSON.parse(Get('https://aldrinjao.github.io/munc_poly.geojson'));
             var clus_obj = JSON.parse(Get('https://aldrinjao.github.io/clustered.geojson'));
