@@ -1200,8 +1200,9 @@
         });
 
         function filterByMSource(syear, eyear, clus_obj, clus2_obj) {
+
           var checked = [];
-          for (let index = 1; index <= 9; index++) {
+          for (let index = 1; index <= 36; index++) {
             checked[index] = document.getElementById("cat" + index).checked;
           }
 
@@ -1224,6 +1225,7 @@
               categoryFilter[index] = 0;
             }
           }
+
 
           var newGeoJSON = { ...clus_obj };
 
@@ -1253,6 +1255,34 @@
               mag7: ["+", ["case", yearFilter, categoryFilter[7], 0]],
               mag8: ["+", ["case", yearFilter, categoryFilter[8], 0]],
               mag9: ["+", ["case", yearFilter, categoryFilter[9], 0]],
+              mag10: ["+", ["case", yearFilter, categoryFilter[10], 0]],
+              mag11: ["+", ["case", yearFilter, categoryFilter[11], 0]],
+              mag12: ["+", ["case", yearFilter, categoryFilter[12], 0]],
+              mag13: ["+", ["case", yearFilter, categoryFilter[13], 0]],
+              mag14: ["+", ["case", yearFilter, categoryFilter[14], 0]],
+              mag15: ["+", ["case", yearFilter, categoryFilter[15], 0]],
+              mag16: ["+", ["case", yearFilter, categoryFilter[16], 0]],
+              mag17: ["+", ["case", yearFilter, categoryFilter[17], 0]],
+              mag18: ["+", ["case", yearFilter, categoryFilter[18], 0]],
+              mag19: ["+", ["case", yearFilter, categoryFilter[19], 0]],
+              mag20: ["+", ["case", yearFilter, categoryFilter[20], 0]],
+              mag21: ["+", ["case", yearFilter, categoryFilter[21], 0]],
+              mag22: ["+", ["case", yearFilter, categoryFilter[22], 0]],
+              mag23: ["+", ["case", yearFilter, categoryFilter[23], 0]],
+              mag24: ["+", ["case", yearFilter, categoryFilter[24], 0]],
+              mag25: ["+", ["case", yearFilter, categoryFilter[25], 0]],
+              mag26: ["+", ["case", yearFilter, categoryFilter[26], 0]],
+              mag27: ["+", ["case", yearFilter, categoryFilter[27], 0]],
+              mag28: ["+", ["case", yearFilter, categoryFilter[28], 0]],
+              mag29: ["+", ["case", yearFilter, categoryFilter[29], 0]],
+              mag30: ["+", ["case", yearFilter, categoryFilter[30], 0]],
+              mag31: ["+", ["case", yearFilter, categoryFilter[31], 0]],
+              mag32: ["+", ["case", yearFilter, categoryFilter[32], 0]],
+              mag33: ["+", ["case", yearFilter, categoryFilter[33], 0]],
+              mag34: ["+", ["case", yearFilter, categoryFilter[34], 0]],
+              mag35: ["+", ["case", yearFilter, categoryFilter[35], 0]],
+              mag36: ["+", ["case", yearFilter, categoryFilter[36], 0]],
+
             },
           });
 
@@ -1286,6 +1316,33 @@
               mag7: ["+", ["case", yearFilter, categoryFilter[7], 0]],
               mag8: ["+", ["case", yearFilter, categoryFilter[8], 0]],
               mag9: ["+", ["case", yearFilter, categoryFilter[9], 0]],
+              mag10: ["+", ["case", yearFilter, categoryFilter[10], 0]],
+              mag11: ["+", ["case", yearFilter, categoryFilter[11], 0]],
+              mag12: ["+", ["case", yearFilter, categoryFilter[12], 0]],
+              mag13: ["+", ["case", yearFilter, categoryFilter[13], 0]],
+              mag14: ["+", ["case", yearFilter, categoryFilter[14], 0]],
+              mag15: ["+", ["case", yearFilter, categoryFilter[15], 0]],
+              mag16: ["+", ["case", yearFilter, categoryFilter[16], 0]],
+              mag17: ["+", ["case", yearFilter, categoryFilter[17], 0]],
+              mag18: ["+", ["case", yearFilter, categoryFilter[18], 0]],
+              mag19: ["+", ["case", yearFilter, categoryFilter[19], 0]],
+              mag20: ["+", ["case", yearFilter, categoryFilter[20], 0]],
+              mag21: ["+", ["case", yearFilter, categoryFilter[21], 0]],
+              mag22: ["+", ["case", yearFilter, categoryFilter[22], 0]],
+              mag23: ["+", ["case", yearFilter, categoryFilter[23], 0]],
+              mag24: ["+", ["case", yearFilter, categoryFilter[24], 0]],
+              mag25: ["+", ["case", yearFilter, categoryFilter[25], 0]],
+              mag26: ["+", ["case", yearFilter, categoryFilter[26], 0]],
+              mag27: ["+", ["case", yearFilter, categoryFilter[27], 0]],
+              mag28: ["+", ["case", yearFilter, categoryFilter[28], 0]],
+              mag29: ["+", ["case", yearFilter, categoryFilter[29], 0]],
+              mag30: ["+", ["case", yearFilter, categoryFilter[30], 0]],
+              mag31: ["+", ["case", yearFilter, categoryFilter[31], 0]],
+              mag32: ["+", ["case", yearFilter, categoryFilter[32], 0]],
+              mag33: ["+", ["case", yearFilter, categoryFilter[33], 0]],
+              mag34: ["+", ["case", yearFilter, categoryFilter[34], 0]],
+              mag35: ["+", ["case", yearFilter, categoryFilter[35], 0]],
+              mag36: ["+", ["case", yearFilter, categoryFilter[36], 0]],
             },
           });
 
