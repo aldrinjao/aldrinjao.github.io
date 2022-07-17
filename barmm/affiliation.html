@@ -38,7 +38,7 @@
       .map-overlay {
         font: 12px/20px "Helvetica Neue", Arial, Helvetica, sans-serif;
         position: absolute;
-        width: 25%;
+        min-width: 300px;
         top: 0;
         left: 0;
         padding: 10px;
@@ -302,7 +302,7 @@
           </div>
         </div>
 
-        <div class="cbox-right">
+        <div class="cbox-right" style="padding-bottom: 20px">
           <div style="width: 100%; margin-top: 5px; margin-bottom: 5px">
             <button id="selectButton" style="margin-right: 30px">
               select all
@@ -310,17 +310,6 @@
             <button id="deselectButton">None</button>
           </div>
           Marker Color
-          <div class="legendrow">
-            <input
-              type="checkbox"
-              id="cat20"
-              name="cat20"
-              value="cat20"
-              checked
-            />
-            <div class="legendbox" style="background-color: #ffa500"></div>
-            <span>Business - construction</span>
-          </div>
           <div class="legendrow">
             <input
               type="checkbox"
@@ -332,6 +321,19 @@
             <div class="legendbox" style="background-color: #ffff00"></div>
             <span>Business - mining</span>
           </div>
+
+          <div class="legendrow">
+            <input
+              type="checkbox"
+              id="cat20"
+              name="cat20"
+              value="cat20"
+              checked
+            />
+            <div class="legendbox" style="background-color: #ffa500"></div>
+            <span>Business - construction</span>
+          </div>
+
           <div class="legendrow">
             <input
               type="checkbox"
@@ -522,12 +524,24 @@
             <div class="legendbox" style="background-color: #cab2d6"></div>
             <span>Undetermined</span>
           </div>
+
           <div class="legendrow" style="display: none">
             <input
               type="checkbox"
               id="cat18"
               name="cat18"
               value="cat18"
+              checked
+            />
+            <div class="legendbox" style="background-color: #ffff00"></div>
+            <span>Business - mining</span>
+          </div>
+          <div class="legendrow" style="display: none">
+            <input
+              type="checkbox"
+              id="cat37"
+              name="cat37"
+              value="cat37"
               checked
             />
             <div class="legendbox" style="background-color: #cab2d6"></div>
@@ -577,7 +591,7 @@
     <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 
     <script>
-      var CATEGORIES = 36;
+      var CATEGORIES = 37;
       var START_YEAR = 2011;
       var END_YEAR = 2020;
 
@@ -622,15 +636,40 @@
       ];
 
       var colors = [
-        "#446177", // common crimes
-        "#BEA897", // gov
-        "#c39c49", // identity
-        "#aaa", // common crimes
-        "#8B3D26", // political
-        "#aaa", // common crimes
-        "#2E6337", // resource
-        "#5a5a5a", // shadow
-        "#cab2d6", // common crimes
+        "#ff0000",
+        "#b03060",
+        "#800080",
+        "#8fbc8f",
+        "#00008b",
+        "#9acd32",
+        "#4682b4",
+        "#cd853f",
+        "#8080",
+        "#483d8b",
+        "#808000",
+        "#7f0000",
+        "#228b22",
+        "#dcdcdc",
+        "#556b2f",
+        "#696969",
+        "#00ced1",
+        "#ffa500",
+        "#ffff00",
+        "#7fff00",
+        "#00ff7f",
+        "#dc143c",
+        "#0000ff",
+        "#a020f0",
+        "#ff00ff",
+        "#1e90ff",
+        "#fa8072",
+        "#dda0dd",
+        "#ff1493",
+        "#7b68ee",
+        "#ee82ee",
+        "#98fb98",
+        "#87cefa",
+        "#7fffd4",
       ];
 
       // var affiliation_code = {
@@ -1200,7 +1239,6 @@
         });
 
         function filterByMSource(syear, eyear, clus_obj, clus2_obj) {
-
           var checked = [];
           for (let index = 1; index <= 36; index++) {
             checked[index] = document.getElementById("cat" + index).checked;
@@ -1213,8 +1251,8 @@
 
           var yearFilter = [
             "all",
-            [">=", ["get", "incyr"], syear],
-            ["<=", ["get", "incyr"], eyear],
+            [">=", ["get", "Year"], syear],
+            ["<=", ["get", "Year"], eyear],
           ];
 
           var categoryFilter = [];
@@ -1226,8 +1264,14 @@
             }
           }
 
-
           var newGeoJSON = { ...clus_obj };
+
+          var selectedMonths = getSelectValues(
+            document.getElementById("monthSelect")
+          );
+          newGeoJSON.features = newGeoJSON.features.filter((feature) =>
+            selectedMonths.includes(feature.properties.incmo.toString())
+          );
 
           var dispFlag = map.getSource("barmm");
 
@@ -1282,7 +1326,7 @@
               mag34: ["+", ["case", yearFilter, categoryFilter[34], 0]],
               mag35: ["+", ["case", yearFilter, categoryFilter[35], 0]],
               mag36: ["+", ["case", yearFilter, categoryFilter[36], 0]],
-
+              mag37: ["+", ["case", yearFilter, categoryFilter[37], 0]],
             },
           });
 
@@ -1343,6 +1387,7 @@
               mag34: ["+", ["case", yearFilter, categoryFilter[34], 0]],
               mag35: ["+", ["case", yearFilter, categoryFilter[35], 0]],
               mag36: ["+", ["case", yearFilter, categoryFilter[36], 0]],
+              mag37: ["+", ["case", yearFilter, categoryFilter[37], 0]],
             },
           });
 
@@ -1375,7 +1420,6 @@
         deselectButton = document.getElementById("deselectButton");
 
         selectButton.addEventListener("click", (e) => {
-
           for (let index = 1; index <= CATEGORIES; index++) {
             document.getElementById("cat" + index.toString()).checked = true;
           }
@@ -1402,7 +1446,6 @@
           updateMarkers();
           updateMuncMarkers();
         });
-
 
         var a = document.getElementById("monthSelect_multiSelect");
         a.addEventListener("change", (event) => {
@@ -1513,6 +1556,34 @@
           props.mag7,
           props.mag8,
           props.mag9,
+          props.mag10,
+          props.mag11,
+          props.mag12,
+          props.mag13,
+          props.mag14,
+          props.mag15,
+          props.mag16,
+          props.mag17,
+          props.mag18,
+          props.mag19,
+          props.mag20,
+          props.mag21,
+          props.mag22,
+          props.mag23,
+          props.mag24,
+          props.mag25,
+          props.mag26,
+          props.mag27,
+          props.mag28,
+          props.mag29,
+          props.mag30,
+          props.mag31,
+          props.mag32,
+          props.mag33,
+          props.mag34,
+          props.mag35,
+          props.mag36,
+          props.mag37,
         ];
 
         var total = 0;
