@@ -1004,8 +1004,8 @@
 
           var yearFilter = [
             "all",
-            [">=", ["get", "Year"], syear],
-            ["<=", ["get", "Year"], eyear],
+            [">=", ["get", "incyr"], syear],
+            ["<=", ["get", "incyr"], eyear],
           ];
 
           var categoryFilter = [];
@@ -1074,7 +1074,7 @@
           newGeoJSON = { ...clus2_obj };
           console.log(newGeoJSON);
           newGeoJSON.features = newGeoJSON.features.filter((feature) =>
-            selectedMonths.includes(feature.properties.Month.toString())
+            selectedMonths.includes(feature.properties.incmo.toString())
           );
           map.addSource("muncbarmm", {
             type: "geojson",
