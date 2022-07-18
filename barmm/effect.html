@@ -829,7 +829,7 @@
         );
 
         map.getSource("barmmpoints").setData(newGeoJSON);
-        map.setFilter("incpoints", wholeFilter);
+        // map.setFilter("incpoints", wholeFilter);
       }
 
       function createProv(syear, eyear, prov_obj, source) {
@@ -866,10 +866,10 @@
           Get("https://aldrinjao.github.io/munc_poly.geojson")
         );
         var clus_obj = JSON.parse(
-          Get("https://aldrinjao.github.io/barmm/aff_prov.geojson")
+          Get("https://aldrinjao.github.io/barmm/eff_prov.geojson")
         );
         var clus2_obj = JSON.parse(
-          Get("https://aldrinjao.github.io/barmm/aff_munc.geojson")
+          Get("https://aldrinjao.github.io/barmm/eff_munc.geojson")
         );
 
         filterByMSource(START_YEAR, END_YEAR, clus_obj, clus2_obj);
