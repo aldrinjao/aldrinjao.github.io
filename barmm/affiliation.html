@@ -623,17 +623,23 @@
       var zoomThreshold = 9;
       var years = [2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020];
 
-      var colors_old = [
-        "#a6cee3", // common crimes
-        "#1f78b4", // common crimes
-        "#b2df8a", // common crimes
-        "#33a02c", // common crimes
-        "#fb9a99", // common crimes
-        "#e31a1c", // common crimes
-        "#fdbf6f", // common crimes
-        "#ff7f00", // common crimes
-        "#cab2d6", // common crimes
-      ];
+      var munc_code = JSON.parse(
+        Get("https://aldrinjao.github.io/barmm/munc_code.json")
+      );
+
+      var prov_code = {
+        103500000: "Lanao del Norte",
+        153600000: "Lanao del Sur",
+        153800000: "Maguindanao",
+        156600000: "Sulu",
+        157000000: "Tawi-tawi",
+        129804000: "Cotabato City",
+        150700000: "Basilan",
+        "-98": "Undetermined",
+        "-99": "Not Applicable",
+        98: "Undetermined",
+        99: "Not Applicable",
+      };
 
       var colors = [
         "#ff0000",
@@ -1489,8 +1495,10 @@
         var coordinates = e.features[0].geometry.coordinates.slice();
         var year = e.features[0].properties.incyr;
         var cause = e.features[0].properties.incident_causes_code1;
-        var province = e.features[0].properties.province_psgc;
-        var municpality = e.features[0].properties.city_psgc;
+        var province =
+          prov_code[e.features[0].properties.province_psgc.toString()];
+        var municpality =
+          munc_code[e.features[0].properties.city_psgc.toString()];
         var category = e.features[0].properties.cause_category;
         var incident_title = e.features[0].properties.article_incident_title;
         var incday = e.features[0].properties.incday;
