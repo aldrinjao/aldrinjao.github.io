@@ -152,7 +152,7 @@
       <div class="map-overlay-inner left">
         <div class="cbox-left">
           <h2>Effect</h2>
-          Marker Color
+          Cluster Color
           <div class="legendrow">
             <input type="checkbox" id="cat1" name="cat1" value="cat1" checked />
             <div class="legendbox" style="background-color: #ff0000"></div>
@@ -208,7 +208,7 @@
             </button>
             <button id="deselectButton">None</button>
           </div>
-          Marker Color
+          Cluster Color
           <div class="legendrow">
             <input type="checkbox" id="cat8" name="cat8" value="cat8" checked />
             <div class="legendbox" style="background-color: #cd853f"></div>
@@ -492,10 +492,12 @@
         3: { name: "Detained (Legal)", color: "#800080" },
         2: { name: "Detained (Illegal)", color: "#b03060" },
         1: { name: "At large", color: "#ff0000" },
+        "-99": { name: "undetermined", color: "#ff0000" },
+        "-98": { name: "not applicable", color: "#ff0000" },
       };
 
       var affiliation_code = {
-        16: { name: "Civilian", color: "#696969" },
+        16: { name: "Civilian", color: "##FFA500" },
         14: { name: "PNP", color: "#dcdcdc" },
         15: { name: "Private armed groups", color: "#556b2f" },
         13: { name: "Pirates", color: "#228b22" },
@@ -510,7 +512,7 @@
         4: { name: "Former rebels", color: "#8fbc8f" },
         3: { name: "BIFF/BIFM", color: "#800080" },
         2: { name: "AFP", color: "#b03060" },
-        1: { name: "Abu Sayyaf", color: "#ff0000" },
+        1: { name: "Abu Sayyaf", color: "#FFA500" },
         19: { name: "Business - agribusiness", color: "#00ced1" },
         20: { name: "Business - construction", color: "#ffa500" },
         21: { name: "Business - mining", color: "#ffff00" },
@@ -529,6 +531,8 @@
         34: { name: "Maute Group", color: "#98fb98" },
         35: { name: "Ansar Al-Khilafa", color: "#87cefa" },
         36: { name: "Dawla Islamiya", color: "#7fffd4" },
+        "-99": { name: "undetermined", color: "#ff0000" },
+        "-98": { name: "not applicable", color: "#ff0000" },
       };
 
       var specificCause = {
@@ -601,6 +605,7 @@
         8026: "Illicit financial instruments and transactions",
         8028: "Illicit financial instruments and transactions",
         9001: "Undetermined",
+        "-98": "n/a",
       };
 
       var incidentPointsLayer = {
@@ -631,71 +636,77 @@
             1,
             affiliation_code["1"].color,
             2,
-            affiliation_code["2"].color,
+            affiliation_code["1"].color,
             3,
-            affiliation_code["3"].color,
+            affiliation_code["1"].color,
             4,
-            affiliation_code["4"].color,
+            affiliation_code["1"].color,
             5,
-            affiliation_code["5"].color,
+            affiliation_code["1"].color,
             6,
-            affiliation_code["6"].color,
+            affiliation_code["1"].color,
             7,
-            affiliation_code["7"].color,
+            affiliation_code["1"].color,
             8,
-            affiliation_code["8"].color,
+            affiliation_code["1"].color,
             9,
-            affiliation_code["9"].color,
+            affiliation_code["1"].color,
             10,
-            affiliation_code["10"].color,
+            affiliation_code["1"].color,
             11,
-            affiliation_code["11"].color,
+            affiliation_code["1"].color,
             12,
-            affiliation_code["12"].color,
+            affiliation_code["1"].color,
             13,
-            affiliation_code["13"].color,
+            affiliation_code["1"].color,
             14,
-            affiliation_code["14"].color,
+            affiliation_code["1"].color,
             15,
-            affiliation_code["15"].color,
+            affiliation_code["1"].color,
             16,
-            affiliation_code["16"].color,
+            affiliation_code["1"].color,
             19,
-            affiliation_code["19"].color,
+            affiliation_code["1"].color,
             20,
-            affiliation_code["20"].color,
+            affiliation_code["1"].color,
             21,
-            affiliation_code["21"].color,
+            affiliation_code["1"].color,
             22,
-            affiliation_code["22"].color,
+            affiliation_code["1"].color,
             23,
-            affiliation_code["23"].color,
+            affiliation_code["1"].color,
             24,
-            affiliation_code["24"].color,
+            affiliation_code["1"].color,
             25,
-            affiliation_code["25"].color,
+            affiliation_code["1"].color,
             26,
-            affiliation_code["26"].color,
+            affiliation_code["1"].color,
             27,
-            affiliation_code["27"].color,
+            affiliation_code["1"].color,
             28,
-            affiliation_code["28"].color,
+            affiliation_code["1"].color,
             29,
-            affiliation_code["29"].color,
+            affiliation_code["1"].color,
             30,
-            affiliation_code["30"].color,
+            affiliation_code["1"].color,
             31,
-            affiliation_code["31"].color,
+            affiliation_code["1"].color,
             32,
-            affiliation_code["32"].color,
+            affiliation_code["1"].color,
             33,
-            affiliation_code["33"].color,
+            affiliation_code["1"].color,
             34,
-            affiliation_code["34"].color,
+            affiliation_code["1"].color,
             35,
-            affiliation_code["35"].color,
+            affiliation_code["1"].color,
             36,
-            affiliation_code["36"].color,
+            affiliation_code["1"].color,
+            37,
+            affiliation_code["1"].color,
+            -99,
+            affiliation_code["1"].color,
+            -98,
+            affiliation_code["1"].color,
             "#000",
           ],
           "circle-opacity": 0.75,
@@ -1125,7 +1136,7 @@
             var endYear = years[Math.round(slider2.noUiSlider.get()[1])];
 
             filterByMSource(startYear, endYear, clus_obj, clus2_obj);
-            filterByPSource(startYear, endYear, json_obj);
+            // filterByPSource(startYear, endYear, json_obj);
             updateMarkers();
             updateMuncMarkers();
           });
@@ -1212,7 +1223,7 @@
         var incident_title = e.features[0].properties.article_incident_title;
         var incday = e.features[0].properties.incday;
         var incmon = month[e.features[0].properties.incmo];
-        var affil = e.features[0].properties.actors_affiliation1;
+        var affil = e.features[0].properties.actors_affiliation1.toString();
         var effect = e.features[0].properties.actors_effect1;
 
         var popuphtml =

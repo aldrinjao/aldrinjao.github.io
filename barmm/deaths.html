@@ -87,10 +87,6 @@
         align-items: center;
       }
 
-      .cbox-left {
-        width: 50%;
-        float: left;
-      }
 
       .multiselect-wrapper .multiselect-input {
         width: 90%;
@@ -148,143 +144,19 @@
       </div>
     </div>
 
-    <div class="map-overlay" style="top: 300px; min-width: 390px">
+    <div class="map-overlay" style="top: 300px; min-width: 200px">
       <div class="map-overlay-inner left">
         <div class="cbox-left">
           <h2>Effect</h2>
-          Marker Color
+          Cluster Color
           <div class="legendrow">
             <input type="checkbox" id="cat1" name="cat1" value="cat1" checked />
             <div class="legendbox" style="background-color: #ff0000"></div>
-            <span>At large</span>
+            <span>Deaths</span>
           </div>
 
-          <div class="legendrow">
-            <input type="checkbox" id="cat2" name="cat2" value="cat2" checked />
-            <div class="legendbox" style="background-color: #b03060"></div>
-            <span>Detained (Illegal)</span>
-          </div>
 
-          <div class="legendrow">
-            <input type="checkbox" id="cat3" name="cat3" value="cat3" checked />
 
-            <div class="legendbox" style="background-color: #800080"></div>
-            <span>Detained (Legal)</span>
-          </div>
-
-          <div class="legendrow">
-            <input type="checkbox" id="cat4" name="cat4" value="cat4" checked />
-
-            <div class="legendbox" style="background-color: #8fbc8f"></div>
-            <span>Displaced</span>
-          </div>
-
-          <div class="legendrow">
-            <input type="checkbox" id="cat5" name="cat5" value="cat5" checked />
-
-            <div class="legendbox" style="background-color: #00008b"></div>
-            <span>Injured</span>
-          </div>
-
-          <div class="legendrow">
-            <input type="checkbox" id="cat6" name="cat6" value="cat6" checked />
-
-            <div class="legendbox" style="background-color: #9acd32"></div>
-            <span>Kidnapped</span>
-          </div>
-
-          <div class="legendrow">
-            <input type="checkbox" id="cat7" name="cat7" value="cat7" checked />
-
-            <div class="legendbox" style="background-color: #4682b4"></div>
-            <span>Killed</span>
-          </div>
-        </div>
-
-        <div class="cbox-right" style="padding-bottom: 20px">
-          <div style="width: 100%; margin-top: 5px; margin-bottom: 5px">
-            <button id="selectButton" style="margin-right: 30px">
-              select all
-            </button>
-            <button id="deselectButton">None</button>
-          </div>
-          Marker Color
-          <div class="legendrow">
-            <input type="checkbox" id="cat8" name="cat8" value="cat8" checked />
-            <div class="legendbox" style="background-color: #cd853f"></div>
-            <span>Missing</span>
-          </div>
-
-          <div class="legendrow">
-            <input type="checkbox" id="cat9" name="cat9" value="cat9" checked />
-            <div class="legendbox" style="background-color: #008080"></div>
-            <span>Rescued</span>
-          </div>
-
-          <div class="legendrow">
-            <input
-              type="checkbox"
-              id="cat10"
-              name="cat10"
-              value="cat10"
-              checked
-            />
-            <div class="legendbox" style="background-color: #483d8b"></div>
-            <span>Surrendered</span>
-          </div>
-
-          <div class="legendrow">
-            <input
-              type="checkbox"
-              id="cat11"
-              name="cat11"
-              value="cat11"
-              checked
-            />
-            <div class="legendbox" style="background-color: #808000"></div>
-            <span>Trafficked</span>
-          </div>
-
-          <div class="legendrow">
-            <input
-              type="checkbox"
-              id="cat12"
-              name="cat12"
-              value="cat12"
-              checked
-            />
-
-            <div class="legendbox" style="background-color: #7f0000"></div>
-            <span>Undetermined</span>
-          </div>
-
-          <div class="legendrow">
-            <input
-              type="checkbox"
-              id="cat13"
-              name="cat13"
-              value="cat13"
-              checked
-            />
-
-            <div class="legendbox" style="background-color: #228b22"></div>
-            <span>Hostaged</span>
-          </div>
-
-          <div class="legendrow">
-            <input
-              type="checkbox"
-              id="cat14"
-              name="cat14"
-              value="cat14"
-              checked
-            />
-
-            <div class="legendbox" style="background-color: #dcdcdc"></div>
-            <span>Hostaged / Rescued</span>
-          </div>
-        </div>
-      </div>
     </div>
 
     <div class="map-overlay" style="top: 480px; display: none">
@@ -327,7 +199,7 @@
     <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 
     <script>
-      var CATEGORIES = 14;
+      var CATEGORIES = 1;
       var START_YEAR = 2011;
       var END_YEAR = 2020;
 
@@ -494,8 +366,15 @@
         1: { name: "At large", color: "#ff0000" },
       };
 
-      var affiliation_code = {
-        16: { name: "Civilian", color: "#696969" },
+
+
+      var death_code = {
+        1: { name: "Deaths", color: "#ff0000" },
+      };
+
+
+        var affiliation_code = {
+        16: { name: "Civilian", color: "##FFA500" },
         14: { name: "PNP", color: "#dcdcdc" },
         15: { name: "Private armed groups", color: "#556b2f" },
         13: { name: "Pirates", color: "#228b22" },
@@ -510,7 +389,7 @@
         4: { name: "Former rebels", color: "#8fbc8f" },
         3: { name: "BIFF/BIFM", color: "#800080" },
         2: { name: "AFP", color: "#b03060" },
-        1: { name: "Abu Sayyaf", color: "#ff0000" },
+        1: { name: "Abu Sayyaf", color: "#FFA500" },
         19: { name: "Business - agribusiness", color: "#00ced1" },
         20: { name: "Business - construction", color: "#ffa500" },
         21: { name: "Business - mining", color: "#ffff00" },
@@ -529,6 +408,8 @@
         34: { name: "Maute Group", color: "#98fb98" },
         35: { name: "Ansar Al-Khilafa", color: "#87cefa" },
         36: { name: "Dawla Islamiya", color: "#7fffd4" },
+         "-99": { name: "undetermined", color: "#ff0000" },
+        "-98": { name: "not applicable", color: "#ff0000" },
       };
 
       var specificCause = {
@@ -601,6 +482,7 @@
         8026: "Illicit financial instruments and transactions",
         8028: "Illicit financial instruments and transactions",
         9001: "Undetermined",
+        "-98": "n/a"
       };
 
       var incidentPointsLayer = {
@@ -631,74 +513,79 @@
             1,
             affiliation_code["1"].color,
             2,
-            affiliation_code["2"].color,
+            affiliation_code["1"].color,
             3,
-            affiliation_code["3"].color,
+            affiliation_code["1"].color,
             4,
-            affiliation_code["4"].color,
+            affiliation_code["1"].color,
             5,
-            affiliation_code["5"].color,
+            affiliation_code["1"].color,
             6,
-            affiliation_code["6"].color,
+            affiliation_code["1"].color,
             7,
-            affiliation_code["7"].color,
+            affiliation_code["1"].color,
             8,
-            affiliation_code["8"].color,
+            affiliation_code["1"].color,
             9,
-            affiliation_code["9"].color,
+            affiliation_code["1"].color,
             10,
-            affiliation_code["10"].color,
+            affiliation_code["1"].color,
             11,
-            affiliation_code["11"].color,
+            affiliation_code["1"].color,
             12,
-            affiliation_code["12"].color,
+            affiliation_code["1"].color,
             13,
-            affiliation_code["13"].color,
+            affiliation_code["1"].color,
             14,
-            affiliation_code["14"].color,
+            affiliation_code["1"].color,
             15,
-            affiliation_code["15"].color,
+            affiliation_code["1"].color,
             16,
-            affiliation_code["16"].color,
+            affiliation_code["1"].color,
             19,
-            affiliation_code["19"].color,
+            affiliation_code["1"].color,
             20,
-            affiliation_code["20"].color,
+            affiliation_code["1"].color,
             21,
-            affiliation_code["21"].color,
+            affiliation_code["1"].color,
             22,
-            affiliation_code["22"].color,
+            affiliation_code["1"].color,
             23,
-            affiliation_code["23"].color,
+            affiliation_code["1"].color,
             24,
-            affiliation_code["24"].color,
+            affiliation_code["1"].color,
             25,
-            affiliation_code["25"].color,
+            affiliation_code["1"].color,
             26,
-            affiliation_code["26"].color,
+            affiliation_code["1"].color,
             27,
-            affiliation_code["27"].color,
+            affiliation_code["1"].color,
             28,
-            affiliation_code["28"].color,
+            affiliation_code["1"].color,
             29,
-            affiliation_code["29"].color,
+            affiliation_code["1"].color,
             30,
-            affiliation_code["30"].color,
+            affiliation_code["1"].color,
             31,
-            affiliation_code["31"].color,
+            affiliation_code["1"].color,
             32,
-            affiliation_code["32"].color,
+            affiliation_code["1"].color,
             33,
-            affiliation_code["33"].color,
+            affiliation_code["1"].color,
             34,
-            affiliation_code["34"].color,
+            affiliation_code["1"].color,
             35,
-            affiliation_code["35"].color,
+            affiliation_code["1"].color,
             36,
-            affiliation_code["36"].color,
+            affiliation_code["1"].color,
+            37,
+            affiliation_code["1"].color,
+            -99,
+            affiliation_code["1"].color,
+            -98,
+            affiliation_code["1"].color,
             "#000",
-          ],
-          "circle-opacity": 0.75,
+          ],          "circle-opacity": 0.75,
         },
       };
 
@@ -871,10 +758,10 @@
           Get("https://aldrinjao.github.io/munc_poly.geojson")
         );
         var clus_obj = JSON.parse(
-          Get("https://aldrinjao.github.io/barmm/eff_prov.geojson")
+          Get("https://aldrinjao.github.io/barmm/deaths_prov.geojson")
         );
         var clus2_obj = JSON.parse(
-          Get("https://aldrinjao.github.io/barmm/eff_munc.geojson")
+          Get("https://aldrinjao.github.io/barmm/deaths_munc.geojson")
         );
 
         filterByMSource(START_YEAR, END_YEAR, clus_obj, clus2_obj);
@@ -1048,20 +935,7 @@
             clusterProperties: {
               // keep separate counts for each magnitude category in a cluster
 
-              mag1: ["+", ["case", yearFilter, categoryFilter[1], 0]],
-              mag2: ["+", ["case", yearFilter, categoryFilter[2], 0]],
-              mag3: ["+", ["case", yearFilter, categoryFilter[3], 0]],
-              mag4: ["+", ["case", yearFilter, categoryFilter[4], 0]],
-              mag5: ["+", ["case", yearFilter, categoryFilter[5], 0]],
-              mag6: ["+", ["case", yearFilter, categoryFilter[6], 0]],
-              mag7: ["+", ["case", yearFilter, categoryFilter[7], 0]],
-              mag8: ["+", ["case", yearFilter, categoryFilter[8], 0]],
-              mag9: ["+", ["case", yearFilter, categoryFilter[9], 0]],
-              mag10: ["+", ["case", yearFilter, categoryFilter[10], 0]],
-              mag11: ["+", ["case", yearFilter, categoryFilter[11], 0]],
-              mag12: ["+", ["case", yearFilter, categoryFilter[12], 0]],
-              mag13: ["+", ["case", yearFilter, categoryFilter[13], 0]],
-              mag14: ["+", ["case", yearFilter, categoryFilter[14], 0]],
+              mag1: ["+", ["case", yearFilter, categoryFilter[1], 0]]
             },
           });
 
@@ -1089,20 +963,7 @@
             clusterProperties: {
               // keep separate counts for each magnitude category in a cluster
 
-              mag1: ["+", ["case", yearFilter, categoryFilter[1], 0]],
-              mag2: ["+", ["case", yearFilter, categoryFilter[2], 0]],
-              mag3: ["+", ["case", yearFilter, categoryFilter[3], 0]],
-              mag4: ["+", ["case", yearFilter, categoryFilter[4], 0]],
-              mag5: ["+", ["case", yearFilter, categoryFilter[5], 0]],
-              mag6: ["+", ["case", yearFilter, categoryFilter[6], 0]],
-              mag7: ["+", ["case", yearFilter, categoryFilter[7], 0]],
-              mag8: ["+", ["case", yearFilter, categoryFilter[8], 0]],
-              mag9: ["+", ["case", yearFilter, categoryFilter[9], 0]],
-              mag10: ["+", ["case", yearFilter, categoryFilter[10], 0]],
-              mag11: ["+", ["case", yearFilter, categoryFilter[11], 0]],
-              mag12: ["+", ["case", yearFilter, categoryFilter[12], 0]],
-              mag13: ["+", ["case", yearFilter, categoryFilter[13], 0]],
-              mag14: ["+", ["case", yearFilter, categoryFilter[14], 0]],
+              mag1: ["+", ["case", yearFilter, categoryFilter[1], 0]]
             },
           });
 
@@ -1131,36 +992,6 @@
           });
         }
 
-        selectButton = document.getElementById("selectButton");
-        deselectButton = document.getElementById("deselectButton");
-
-        selectButton.addEventListener("click", (e) => {
-          for (let index = 1; index <= CATEGORIES; index++) {
-            document.getElementById("cat" + index.toString()).checked = true;
-          }
-
-          var startYear = years[Math.round(slider2.noUiSlider.get()[0])];
-          var endYear = years[Math.round(slider2.noUiSlider.get()[1])];
-
-          filterByMSource(startYear, endYear, clus_obj, clus2_obj);
-          filterByPSource(startYear, endYear, json_obj);
-          updateMarkers();
-          updateMuncMarkers();
-        });
-
-        deselectButton.addEventListener("click", (e) => {
-          for (let index = 1; index <= CATEGORIES; index++) {
-            document.getElementById("cat" + index.toString()).checked = false;
-          }
-
-          var startYear = years[Math.round(slider2.noUiSlider.get()[0])];
-          var endYear = years[Math.round(slider2.noUiSlider.get()[1])];
-
-          filterByMSource(startYear, endYear, clus_obj, clus2_obj);
-          filterByPSource(startYear, endYear, json_obj);
-          updateMarkers();
-          updateMuncMarkers();
-        });
 
         var a = document.getElementById("monthSelect_multiSelect");
         a.addEventListener("change", (event) => {
@@ -1264,20 +1095,7 @@
       function createDonutChart(props) {
         var offsets = [];
         var counts = [
-          props.mag1,
-          props.mag2,
-          props.mag3,
-          props.mag4,
-          props.mag5,
-          props.mag6,
-          props.mag7,
-          props.mag8,
-          props.mag9,
-          props.mag10,
-          props.mag11,
-          props.mag12,
-          props.mag13,
-          props.mag14,
+          props.mag1
         ];
 
         var total = 0;
