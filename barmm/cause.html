@@ -1,0 +1,1418 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>BARMM CA incidents - Effect</title>
+    <meta
+      name="viewport"
+      content="initial-scale=1,maximum-scale=1,user-scalable=no"
+    />
+    <link
+      href="https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.css"
+      rel="stylesheet"
+    />
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.js"></script>
+    <script src="https://unpkg.com/@turf/turf@6.3.0/turf.min.js"></script>
+    <link href="./distribute/nouislider.css" rel="stylesheet" />
+    <script src="./distribute/nouislider.js"></script>
+    <link href="./multiselect/styles/multiselect.css" rel="stylesheet" />
+    <script src="./multiselect/multiselect.min.js"></script>
+
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      #map {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <style>
+      .map-overlay {
+        font: 12px/20px "Helvetica Neue", Arial, Helvetica, sans-serif;
+        position: absolute;
+        min-width: 300px;
+        top: 0;
+        left: 0;
+        padding: 10px;
+      }
+
+      .map-overlay .map-overlay-inner {
+        background-color: #fff;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        border-radius: 3px;
+        padding: 10px;
+        margin-bottom: 10px;
+        padding-bottom: 15px;
+      }
+
+      .map-overlay h2 {
+        line-height: 24px;
+        display: block;
+        margin: 0 0 10px;
+      }
+
+      .map-overlay .legend .bar {
+        height: 10px;
+        width: 100%;
+        background: linear-gradient(to right, #fee5d9, #a50f15);
+      }
+
+      .map-overlay.sliderclass {
+        background-color: transparent;
+        display: inline-block;
+        position: relative;
+        margin: 0;
+        cursor: ew-resize;
+      }
+
+      .legendbox {
+        width: 12px;
+        height: 12px;
+        border: 1px solid rgb(58, 58, 58);
+        margin: 0px 10px;
+      }
+
+      .legendrow {
+        display: flex;
+        flex-direction: row;
+        justify-content: start;
+        align-items: center;
+      }
+
+      .cbox-left {
+        width: 50%;
+        float: left;
+      }
+
+      .multiselect-wrapper .multiselect-input {
+        width: 90%;
+      }
+    </style>
+
+    <div id="map"></div>
+
+    <div class="map-overlay top">
+      <div class="map-overlay-inner">
+        <h2>Year: <label id="year"> 2011 - 2020</label></h2>
+
+        <!-- <input id="slider" class='sliderclass' style="width: 100%;cursor: ew-resize;" type="range" min="0" max="8"
+                step="1" value="0"> -->
+
+        <div id="slider2" style="width: 90%; margin: auto"></div>
+        <div style="margin-top: 20px">
+          <h2>Months</h2>
+
+          <select id="monthSelect" multiple>
+            <option value="1">January</option>
+            <option value="2">February</option>
+            <option value="3">March</option>
+            <option value="4">April</option>
+            <option value="5">May</option>
+            <option value="6">June</option>
+            <option value="7">July</option>
+            <option value="8">August</option>
+            <option value="9">September</option>
+            <option value="10">October</option>
+            <option value="11">November</option>
+            <option value="12">December</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="map-overlay" style="top: 180px">
+      <div class="map-overlay-inner">
+        <h2>Layer Control</h2>
+
+        <div class="legendrow">
+          <input type="checkbox" id="opt1" name="opt1" value="opt1" checked />
+          <label for="opt1"> Points</label>
+        </div>
+        <div class="legendrow">
+          <input type="checkbox" id="opt2" name="opt2" value="opt2" checked />
+          <label for="opt2"> Clusters</label>
+        </div>
+
+        <div class="legendrow" style="display: none">
+          <input type="checkbox" id="opt3" name="opt3" value="opt3" />
+          <label for="opt3"> Choropleth</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="map-overlay" style="top: 300px; min-width: 390px">
+      <div class="map-overlay-inner left">
+        <div class="cbox-left">
+          <h2>Effect</h2>
+          Cluster Color
+          <div class="legendrow">
+            <input type="checkbox" id="cat1" name="cat1" value="cat1" checked />
+            <div class="legendbox" style="background-color: #ff0000"></div>
+            <span>At large</span>
+          </div>
+
+          <div class="legendrow">
+            <input type="checkbox" id="cat2" name="cat2" value="cat2" checked />
+            <div class="legendbox" style="background-color: #b03060"></div>
+            <span>Detained (Illegal)</span>
+          </div>
+
+          <div class="legendrow">
+            <input type="checkbox" id="cat3" name="cat3" value="cat3" checked />
+
+            <div class="legendbox" style="background-color: #800080"></div>
+            <span>Detained (Legal)</span>
+          </div>
+
+          <div class="legendrow">
+            <input type="checkbox" id="cat4" name="cat4" value="cat4" checked />
+
+            <div class="legendbox" style="background-color: #8fbc8f"></div>
+            <span>Displaced</span>
+          </div>
+
+          <div class="legendrow">
+            <input type="checkbox" id="cat5" name="cat5" value="cat5" checked />
+
+            <div class="legendbox" style="background-color: #00008b"></div>
+            <span>Injured</span>
+          </div>
+
+          <div class="legendrow">
+            <input type="checkbox" id="cat6" name="cat6" value="cat6" checked />
+
+            <div class="legendbox" style="background-color: #9acd32"></div>
+            <span>Kidnapped</span>
+          </div>
+
+          <div class="legendrow">
+            <input type="checkbox" id="cat7" name="cat7" value="cat7" checked />
+
+            <div class="legendbox" style="background-color: #4682b4"></div>
+            <span>Killed</span>
+          </div>
+        </div>
+
+        <div class="cbox-right" style="padding-bottom: 20px">
+          <div style="width: 100%; margin-top: 5px; margin-bottom: 5px">
+            <button id="selectButton" style="margin-right: 30px">
+              select all
+            </button>
+            <button id="deselectButton">None</button>
+          </div>
+          Cluster Color
+          <div class="legendrow">
+            <input type="checkbox" id="cat8" name="cat8" value="cat8" checked />
+            <div class="legendbox" style="background-color: #cd853f"></div>
+            <span>Missing</span>
+          </div>
+
+          <div class="legendrow">
+            <input type="checkbox" id="cat9" name="cat9" value="cat9" checked />
+            <div class="legendbox" style="background-color: #008080"></div>
+            <span>Rescued</span>
+          </div>
+
+          <div class="legendrow">
+            <input
+              type="checkbox"
+              id="cat10"
+              name="cat10"
+              value="cat10"
+              checked
+            />
+            <div class="legendbox" style="background-color: #483d8b"></div>
+            <span>Surrendered</span>
+          </div>
+
+          <div class="legendrow">
+            <input
+              type="checkbox"
+              id="cat11"
+              name="cat11"
+              value="cat11"
+              checked
+            />
+            <div class="legendbox" style="background-color: #808000"></div>
+            <span>Trafficked</span>
+          </div>
+
+          <div class="legendrow">
+            <input
+              type="checkbox"
+              id="cat12"
+              name="cat12"
+              value="cat12"
+              checked
+            />
+
+            <div class="legendbox" style="background-color: #7f0000"></div>
+            <span>Undetermined</span>
+          </div>
+
+          <div class="legendrow">
+            <input
+              type="checkbox"
+              id="cat13"
+              name="cat13"
+              value="cat13"
+              checked
+            />
+
+            <div class="legendbox" style="background-color: #228b22"></div>
+            <span>Hostaged</span>
+          </div>
+
+          <div class="legendrow">
+            <input
+              type="checkbox"
+              id="cat14"
+              name="cat14"
+              value="cat14"
+              checked
+            />
+
+            <div class="legendbox" style="background-color: #dcdcdc"></div>
+            <span>Hostaged / Rescued</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="map-overlay" style="top: 480px; display: none">
+      <div class="map-overlay-inner">
+        <div id="legend" class="legend">
+          <h2>Incident Count</h2>
+          Polygon Fill
+          <div class="legendrow">
+            <div class="legendbox" style="background-color: #eeeeee"></div>
+            <span style="margin-left: 10px">No Data</span>
+          </div>
+          <div class="legendrow">
+            <div class="legendbox" style="background-color: #fcbba1"></div>
+            <span style="margin-left: 10px">1 - 500</span>
+          </div>
+
+          <div class="legendrow">
+            <div class="legendbox" style="background-color: #fc9272"></div>
+            <span style="margin-left: 10px">500 - 1000</span>
+          </div>
+
+          <div class="legendrow">
+            <div class="legendbox" style="background-color: #fb6a4a"></div>
+            <span style="margin-left: 10px">1000 - 5000</span>
+          </div>
+
+          <div class="legendrow">
+            <div class="legendbox" style="background-color: #de2d26"></div>
+            <span style="margin-left: 10px">5000 - 10000</span>
+          </div>
+
+          <div class="legendrow">
+            <div class="legendbox" style="background-color: #a50f15"></div>
+            <span style="margin-left: 10px">Above 10000</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+
+    <script>
+      var CATEGORIES = 14;
+      var START_YEAR = 2011;
+      var END_YEAR = 2020;
+
+      var slider2 = document.getElementById("slider2");
+      document.multiselect("#monthSelect");
+      document.multiselect("#monthSelect").selectAll();
+
+      noUiSlider.create(slider2, {
+        start: [0, END_YEAR - START_YEAR],
+        step: 1,
+        connect: true,
+        range: {
+          min: 0,
+          max: END_YEAR - START_YEAR,
+        },
+      });
+
+      mapboxgl.accessToken =
+        "pk.eyJ1IjoiY29uZmxpY3RhbGVydCIsImEiOiJja253c3p2Z3AwZ2JxMm5xZHZibTk2cHkzIn0.j29K1BrZjO-gnWDYHE0kiA";
+      var map = new mapboxgl.Map({
+        container: "map",
+        style: "mapbox://styles/conflictalert/cknxzmh1y023r17mphj1p8ng5",
+        center: [122, 7],
+        zoom: 7,
+        minZoom: 7,
+        maxZoom: 12,
+      });
+
+      var zoomThreshold = 9;
+      var years = [2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020];
+
+      var munc_code = JSON.parse(
+        Get("https://aldrinjao.github.io/barmm/munc_code.json")
+      );
+
+      var prov_code = {
+        103500000: "Lanao del Norte",
+        153600000: "Lanao del Sur",
+        153800000: "Maguindanao",
+        156600000: "Sulu",
+        157000000: "Tawi-tawi",
+        129804000: "Cotabato City",
+        150700000: "Basilan",
+        "-98": "Undetermined",
+        "-99": "Not Applicable",
+        98: "Undetermined",
+        99: "Not Applicable",
+      };
+      var colors = [
+        "#ff0000",
+        "#b03060",
+        "#800080",
+        "#8fbc8f",
+        "#00008b",
+        "#9acd32",
+        "#4682b4",
+        "#cd853f",
+        "#8080",
+        "#483d8b",
+        "#808000",
+        "#7f0000",
+        "#228b22",
+        "#dcdcdc",
+        "#556b2f",
+        "#696969",
+        "#00ced1",
+        "#ffa500",
+        "#ffff00",
+        "#7fff00",
+        "#00ff7f",
+        "#dc143c",
+        "#0000ff",
+        "#a020f0",
+        "#ff00ff",
+        "#1e90ff",
+        "#fa8072",
+        "#dda0dd",
+        "#ff1493",
+        "#7b68ee",
+        "#ee82ee",
+        "#98fb98",
+        "#87cefa",
+        "#7fffd4",
+      ];
+
+      // var affiliation_code = {
+      //   16: "Civilian",
+      //   14: "PNP",
+      //   15: "Private armed groups",
+      //   13: "Pirates",
+      //   12: "Paramilitary",
+      //   11: "Other paramilitary",
+      //   10: "Organized syndicates",
+      //   9: "NPA",
+      //   8: "MNLF",
+      //   7: "MILF",
+      //   6: "Jemaah Islamiyah",
+      //   5: "Gang",
+      //   4: "Former rebels",
+      //   3: "BIFF/BIFM",
+      //   2: "AFP",
+      //   1: "Abu Sayyaf",
+      //   19: "Business - agribusiness",
+      //   20: "Business - construction",
+      //   21: "Business - mining",
+      //   22: "Business - commercial",
+      //   23: "Business - telecommunications",
+      //   24: "Children",
+      //   25: "Business - logging",
+      //   26: "Business - trucking",
+      //   27: "Business - livestock",
+      //   28: "Business - unspecified",
+      //   29: "Family/clan",
+      //   30: "Government-agencies",
+      //   31: "Government-LGU",
+      //   32: "Tribal leader",
+      //   33: "Indigenous peoples",
+      //   34: "Maute Group",
+      //   35: "Ansar Al-Khilafa",
+      //   36: "Dawla Islamiya",
+      // };
+
+      var causeCat = {
+        1: "Common Crimes",
+        2: "Governance Issues",
+        3: "Identity Issues",
+        4: "aa",
+        5: "Political Issues",
+        6: "Extremist violence",
+        7: "Resource issues",
+        8: "Shadow economies",
+        9: "Undetermined",
+      };
+
+      var month = {
+        1: "Jan",
+        2: "Feb",
+        3: "Mar",
+        4: "Apr",
+        5: "May",
+        6: "Jun",
+        7: "Jul",
+        8: "Aug",
+        9: "Sep",
+        10: "Oct",
+        11: "Nov",
+        12: "Dec",
+      };
+
+      var effect_code = {
+        14: { name: "Hostaged / Rescued", color: "#dcdcdc" },
+        13: { name: "Hostaged", color: "#228b22" },
+        12: { name: "Undetermined", color: "#7f0000" },
+        11: { name: "Trafficked", color: "#808000" },
+        10: { name: "Surrendered", color: "#483d8b" },
+        9: { name: "Rescued", color: "#008080" },
+        8: { name: "Missing", color: "#cd853f" },
+        7: { name: "Killed", color: "#4682b4" },
+        6: { name: "Kidnapped", color: "#9acd32" },
+        5: { name: "Injured", color: "#00008b" },
+        4: { name: "Displaced", color: "#8fbc8f" },
+        3: { name: "Detained (Legal)", color: "#800080" },
+        2: { name: "Detained (Illegal)", color: "#b03060" },
+        1: { name: "At large", color: "#ff0000" },
+        "-99": { name: "undetermined", color: "#ff0000" },
+        "-98": { name: "not applicable", color: "#ff0000" },
+      };
+
+      var affiliation_code = {
+        16: { name: "Civilian", color: "##FFA500" },
+        14: { name: "PNP", color: "#dcdcdc" },
+        15: { name: "Private armed groups", color: "#556b2f" },
+        13: { name: "Pirates", color: "#228b22" },
+        12: { name: "Paramilitary", color: "#7f0000" },
+        11: { name: "Other paramilitary", color: "#808000" },
+        10: { name: "Organized syndicates", color: "#483d8b" },
+        9: { name: "NPA", color: "#008080" },
+        8: { name: "MNLF", color: "#cd853f" },
+        7: { name: "MILF", color: "#4682b4" },
+        6: { name: "Jemaah Islamiyah", color: "#9acd32" },
+        5: { name: "Gang", color: "#00008b" },
+        4: { name: "Former rebels", color: "#8fbc8f" },
+        3: { name: "BIFF/BIFM", color: "#800080" },
+        2: { name: "AFP", color: "#b03060" },
+        1: { name: "Abu Sayyaf", color: "#FFA500" },
+        19: { name: "Business - agribusiness", color: "#00ced1" },
+        20: { name: "Business - construction", color: "#ffa500" },
+        21: { name: "Business - mining", color: "#ffff00" },
+        22: { name: "Business - commercial", color: "#7fff00" },
+        23: { name: "Business - telecommunications", color: "#00ff7f" },
+        24: { name: "Children", color: "#dc143c" },
+        25: { name: "Business - logging", color: "#0000ff" },
+        26: { name: "Business - trucking", color: "#a020f0" },
+        27: { name: "Business - livestock", color: "#ff00ff" },
+        28: { name: "Business - unspecified", color: "#1e90ff" },
+        29: { name: "Family/clan", color: "#fa8072" },
+        30: { name: "Government-agencies", color: "#dda0dd" },
+        31: { name: "Government-LGU", color: "#ff1493" },
+        32: { name: "Tribal leader", color: "#7b68ee" },
+        33: { name: "Indigenous peoples", color: "#ee82ee" },
+        34: { name: "Maute Group", color: "#98fb98" },
+        35: { name: "Ansar Al-Khilafa", color: "#87cefa" },
+        36: { name: "Dawla Islamiya", color: "#7fffd4" },
+        "-99": { name: "undetermined", color: "#ff0000" },
+        "-98": { name: "not applicable", color: "#ff0000" },
+      };
+
+      var specificCause = {
+        1001: "Breach of contract except land related, indebtedness and seizure of properties",
+        1002: "Conflict arising from intoxication",
+        1003: "Damage to properties",
+        1004: "Humiliation and bullying",
+        1007: "Robbery",
+        1008: "Other common crimes",
+        1012: "Child abuse",
+        1013: "Looting - Marawi war 2017",
+        2001: "Competition over non-elective position",
+        2002: "Conflict between and among military and police",
+        2003: "Corruption of public office",
+        2004: "Exclusion/Unequal access to public/welfare goods",
+        2006: "Law enforcements",
+        2007: "Mis-fires and mis-encounters by government security sectors",
+        2008: "Tender-related competitions",
+        2009: "Other governance issues",
+        2010: "Implementation of government decisions and policies",
+        2011: "Implementation of government projects",
+        2013: "Executive and judicial decisions (beginning 2017)",
+        2014: "Executive and judicial positions (beginning 2017)",
+        3001: "Gender-related issues",
+        3003: "Inter and intra-gang rivalries",
+        3004: "Loss of honor",
+        3005: "Personal grudge",
+        3006: "Clan feud",
+        3007: "Other identity issues",
+        3015: "Violent extremism - Identity component (deactivated for 2019 incidents)",
+        3016: "Political identity",
+        3017: "Violent extremism -Identity component (active starting 2019 replacing 3015)",
+        5002: "Conflict between and among rebel groups",
+        5003: "Conflict within and among political parties",
+        5005: "Exercise of democratic freedom",
+        5006: "Mis-fires and mis-encounters by non-state actors",
+        5007: "Political repression",
+        5008: "Rebellion",
+        5009: "Other political issues",
+        5011: "Elections ",
+        5012: "Conflict between and among elected officials",
+        5015: "Conflict between and among member-based groups",
+        5017: "Violent extremism - Political component",
+        7001: "Control over natural resources",
+        7003: "Labor and management ",
+        7004: "Land conflict ",
+        7006: "Water conflict",
+        7007: "Other resource issues",
+        7008: "Conflict over control of non-metallic minerals such as lime, sand, gravel including soil",
+        7009: "Contested property rights",
+        7012: "Resource capture",
+        7015: "Urban resources (beginning 2017)",
+        7016: "Resource predation (beginning 2017)",
+        8001: "Cattle rustling",
+        8002: "Cross-border trade",
+        8003: "Human trafficking",
+        8004: "Illegal drugs",
+        8005: "Illegal gambling",
+        8006: "Illegal logging",
+        8007: "Illicit financial instruments and transactions",
+        8008: "Illicit firearms",
+        8009: "Kidnap-for-ransom ",
+        8010: "Illicit taxes and toll fees including forced pay-offs",
+        8012: "Carjacking",
+        8014: "Other shadow economy activities",
+        8022: "Carjacking - motor vehicle (Violent)",
+        8023: "Carjacking - motorcycle (Violent)",
+        8024: "Carnapping - motor vehicle (Nonviolent)",
+        8025: "Carnapping - motorcycle (Nonviolent)",
+        8026: "Illicit financial instruments and transactions",
+        8028: "Illicit financial instruments and transactions",
+        9001: "Undetermined",
+        "-98": "n/a",
+      };
+
+      var incidentPointsLayer = {
+        id: "incpoints",
+        type: "circle",
+        source: "barmmpoints",
+        // 'paint': {
+        //     'circle-radius': 6,
+        //     'circle-color': '#B42222'
+        // },
+
+        paint: {
+          "circle-radius": {
+            stops: [
+              [7, 3],
+              [8, 4],
+              [9, 5],
+              [10, 6],
+              [11, 7],
+            ],
+          },
+          "circle-stroke-width": 1,
+          "circle-stroke-color": "#222222",
+
+          "circle-color": [
+            "match",
+            ["get", "actors_affiliation1"],
+            1,
+            affiliation_code["1"].color,
+            2,
+            affiliation_code["1"].color,
+            3,
+            affiliation_code["1"].color,
+            4,
+            affiliation_code["1"].color,
+            5,
+            affiliation_code["1"].color,
+            6,
+            affiliation_code["1"].color,
+            7,
+            affiliation_code["1"].color,
+            8,
+            affiliation_code["1"].color,
+            9,
+            affiliation_code["1"].color,
+            10,
+            affiliation_code["1"].color,
+            11,
+            affiliation_code["1"].color,
+            12,
+            affiliation_code["1"].color,
+            13,
+            affiliation_code["1"].color,
+            14,
+            affiliation_code["1"].color,
+            15,
+            affiliation_code["1"].color,
+            16,
+            affiliation_code["1"].color,
+            19,
+            affiliation_code["1"].color,
+            20,
+            affiliation_code["1"].color,
+            21,
+            affiliation_code["1"].color,
+            22,
+            affiliation_code["1"].color,
+            23,
+            affiliation_code["1"].color,
+            24,
+            affiliation_code["1"].color,
+            25,
+            affiliation_code["1"].color,
+            26,
+            affiliation_code["1"].color,
+            27,
+            affiliation_code["1"].color,
+            28,
+            affiliation_code["1"].color,
+            29,
+            affiliation_code["1"].color,
+            30,
+            affiliation_code["1"].color,
+            31,
+            affiliation_code["1"].color,
+            32,
+            affiliation_code["1"].color,
+            33,
+            affiliation_code["1"].color,
+            34,
+            affiliation_code["1"].color,
+            35,
+            affiliation_code["1"].color,
+            36,
+            affiliation_code["1"].color,
+            37,
+            affiliation_code["1"].color,
+            -99,
+            affiliation_code["1"].color,
+            -98,
+            affiliation_code["1"].color,
+            "#000",
+          ],
+          "circle-opacity": 0.75,
+        },
+      };
+
+      var provincialFill = {
+        id: "provfill",
+        type: "fill",
+        source: "provSource",
+        maxzoom: 9,
+        layout: {
+          // Make the layer visible by default.
+          visibility: "none",
+        },
+        paint: {
+          "fill-color": [
+            "interpolate",
+            ["linear"],
+            ["get", "count"],
+            -1,
+            "#eeeeee",
+            10,
+            "#fcbba1",
+            500,
+            "#fc9272",
+            1000,
+            "#fb6a4a",
+            5000,
+            "#de2d26",
+            10000,
+            "#a50f15",
+          ],
+          "fill-opacity": 0.75,
+        },
+      };
+
+      var municipalFill = {
+        id: "muncfill",
+        type: "fill",
+        source: "muncSource",
+        minzoom: 9,
+        layout: {
+          // Make the layer visible by default.
+          visibility: "none",
+        },
+        paint: {
+          "fill-color": [
+            "interpolate",
+            ["linear"],
+            ["get", "count"],
+            -1,
+            "#eeeeee",
+            10,
+            "#fcbba1",
+            500,
+            "#fc9272",
+            1000,
+            "#fb6a4a",
+            5000,
+            "#de2d26",
+            10000,
+            "#a50f15",
+          ],
+          "fill-opacity": 0.75,
+        },
+      };
+
+      var provincialOutline = {
+        id: "provoutline",
+        type: "line",
+        source: "provSource",
+        maxzoom: 9,
+        layout: {},
+        paint: {
+          "line-color": "#222",
+          "line-width": 1.5,
+        },
+      };
+
+      var municipalOutline = {
+        id: "muncoutline",
+        type: "line",
+        source: "muncSource",
+        minzoom: 9,
+        paint: {
+          "line-color": "#222",
+          "line-width": 1,
+        },
+      };
+
+      function filterBySource(year, json_obj) {
+        const newGeoJSON = { ...json_obj };
+        newGeoJSON.features = json_obj.features.filter(
+          (feature) => feature.properties.incyr === years[year]
+        );
+        map.getSource("barmm").setData(newGeoJSON);
+        map.getSource("barmmpoints").setData(newGeoJSON);
+      }
+
+      function getSelectValues(select) {
+        var result = [];
+        var options = select && select.options;
+        var opt;
+
+        for (var i = 0, iLen = options.length; i < iLen; i++) {
+          opt = options[i];
+
+          if (opt.selected) {
+            result.push(opt.value || opt.text);
+          }
+        }
+        return result;
+      }
+
+      function filterByPSource(syear, eyear, json_obj) {
+        var checked = [];
+        var wholeFilter = ["all", ["in", "actors_affiliation1"]];
+        for (let index = 1; index <= CATEGORIES; index++) {
+          if (document.getElementById("cat" + index).checked)
+            wholeFilter[1].push(index);
+        }
+
+        var newGeoJSON = { ...json_obj };
+        newGeoJSON.features = json_obj.features.filter(
+          (feature) =>
+            feature.properties.incyr >= syear &&
+            feature.properties.incyr <= eyear
+        );
+
+        var selectedMonths = getSelectValues(
+          document.getElementById("monthSelect")
+        );
+        newGeoJSON.features = newGeoJSON.features.filter((feature) =>
+          selectedMonths.includes(feature.properties.incmo.toString())
+        );
+
+        map.getSource("barmmpoints").setData(newGeoJSON);
+        // map.setFilter("incpoints", wholeFilter);
+      }
+
+      function createProv(syear, eyear, prov_obj, source) {
+        const newGeoJSON = { ...prov_obj };
+        newGeoJSON.features = prov_obj.features.map((feature) => {
+          var count = 0;
+          for (let index = syear; index <= eyear; index++) {
+            count = count + feature.properties[index];
+          }
+
+          feature.properties.count = count;
+
+          return feature;
+        });
+
+        map.getSource(source).setData(newGeoJSON);
+      }
+
+      function Get(yourUrl) {
+        var Httpreq = new XMLHttpRequest(); // a new request
+        Httpreq.open("GET", yourUrl, false);
+        Httpreq.send(null);
+        return Httpreq.responseText;
+      }
+
+      map.on("load", function () {
+        var json_obj = JSON.parse(
+          Get("https://aldrinjao.github.io/barmm/incidents_new.geojson")
+        );
+        var prov_obj = JSON.parse(
+          Get("https://aldrinjao.github.io/prov_poly.geojson")
+        );
+        var munc_obj = JSON.parse(
+          Get("https://aldrinjao.github.io/munc_poly.geojson")
+        );
+        var clus_obj = JSON.parse(
+          Get("https://aldrinjao.github.io/barmm/eff_prov.geojson")
+        );
+        var clus2_obj = JSON.parse(
+          Get("https://aldrinjao.github.io/barmm/eff_munc.geojson")
+        );
+
+        filterByMSource(START_YEAR, END_YEAR, clus_obj, clus2_obj);
+        // filterByMSource(2011, 2019, munc_obj);
+
+        map.addSource("barmmpoints", {
+          type: "geojson",
+          data: json_obj,
+        });
+
+        map.addLayer(incidentPointsLayer);
+        filterByPSource(START_YEAR, END_YEAR, json_obj);
+
+        map.addSource("provSource", {
+          type: "geojson",
+          data: prov_obj,
+        });
+
+        map.addSource("muncSource", {
+          type: "geojson",
+          data: munc_obj,
+        });
+
+        createProv(START_YEAR, END_YEAR, prov_obj, "provSource");
+        createProv(START_YEAR, END_YEAR, munc_obj, "muncSource");
+        map.addLayer(provincialFill, "bridge-simple");
+        map.addLayer(municipalFill, "bridge-simple");
+        map.addLayer(provincialOutline, "bridge-simple");
+        map.addLayer(municipalOutline, "bridge-simple");
+
+        slider2.noUiSlider.on("slide", function () {
+          var startYear = years[Math.round(slider2.noUiSlider.get()[0])];
+          var endYear = years[Math.round(slider2.noUiSlider.get()[1])];
+
+          filterByMSource(startYear, endYear, clus_obj, clus2_obj);
+          filterByPSource(startYear, endYear, json_obj);
+          createProv(startYear, endYear, prov_obj, "provSource");
+          createProv(startYear, endYear, munc_obj, "muncSource");
+
+          document.getElementById("year").textContent =
+            startYear + " - " + endYear;
+          updateMarkers();
+          updateMuncMarkers();
+        });
+
+        ////////////////////////////
+
+        // objects for caching and keeping track of HTML marker objects (for performance)
+        var markers = {};
+        var markersOnScreen = {};
+
+        function updateMarkers() {
+          var newMarkers = {};
+          var features = map.querySourceFeatures("barmm");
+
+          // for every cluster on the screen, create an HTML marker for it (if we haven't yet),
+          // and add it to the map if it's not there already
+          for (var i = 0; i < features.length; i++) {
+            var coords = features[i].geometry.coordinates;
+            var props = features[i].properties;
+            if (!props.cluster) continue;
+            var id = props.cluster_id;
+
+            var marker = markers[id];
+            if (!marker) {
+              var el = createDonutChart(props);
+              marker = markers[id] = new mapboxgl.Marker({
+                element: el,
+              }).setLngLat(coords);
+            }
+            newMarkers[id] = marker;
+
+            if (!markersOnScreen[id]) marker.addTo(map);
+          }
+          // for every marker we've added previously, remove those that are no longer visible
+          for (id in markersOnScreen) {
+            if (!newMarkers[id]) markersOnScreen[id].remove();
+          }
+          markersOnScreen = newMarkers;
+        }
+
+        var muncmarkers = {};
+        var muncmarkersOnScreen = {};
+
+        function updateMuncMarkers() {
+          var newmuncMarkers = {};
+          var features = map.querySourceFeatures("muncbarmm");
+
+          // for every cluster on the screen, create an HTML marker for it (if we haven't yet),
+          // and add it to the map if it's not there already
+          for (var i = 0; i < features.length; i++) {
+            var coords = features[i].geometry.coordinates;
+            var props = features[i].properties;
+            if (!props.cluster) continue;
+            var id = props.cluster_id;
+
+            var marker = muncmarkers[id];
+            if (!marker) {
+              var el = createDonutChart(props);
+              marker = muncmarkers[id] = new mapboxgl.Marker({
+                element: el,
+              }).setLngLat(coords);
+            }
+            newmuncMarkers[id] = marker;
+
+            if (!muncmarkersOnScreen[id]) marker.addTo(map);
+          }
+          // for every marker we've added previously, remove those that are no longer visible
+          for (id in muncmarkersOnScreen) {
+            if (!newmuncMarkers[id]) muncmarkersOnScreen[id].remove();
+          }
+          muncmarkersOnScreen = newmuncMarkers;
+        }
+        // after the GeoJSON data is loaded, update markers on the screen on every frame
+
+        map.on("render", function () {
+          if (!map.isSourceLoaded("barmm")) return;
+          updateMarkers();
+          updateMuncMarkers();
+        });
+
+        function filterByMSource(syear, eyear, clus_obj, clus2_obj) {
+          var checked = [];
+          for (let index = 1; index <= CATEGORIES; index++) {
+            checked[index] = document.getElementById("cat" + index).checked;
+          }
+
+          let checker = checked.every((v) => v === false);
+
+          markers = {};
+          muncmarkers = {};
+
+          var yearFilter = [
+            "all",
+            [">=", ["get", "incyr"], syear],
+            ["<=", ["get", "incyr"], eyear],
+          ];
+
+          var categoryFilter = [];
+          for (let index = 1; index <= CATEGORIES; index++) {
+            if (checked[index]) {
+              categoryFilter[index] = ["get", String(index)];
+            } else {
+              categoryFilter[index] = 0;
+            }
+          }
+
+          var newGeoJSON = { ...clus_obj };
+
+          var selectedMonths = getSelectValues(
+            document.getElementById("monthSelect")
+          );
+          newGeoJSON.features = newGeoJSON.features.filter((feature) =>
+            selectedMonths.includes(feature.properties.incmo.toString())
+          );
+
+          var dispFlag = map.getSource("barmm");
+
+          if (typeof dispFlag !== "undefined") {
+            map.removeLayer("clusters");
+            map.removeSource("barmm");
+            map.removeLayer("muncclusters");
+            map.removeSource("muncbarmm");
+          }
+
+          map.addSource("barmm", {
+            type: "geojson",
+            data: newGeoJSON,
+            cluster: true,
+            clusterRadius: 5,
+            clusterProperties: {
+              // keep separate counts for each magnitude category in a cluster
+
+              mag1: ["+", ["case", yearFilter, categoryFilter[1], 0]],
+              mag2: ["+", ["case", yearFilter, categoryFilter[2], 0]],
+              mag3: ["+", ["case", yearFilter, categoryFilter[3], 0]],
+              mag4: ["+", ["case", yearFilter, categoryFilter[4], 0]],
+              mag5: ["+", ["case", yearFilter, categoryFilter[5], 0]],
+              mag6: ["+", ["case", yearFilter, categoryFilter[6], 0]],
+              mag7: ["+", ["case", yearFilter, categoryFilter[7], 0]],
+              mag8: ["+", ["case", yearFilter, categoryFilter[8], 0]],
+              mag9: ["+", ["case", yearFilter, categoryFilter[9], 0]],
+              mag10: ["+", ["case", yearFilter, categoryFilter[10], 0]],
+              mag11: ["+", ["case", yearFilter, categoryFilter[11], 0]],
+              mag12: ["+", ["case", yearFilter, categoryFilter[12], 0]],
+              mag13: ["+", ["case", yearFilter, categoryFilter[13], 0]],
+              mag14: ["+", ["case", yearFilter, categoryFilter[14], 0]],
+            },
+          });
+
+          map.addLayer({
+            id: "clusters",
+            type: "circle",
+            source: "barmm",
+            maxzoom: 9,
+            filter: [">", ["get", "point_count"], 0],
+            paint: {
+              "circle-opacity": 0,
+            },
+          });
+
+          newGeoJSON = { ...clus2_obj };
+          console.log(newGeoJSON);
+          newGeoJSON.features = newGeoJSON.features.filter((feature) =>
+            selectedMonths.includes(feature.properties.incmo.toString())
+          );
+          map.addSource("muncbarmm", {
+            type: "geojson",
+            data: newGeoJSON,
+            cluster: true,
+            clusterRadius: 5,
+            clusterProperties: {
+              // keep separate counts for each magnitude category in a cluster
+
+              mag1: ["+", ["case", yearFilter, categoryFilter[1], 0]],
+              mag2: ["+", ["case", yearFilter, categoryFilter[2], 0]],
+              mag3: ["+", ["case", yearFilter, categoryFilter[3], 0]],
+              mag4: ["+", ["case", yearFilter, categoryFilter[4], 0]],
+              mag5: ["+", ["case", yearFilter, categoryFilter[5], 0]],
+              mag6: ["+", ["case", yearFilter, categoryFilter[6], 0]],
+              mag7: ["+", ["case", yearFilter, categoryFilter[7], 0]],
+              mag8: ["+", ["case", yearFilter, categoryFilter[8], 0]],
+              mag9: ["+", ["case", yearFilter, categoryFilter[9], 0]],
+              mag10: ["+", ["case", yearFilter, categoryFilter[10], 0]],
+              mag11: ["+", ["case", yearFilter, categoryFilter[11], 0]],
+              mag12: ["+", ["case", yearFilter, categoryFilter[12], 0]],
+              mag13: ["+", ["case", yearFilter, categoryFilter[13], 0]],
+              mag14: ["+", ["case", yearFilter, categoryFilter[14], 0]],
+            },
+          });
+
+          map.addLayer({
+            id: "muncclusters",
+            type: "circle",
+            source: "muncbarmm",
+            minzoom: 9,
+            filter: [">", ["get", "point_count"], 0],
+            paint: {
+              "circle-opacity": 0,
+            },
+          });
+        }
+
+        for (let index = 1; index <= CATEGORIES; index++) {
+          checkbox = document.getElementById("cat" + index);
+          checkbox.addEventListener("change", (e) => {
+            var startYear = years[Math.round(slider2.noUiSlider.get()[0])];
+            var endYear = years[Math.round(slider2.noUiSlider.get()[1])];
+
+            filterByMSource(startYear, endYear, clus_obj, clus2_obj);
+            // filterByPSource(startYear, endYear, json_obj);
+            updateMarkers();
+            updateMuncMarkers();
+          });
+        }
+
+        selectButton = document.getElementById("selectButton");
+        deselectButton = document.getElementById("deselectButton");
+
+        selectButton.addEventListener("click", (e) => {
+          for (let index = 1; index <= CATEGORIES; index++) {
+            document.getElementById("cat" + index.toString()).checked = true;
+          }
+
+          var startYear = years[Math.round(slider2.noUiSlider.get()[0])];
+          var endYear = years[Math.round(slider2.noUiSlider.get()[1])];
+
+          filterByMSource(startYear, endYear, clus_obj, clus2_obj);
+          filterByPSource(startYear, endYear, json_obj);
+          updateMarkers();
+          updateMuncMarkers();
+        });
+
+        deselectButton.addEventListener("click", (e) => {
+          for (let index = 1; index <= CATEGORIES; index++) {
+            document.getElementById("cat" + index.toString()).checked = false;
+          }
+
+          var startYear = years[Math.round(slider2.noUiSlider.get()[0])];
+          var endYear = years[Math.round(slider2.noUiSlider.get()[1])];
+
+          filterByMSource(startYear, endYear, clus_obj, clus2_obj);
+          filterByPSource(startYear, endYear, json_obj);
+          updateMarkers();
+          updateMuncMarkers();
+        });
+
+        var a = document.getElementById("monthSelect_multiSelect");
+        a.addEventListener("change", (event) => {
+          var startYear = years[Math.round(slider2.noUiSlider.get()[0])];
+          var endYear = years[Math.round(slider2.noUiSlider.get()[1])];
+
+          filterByMSource(startYear, endYear, clus_obj, clus2_obj);
+          filterByPSource(startYear, endYear, json_obj);
+          updateMarkers();
+          updateMuncMarkers();
+        });
+
+        for (let index = 1; index <= 3; index++) {
+          checkbox = document.getElementById("opt" + index);
+          checkbox.addEventListener("change", (e) => {
+            switcher();
+          });
+        }
+
+        function switcher() {
+          let layers = [
+            [],
+            ["incpoints"],
+            ["clusters", "muncclusters"],
+            ["provfill", "muncfill"],
+          ];
+
+          for (let index = 1; index <= 3; index++) {
+            let pointFlag = document.getElementById("opt" + index).checked;
+
+            let visibileFlag = pointFlag ? "visible" : "none";
+
+            layers[index].forEach((element) => {
+              map.setLayoutProperty(element, "visibility", visibileFlag);
+            });
+          }
+        }
+      });
+
+      map.on("click", "incpoints", function (e) {
+        var coordinates = e.features[0].geometry.coordinates.slice();
+        var year = e.features[0].properties.incyr;
+        var cause = e.features[0].properties.incident_causes_code1;
+        var province =
+          prov_code[e.features[0].properties.province_psgc.toString()];
+        var municpality =
+          munc_code[e.features[0].properties.city_psgc.toString()];
+        var category = e.features[0].properties.cause_category;
+        var incident_title = e.features[0].properties.article_incident_title;
+        var incday = e.features[0].properties.incday;
+        var incmon = month[e.features[0].properties.incmo];
+        var affil = e.features[0].properties.actors_affiliation1.toString();
+        var effect = e.features[0].properties.actors_effect1;
+
+        var popuphtml =
+          "<strong>Date:</strong> " +
+          incmon +
+          " " +
+          incday +
+          ", " +
+          year +
+          "<br>";
+        popuphtml =
+          popuphtml + "<strong>Province</strong>: " + province + "<br>";
+        popuphtml =
+          popuphtml +
+          "<strong>City/Municipality</strong>: " +
+          municpality +
+          "<br><br>";
+
+        popuphtml =
+          popuphtml +
+          "<strong>Incident Cause</strong>: " +
+          specificCause[cause] +
+          "<br>";
+
+        popuphtml =
+          popuphtml + "<strong>Incident:</strong>: " + incident_title + "<br>";
+
+        popuphtml =
+          popuphtml +
+          "<strong>Affiliation</strong>: " +
+          affiliation_code[affil].name +
+          "<br>";
+
+        new mapboxgl.Popup()
+          .setLngLat(coordinates)
+          .setHTML(popuphtml)
+          .addTo(map);
+      });
+      map.on("mouseenter", "incpoints", function () {
+        map.getCanvas().style.cursor = "pointer";
+      });
+
+      // Change it back to a pointer when it leaves.
+      map.on("mouseleave", "incpoints", function () {
+        map.getCanvas().style.cursor = "";
+      });
+
+      // code for creating an SVG donut chart from feature properties
+      function createDonutChart(props) {
+        var offsets = [];
+        var counts = [
+          props.mag1,
+          props.mag2,
+          props.mag3,
+          props.mag4,
+          props.mag5,
+          props.mag6,
+          props.mag7,
+          props.mag8,
+          props.mag9,
+          props.mag10,
+          props.mag11,
+          props.mag12,
+          props.mag13,
+          props.mag14,
+        ];
+
+        var total = 0;
+        for (var i = 0; i < counts.length; i++) {
+          offsets.push(total);
+          total += counts[i];
+        }
+
+        var fontSize =
+          total >= 1000
+            ? 22
+            : total >= 100
+            ? 20
+            : total >= 10
+            ? 18
+            : total >= 1
+            ? 16
+            : 1;
+        var r =
+          total >= 10000
+            ? 64
+            : total >= 1000
+            ? 50
+            : total >= 100
+            ? 32
+            : total >= 10
+            ? 24
+            : total >= 1
+            ? 16
+            : 1;
+        var r0 = Math.round(r * 0.6);
+        var w = r * 2;
+
+        var html =
+          '<div><svg width="' +
+          w +
+          '" height="' +
+          w +
+          '" viewbox="0 0 ' +
+          w +
+          " " +
+          w +
+          '" text-anchor="middle" style="font: ' +
+          fontSize +
+          'px sans-serif; display: block">';
+
+        for (i = 0; i < counts.length; i++) {
+          html += donutSegment(
+            offsets[i] / total,
+            (offsets[i] + counts[i]) / total,
+            r,
+            r0,
+            colors[i]
+          );
+        }
+
+        let color = "white";
+        let totalCount = total;
+        if (total === 0) {
+          totalCount = "";
+          color = "none";
+        }
+        totalCount = totalCount.toLocaleString();
+        html +=
+          '<circle cx="' +
+          r +
+          '" cy="' +
+          r +
+          '" r="' +
+          r0 +
+          '" fill="' +
+          color +
+          '" /><text dominant-baseline="central" transform="translate(' +
+          r +
+          ", " +
+          r +
+          ')">' +
+          totalCount +
+          "</text></svg></div>";
+
+        var el = document.createElement("div");
+        el.innerHTML = html;
+        return el.firstChild;
+      }
+
+      function donutSegment(start, end, r, r0, color) {
+        if (end - start === 1) end -= 0.00001;
+        var a0 = 2 * Math.PI * (start - 0.25);
+        var a1 = 2 * Math.PI * (end - 0.25);
+        var x0 = Math.cos(a0),
+          y0 = Math.sin(a0);
+        var x1 = Math.cos(a1),
+          y1 = Math.sin(a1);
+        var largeArc = end - start > 0.5 ? 1 : 0;
+
+        return [
+          '<path d="M',
+          r + r0 * x0,
+          r + r0 * y0,
+          "L",
+          r + r * x0,
+          r + r * y0,
+          "A",
+          r,
+          r,
+          0,
+          largeArc,
+          1,
+          r + r * x1,
+          r + r * y1,
+          "L",
+          r + r0 * x1,
+          r + r0 * y1,
+          "A",
+          r0,
+          r0,
+          0,
+          largeArc,
+          0,
+          r + r0 * x0,
+          r + r0 * y0,
+          '" fill="' + color + '" />',
+        ].join(" ");
+      }
+    </script>
+  </body>
+</html>
