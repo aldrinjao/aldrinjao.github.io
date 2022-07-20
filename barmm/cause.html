@@ -88,8 +88,7 @@
       }
 
       .cbox-left {
-        width: 50%;
-        float: left;
+        
       }
 
       .multiselect-wrapper .multiselect-input {
@@ -148,32 +147,33 @@
       </div>
     </div>
 
-    <div class="map-overlay" style="top: 300px; min-width: 390px">
+    <div class="map-overlay" style="top: 300px; min-width: 20
+    0px">
       <div class="map-overlay-inner left">
         <div class="cbox-left">
-          <h2>Effect</h2>
-          Cluster Color
+          <h2>Cause</h2>
+          Marker and Cluster Colors
           <div class="legendrow">
             <input type="checkbox" id="cat1" name="cat1" value="cat1" checked />
             <div class="legendbox" style="background-color: #ff0000"></div>
-            <span>At large</span>
+            <span>Common Crimes</span>
           </div>
 
           <div class="legendrow">
             <input type="checkbox" id="cat2" name="cat2" value="cat2" checked />
             <div class="legendbox" style="background-color: #b03060"></div>
-            <span>Detained (Illegal)</span>
+            <span>Governance Issues</span>
           </div>
 
           <div class="legendrow">
             <input type="checkbox" id="cat3" name="cat3" value="cat3" checked />
 
             <div class="legendbox" style="background-color: #800080"></div>
-            <span>Detained (Legal)</span>
+            <span>Identity Issues</span>
           </div>
 
-          <div class="legendrow">
-            <input type="checkbox" id="cat4" name="cat4" value="cat4" checked />
+          <div class="legendrow" style="display:none">
+            <input type="checkbox" id="cat4" name="cat4" value="cat4" checked/>
 
             <div class="legendbox" style="background-color: #8fbc8f"></div>
             <span>Displaced</span>
@@ -183,10 +183,10 @@
             <input type="checkbox" id="cat5" name="cat5" value="cat5" checked />
 
             <div class="legendbox" style="background-color: #00008b"></div>
-            <span>Injured</span>
+            <span>Political Issues</span>
           </div>
 
-          <div class="legendrow">
+          <div class="legendrow" style="display: none;">
             <input type="checkbox" id="cat6" name="cat6" value="cat6" checked />
 
             <div class="legendbox" style="background-color: #9acd32"></div>
@@ -197,93 +197,25 @@
             <input type="checkbox" id="cat7" name="cat7" value="cat7" checked />
 
             <div class="legendbox" style="background-color: #4682b4"></div>
-            <span>Killed</span>
+            <span>Resource Issues</span>
           </div>
-        </div>
 
-        <div class="cbox-right" style="padding-bottom: 20px">
-          <div style="width: 100%; margin-top: 5px; margin-bottom: 5px">
-            <button id="selectButton" style="margin-right: 30px">
-              select all
-            </button>
-            <button id="deselectButton">None</button>
-          </div>
-          Cluster Color
           <div class="legendrow">
             <input type="checkbox" id="cat8" name="cat8" value="cat8" checked />
+
             <div class="legendbox" style="background-color: #cd853f"></div>
-            <span>Missing</span>
+            <span>Shadow Economies</span>
           </div>
 
-          <div class="legendrow">
-            <input type="checkbox" id="cat9" name="cat9" value="cat9" checked />
+                    <div class="legendrow">
+            <input type="checkbox" id="cat9" name="cat9" value="cat9" />
+
             <div class="legendbox" style="background-color: #008080"></div>
-            <span>Rescued</span>
-          </div>
-
-          <div class="legendrow">
-            <input
-              type="checkbox"
-              id="cat10"
-              name="cat10"
-              value="cat10"
-              checked
-            />
-            <div class="legendbox" style="background-color: #483d8b"></div>
-            <span>Surrendered</span>
-          </div>
-
-          <div class="legendrow">
-            <input
-              type="checkbox"
-              id="cat11"
-              name="cat11"
-              value="cat11"
-              checked
-            />
-            <div class="legendbox" style="background-color: #808000"></div>
-            <span>Trafficked</span>
-          </div>
-
-          <div class="legendrow">
-            <input
-              type="checkbox"
-              id="cat12"
-              name="cat12"
-              value="cat12"
-              checked
-            />
-
-            <div class="legendbox" style="background-color: #7f0000"></div>
             <span>Undetermined</span>
           </div>
-
-          <div class="legendrow">
-            <input
-              type="checkbox"
-              id="cat13"
-              name="cat13"
-              value="cat13"
-              checked
-            />
-
-            <div class="legendbox" style="background-color: #228b22"></div>
-            <span>Hostaged</span>
-          </div>
-
-          <div class="legendrow">
-            <input
-              type="checkbox"
-              id="cat14"
-              name="cat14"
-              value="cat14"
-              checked
-            />
-
-            <div class="legendbox" style="background-color: #dcdcdc"></div>
-            <span>Hostaged / Rescued</span>
-          </div>
         </div>
+
+
       </div>
     </div>
 
@@ -327,7 +259,7 @@
     <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 
     <script>
-      var CATEGORIES = 14;
+      var CATEGORIES = 9;
       var START_YEAR = 2011;
       var END_YEAR = 2020;
 
@@ -385,7 +317,7 @@
         "#9acd32",
         "#4682b4",
         "#cd853f",
-        "#8080",
+        "#008080",
         "#483d8b",
         "#808000",
         "#7f0000",
@@ -512,7 +444,7 @@
         4: { name: "Former rebels", color: "#8fbc8f" },
         3: { name: "BIFF/BIFM", color: "#800080" },
         2: { name: "AFP", color: "#b03060" },
-        1: { name: "Abu Sayyaf", color: "#FFA500" },
+        1: { name: "Abu Sayyaf", color: "#FF0000" },
         19: { name: "Business - agribusiness", color: "#00ced1" },
         20: { name: "Business - construction", color: "#ffa500" },
         21: { name: "Business - mining", color: "#ffff00" },
@@ -632,77 +564,25 @@
 
           "circle-color": [
             "match",
-            ["get", "actors_affiliation1"],
+            ["get", "inc_cat"],
             1,
             affiliation_code["1"].color,
             2,
-            affiliation_code["1"].color,
+            affiliation_code["2"].color,
             3,
-            affiliation_code["1"].color,
+            affiliation_code["3"].color,
             4,
-            affiliation_code["1"].color,
+            affiliation_code["4"].color,
             5,
-            affiliation_code["1"].color,
+            affiliation_code["5"].color,
             6,
-            affiliation_code["1"].color,
+            affiliation_code["6"].color,
             7,
-            affiliation_code["1"].color,
+            affiliation_code["7"].color,
             8,
-            affiliation_code["1"].color,
+            affiliation_code["8"].color,
             9,
-            affiliation_code["1"].color,
-            10,
-            affiliation_code["1"].color,
-            11,
-            affiliation_code["1"].color,
-            12,
-            affiliation_code["1"].color,
-            13,
-            affiliation_code["1"].color,
-            14,
-            affiliation_code["1"].color,
-            15,
-            affiliation_code["1"].color,
-            16,
-            affiliation_code["1"].color,
-            19,
-            affiliation_code["1"].color,
-            20,
-            affiliation_code["1"].color,
-            21,
-            affiliation_code["1"].color,
-            22,
-            affiliation_code["1"].color,
-            23,
-            affiliation_code["1"].color,
-            24,
-            affiliation_code["1"].color,
-            25,
-            affiliation_code["1"].color,
-            26,
-            affiliation_code["1"].color,
-            27,
-            affiliation_code["1"].color,
-            28,
-            affiliation_code["1"].color,
-            29,
-            affiliation_code["1"].color,
-            30,
-            affiliation_code["1"].color,
-            31,
-            affiliation_code["1"].color,
-            32,
-            affiliation_code["1"].color,
-            33,
-            affiliation_code["1"].color,
-            34,
-            affiliation_code["1"].color,
-            35,
-            affiliation_code["1"].color,
-            36,
-            affiliation_code["1"].color,
-            37,
-            affiliation_code["1"].color,
+            affiliation_code["9"].color,
             -99,
             affiliation_code["1"].color,
             -98,
@@ -824,7 +704,7 @@
 
       function filterByPSource(syear, eyear, json_obj) {
         var checked = [];
-        var wholeFilter = ["all", ["in", "actors_affiliation1"]];
+        var wholeFilter = ["all", ["in", "inc_cat"]];
         for (let index = 1; index <= CATEGORIES; index++) {
           if (document.getElementById("cat" + index).checked)
             wholeFilter[1].push(index);
@@ -840,12 +720,13 @@
         var selectedMonths = getSelectValues(
           document.getElementById("monthSelect")
         );
+
         newGeoJSON.features = newGeoJSON.features.filter((feature) =>
           selectedMonths.includes(feature.properties.incmo.toString())
         );
 
         map.getSource("barmmpoints").setData(newGeoJSON);
-        // map.setFilter("incpoints", wholeFilter);
+        map.setFilter("incpoints", wholeFilter);
       }
 
       function createProv(syear, eyear, prov_obj, source) {
@@ -873,7 +754,7 @@
 
       map.on("load", function () {
         var json_obj = JSON.parse(
-          Get("https://aldrinjao.github.io/barmm/incidents_new.geojson")
+          Get("https://aldrinjao.github.io/barmm/incidents_new_2.geojson")
         );
         var prov_obj = JSON.parse(
           Get("https://aldrinjao.github.io/prov_poly.geojson")
@@ -882,10 +763,10 @@
           Get("https://aldrinjao.github.io/munc_poly.geojson")
         );
         var clus_obj = JSON.parse(
-          Get("https://aldrinjao.github.io/barmm/eff_prov.geojson")
+          Get("https://aldrinjao.github.io/barmm/cause_prov.geojson")
         );
         var clus2_obj = JSON.parse(
-          Get("https://aldrinjao.github.io/barmm/eff_munc.geojson")
+          Get("https://aldrinjao.github.io/barmm/cause_munc.geojson")
         );
 
         filterByMSource(START_YEAR, END_YEAR, clus_obj, clus2_obj);
@@ -1067,12 +948,7 @@
               mag6: ["+", ["case", yearFilter, categoryFilter[6], 0]],
               mag7: ["+", ["case", yearFilter, categoryFilter[7], 0]],
               mag8: ["+", ["case", yearFilter, categoryFilter[8], 0]],
-              mag9: ["+", ["case", yearFilter, categoryFilter[9], 0]],
-              mag10: ["+", ["case", yearFilter, categoryFilter[10], 0]],
-              mag11: ["+", ["case", yearFilter, categoryFilter[11], 0]],
-              mag12: ["+", ["case", yearFilter, categoryFilter[12], 0]],
-              mag13: ["+", ["case", yearFilter, categoryFilter[13], 0]],
-              mag14: ["+", ["case", yearFilter, categoryFilter[14], 0]],
+              mag9: ["+", ["case", yearFilter, categoryFilter[9], 0]]
             },
           });
 
@@ -1108,12 +984,7 @@
               mag6: ["+", ["case", yearFilter, categoryFilter[6], 0]],
               mag7: ["+", ["case", yearFilter, categoryFilter[7], 0]],
               mag8: ["+", ["case", yearFilter, categoryFilter[8], 0]],
-              mag9: ["+", ["case", yearFilter, categoryFilter[9], 0]],
-              mag10: ["+", ["case", yearFilter, categoryFilter[10], 0]],
-              mag11: ["+", ["case", yearFilter, categoryFilter[11], 0]],
-              mag12: ["+", ["case", yearFilter, categoryFilter[12], 0]],
-              mag13: ["+", ["case", yearFilter, categoryFilter[13], 0]],
-              mag14: ["+", ["case", yearFilter, categoryFilter[14], 0]],
+              mag9: ["+", ["case", yearFilter, categoryFilter[9], 0]]
             },
           });
 
@@ -1136,45 +1007,46 @@
             var endYear = years[Math.round(slider2.noUiSlider.get()[1])];
 
             filterByMSource(startYear, endYear, clus_obj, clus2_obj);
-            // filterByPSource(startYear, endYear, json_obj);
+            filterByPSource(startYear, endYear, json_obj);
             updateMarkers();
             updateMuncMarkers();
           });
         }
 
-        selectButton = document.getElementById("selectButton");
-        deselectButton = document.getElementById("deselectButton");
+        // selectButton = document.getElementById("selectButton");
+        // deselectButton = document.getElementById("deselectButton");
 
-        selectButton.addEventListener("click", (e) => {
-          for (let index = 1; index <= CATEGORIES; index++) {
-            document.getElementById("cat" + index.toString()).checked = true;
-          }
+        // selectButton.addEventListener("click", (e) => {
+        //   for (let index = 1; index <= CATEGORIES; index++) {
+        //     document.getElementById("cat" + index.toString()).checked = true;
+        //   }
 
-          var startYear = years[Math.round(slider2.noUiSlider.get()[0])];
-          var endYear = years[Math.round(slider2.noUiSlider.get()[1])];
+        //   var startYear = years[Math.round(slider2.noUiSlider.get()[0])];
+        //   var endYear = years[Math.round(slider2.noUiSlider.get()[1])];
 
-          filterByMSource(startYear, endYear, clus_obj, clus2_obj);
-          filterByPSource(startYear, endYear, json_obj);
-          updateMarkers();
-          updateMuncMarkers();
-        });
+        //   filterByMSource(startYear, endYear, clus_obj, clus2_obj);
+        //   filterByPSource(startYear, endYear, json_obj);
+        //   updateMarkers();
+        //   updateMuncMarkers();
+        // });
 
-        deselectButton.addEventListener("click", (e) => {
-          for (let index = 1; index <= CATEGORIES; index++) {
-            document.getElementById("cat" + index.toString()).checked = false;
-          }
+        // deselectButton.addEventListener("click", (e) => {
+        //   for (let index = 1; index <= CATEGORIES; index++) {
+        //     document.getElementById("cat" + index.toString()).checked = false;
+        //   }
 
-          var startYear = years[Math.round(slider2.noUiSlider.get()[0])];
-          var endYear = years[Math.round(slider2.noUiSlider.get()[1])];
+        //   var startYear = years[Math.round(slider2.noUiSlider.get()[0])];
+        //   var endYear = years[Math.round(slider2.noUiSlider.get()[1])];
 
-          filterByMSource(startYear, endYear, clus_obj, clus2_obj);
-          filterByPSource(startYear, endYear, json_obj);
-          updateMarkers();
-          updateMuncMarkers();
-        });
+        //   filterByMSource(startYear, endYear, clus_obj, clus2_obj);
+        //   filterByPSource(startYear, endYear, json_obj);
+        //   updateMarkers();
+        //   updateMuncMarkers();
+        // });
 
         var a = document.getElementById("monthSelect_multiSelect");
         a.addEventListener("change", (event) => {
+        console.log(222);
           var startYear = years[Math.round(slider2.noUiSlider.get()[0])];
           var endYear = years[Math.round(slider2.noUiSlider.get()[1])];
 
@@ -1223,7 +1095,7 @@
         var incident_title = e.features[0].properties.article_incident_title;
         var incday = e.features[0].properties.incday;
         var incmon = month[e.features[0].properties.incmo];
-        var affil = e.features[0].properties.actors_affiliation1.toString();
+        var affil = 1;
         var effect = e.features[0].properties.actors_effect1;
 
         var popuphtml =
@@ -1283,12 +1155,7 @@
           props.mag6,
           props.mag7,
           props.mag8,
-          props.mag9,
-          props.mag10,
-          props.mag11,
-          props.mag12,
-          props.mag13,
-          props.mag14,
+          props.mag9
         ];
 
         var total = 0;
@@ -1334,14 +1201,15 @@
           '" text-anchor="middle" style="font: ' +
           fontSize +
           'px sans-serif; display: block">';
-
         for (i = 0; i < counts.length; i++) {
+
+
           html += donutSegment(
             offsets[i] / total,
             (offsets[i] + counts[i]) / total,
             r,
             r0,
-            colors[i]
+            affiliation_code[i+1].color
           );
         }
 
