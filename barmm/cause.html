@@ -256,8 +256,12 @@
 
     <script>
       const queryString = window.location.search;
-      const urlParams = new URLSearchParams(queryString);
-      console.log(urlParams);
+      const defaultZoomDisplay = new URLSearchParams(queryString).get("zoom");
+      var CLUSTERZOOMTHRESHOLD = 9
+      if (defaultZoomDisplay=="munc"){
+        CLUSTERZOOMTHRESHOLD = 6
+      }
+
 
       var CATEGORIES = 9;
       var START_YEAR = 2011;
@@ -956,7 +960,7 @@
             id: "clusters",
             type: "circle",
             source: "barmm",
-            maxzoom: 9,
+            maxzoom: CLUSTERZOOMTHRESHOLD,
             filter: [">", ["get", "point_count"], 0],
             paint: {
               "circle-opacity": 0,
@@ -992,7 +996,7 @@
             id: "muncclusters",
             type: "circle",
             source: "muncbarmm",
-            minzoom: 9,
+            minzoom: CLUSTERZOOMTHRESHOLD,
             filter: [">", ["get", "point_count"], 0],
             paint: {
               "circle-opacity": 0,

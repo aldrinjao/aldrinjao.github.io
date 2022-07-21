@@ -595,6 +595,13 @@
       var START_YEAR = 2011;
       var END_YEAR = 2020;
 
+      const queryString = window.location.search;
+      const defaultZoomDisplay = new URLSearchParams(queryString).get("zoom");
+      var CLUSTERZOOMTHRESHOLD = 9;
+      if (defaultZoomDisplay == "munc") {
+        CLUSTERZOOMTHRESHOLD = 6;
+      }
+
       var slider2 = document.getElementById("slider2");
       document.multiselect("#monthSelect");
       document.multiselect("#monthSelect").selectAll();
@@ -1341,7 +1348,7 @@
             id: "clusters",
             type: "circle",
             source: "barmm",
-            maxzoom: 9,
+            maxzoom: CLUSTERZOOMTHRESHOLD,
             filter: [">", ["get", "point_count"], 0],
             paint: {
               "circle-opacity": 0,
@@ -1402,7 +1409,7 @@
             id: "muncclusters",
             type: "circle",
             source: "muncbarmm",
-            minzoom: 9,
+            minzoom: CLUSTERZOOMTHRESHOLD,
             filter: [">", ["get", "point_count"], 0],
             paint: {
               "circle-opacity": 0,
