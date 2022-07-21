@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>BARMM CA incidents - Effect</title>
+    <title>BARMM CA incidents - Cause</title>
     <meta
       name="viewport"
       content="initial-scale=1,maximum-scale=1,user-scalable=no"
@@ -85,10 +85,6 @@
         flex-direction: row;
         justify-content: start;
         align-items: center;
-      }
-
-      .cbox-left {
-        
       }
 
       .multiselect-wrapper .multiselect-input {
@@ -259,6 +255,10 @@
     <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 
     <script>
+      const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+      console.log(urlParams);
+
       var CATEGORIES = 9;
       var START_YEAR = 2011;
       var END_YEAR = 2020;
@@ -757,10 +757,10 @@
           Get("https://aldrinjao.github.io/barmm/incidents_new_2.geojson")
         );
         var prov_obj = JSON.parse(
-          Get("https://aldrinjao.github.io/prov_poly.geojson")
+          Get("https://aldrinjao.github.io/barmm/prov_poly.geojson")
         );
         var munc_obj = JSON.parse(
-          Get("https://aldrinjao.github.io/munc_poly.geojson")
+          Get("https://aldrinjao.github.io/barmm/munc_poly.geojson")
         );
         var clus_obj = JSON.parse(
           Get("https://aldrinjao.github.io/barmm/cause_prov.geojson")
