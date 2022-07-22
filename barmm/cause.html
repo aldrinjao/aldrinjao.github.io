@@ -143,8 +143,7 @@
       </div>
     </div>
 
-    <div class="map-overlay" style="top: 300px; min-width: 20
-    0px">
+    <div class="map-overlay" style="top: 300px; min-width: 20 0px">
       <div class="map-overlay-inner left">
         <div class="cbox-left">
           <h2>Cause</h2>
@@ -168,8 +167,8 @@
             <span>Identity Issues</span>
           </div>
 
-          <div class="legendrow" style="display:none">
-            <input type="checkbox" id="cat4" name="cat4" value="cat4" checked/>
+          <div class="legendrow" style="display: none">
+            <input type="checkbox" id="cat4" name="cat4" value="cat4" checked />
 
             <div class="legendbox" style="background-color: #8fbc8f"></div>
             <span>Displaced</span>
@@ -182,7 +181,7 @@
             <span>Political Issues</span>
           </div>
 
-          <div class="legendrow" style="display: none;">
+          <div class="legendrow" style="display: none">
             <input type="checkbox" id="cat6" name="cat6" value="cat6" checked />
 
             <div class="legendbox" style="background-color: #9acd32"></div>
@@ -203,15 +202,13 @@
             <span>Shadow Economies</span>
           </div>
 
-                    <div class="legendrow">
+          <div class="legendrow">
             <input type="checkbox" id="cat9" name="cat9" value="cat9" />
 
             <div class="legendbox" style="background-color: #008080"></div>
             <span>Undetermined</span>
           </div>
         </div>
-
-
       </div>
     </div>
 
@@ -253,15 +250,15 @@
     </div>
 
     <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="./codes.js" charset="utf-8"></script>
 
     <script>
       const queryString = window.location.search;
       const defaultZoomDisplay = new URLSearchParams(queryString).get("zoom");
-      var CLUSTERZOOMTHRESHOLD = 9
-      if (defaultZoomDisplay=="munc"){
-        CLUSTERZOOMTHRESHOLD = 6
+      var CLUSTERZOOMTHRESHOLD = 9;
+      if (defaultZoomDisplay == "munc") {
+        CLUSTERZOOMTHRESHOLD = 6;
       }
-
 
       var CATEGORIES = 9;
       var START_YEAR = 2011;
@@ -299,260 +296,10 @@
         Get("https://aldrinjao.github.io/barmm/munc_code.json")
       );
 
-      var prov_code = {
-        103500000: "Lanao del Norte",
-        153600000: "Lanao del Sur",
-        153800000: "Maguindanao",
-        156600000: "Sulu",
-        157000000: "Tawi-tawi",
-        129804000: "Cotabato City",
-        150700000: "Basilan",
-        "-98": "Undetermined",
-        "-99": "Not Applicable",
-        98: "Undetermined",
-        99: "Not Applicable",
-      };
-      var colors = [
-        "#ff0000",
-        "#b03060",
-        "#800080",
-        "#8fbc8f",
-        "#00008b",
-        "#9acd32",
-        "#4682b4",
-        "#cd853f",
-        "#008080",
-        "#483d8b",
-        "#808000",
-        "#7f0000",
-        "#228b22",
-        "#dcdcdc",
-        "#556b2f",
-        "#696969",
-        "#00ced1",
-        "#ffa500",
-        "#ffff00",
-        "#7fff00",
-        "#00ff7f",
-        "#dc143c",
-        "#0000ff",
-        "#a020f0",
-        "#ff00ff",
-        "#1e90ff",
-        "#fa8072",
-        "#dda0dd",
-        "#ff1493",
-        "#7b68ee",
-        "#ee82ee",
-        "#98fb98",
-        "#87cefa",
-        "#7fffd4",
-      ];
-
-      // var affiliation_code = {
-      //   16: "Civilian",
-      //   14: "PNP",
-      //   15: "Private armed groups",
-      //   13: "Pirates",
-      //   12: "Paramilitary",
-      //   11: "Other paramilitary",
-      //   10: "Organized syndicates",
-      //   9: "NPA",
-      //   8: "MNLF",
-      //   7: "MILF",
-      //   6: "Jemaah Islamiyah",
-      //   5: "Gang",
-      //   4: "Former rebels",
-      //   3: "BIFF/BIFM",
-      //   2: "AFP",
-      //   1: "Abu Sayyaf",
-      //   19: "Business - agribusiness",
-      //   20: "Business - construction",
-      //   21: "Business - mining",
-      //   22: "Business - commercial",
-      //   23: "Business - telecommunications",
-      //   24: "Children",
-      //   25: "Business - logging",
-      //   26: "Business - trucking",
-      //   27: "Business - livestock",
-      //   28: "Business - unspecified",
-      //   29: "Family/clan",
-      //   30: "Government-agencies",
-      //   31: "Government-LGU",
-      //   32: "Tribal leader",
-      //   33: "Indigenous peoples",
-      //   34: "Maute Group",
-      //   35: "Ansar Al-Khilafa",
-      //   36: "Dawla Islamiya",
-      // };
-
-      var causeCat = {
-        1: "Common Crimes",
-        2: "Governance Issues",
-        3: "Identity Issues",
-        4: "aa",
-        5: "Political Issues",
-        6: "Extremist violence",
-        7: "Resource issues",
-        8: "Shadow economies",
-        9: "Undetermined",
-      };
-
-      var month = {
-        1: "Jan",
-        2: "Feb",
-        3: "Mar",
-        4: "Apr",
-        5: "May",
-        6: "Jun",
-        7: "Jul",
-        8: "Aug",
-        9: "Sep",
-        10: "Oct",
-        11: "Nov",
-        12: "Dec",
-      };
-
-      var effect_code = {
-        14: { name: "Hostaged / Rescued", color: "#dcdcdc" },
-        13: { name: "Hostaged", color: "#228b22" },
-        12: { name: "Undetermined", color: "#7f0000" },
-        11: { name: "Trafficked", color: "#808000" },
-        10: { name: "Surrendered", color: "#483d8b" },
-        9: { name: "Rescued", color: "#008080" },
-        8: { name: "Missing", color: "#cd853f" },
-        7: { name: "Killed", color: "#4682b4" },
-        6: { name: "Kidnapped", color: "#9acd32" },
-        5: { name: "Injured", color: "#00008b" },
-        4: { name: "Displaced", color: "#8fbc8f" },
-        3: { name: "Detained (Legal)", color: "#800080" },
-        2: { name: "Detained (Illegal)", color: "#b03060" },
-        1: { name: "At large", color: "#ff0000" },
-        "-99": { name: "undetermined", color: "#ff0000" },
-        "-98": { name: "not applicable", color: "#ff0000" },
-      };
-
-      var affiliation_code = {
-        16: { name: "Civilian", color: "##FFA500" },
-        14: { name: "PNP", color: "#dcdcdc" },
-        15: { name: "Private armed groups", color: "#556b2f" },
-        13: { name: "Pirates", color: "#228b22" },
-        12: { name: "Paramilitary", color: "#7f0000" },
-        11: { name: "Other paramilitary", color: "#808000" },
-        10: { name: "Organized syndicates", color: "#483d8b" },
-        9: { name: "NPA", color: "#008080" },
-        8: { name: "MNLF", color: "#cd853f" },
-        7: { name: "MILF", color: "#4682b4" },
-        6: { name: "Jemaah Islamiyah", color: "#9acd32" },
-        5: { name: "Gang", color: "#00008b" },
-        4: { name: "Former rebels", color: "#8fbc8f" },
-        3: { name: "BIFF/BIFM", color: "#800080" },
-        2: { name: "AFP", color: "#b03060" },
-        1: { name: "Abu Sayyaf", color: "#FF0000" },
-        19: { name: "Business - agribusiness", color: "#00ced1" },
-        20: { name: "Business - construction", color: "#ffa500" },
-        21: { name: "Business - mining", color: "#ffff00" },
-        22: { name: "Business - commercial", color: "#7fff00" },
-        23: { name: "Business - telecommunications", color: "#00ff7f" },
-        24: { name: "Children", color: "#dc143c" },
-        25: { name: "Business - logging", color: "#0000ff" },
-        26: { name: "Business - trucking", color: "#a020f0" },
-        27: { name: "Business - livestock", color: "#ff00ff" },
-        28: { name: "Business - unspecified", color: "#1e90ff" },
-        29: { name: "Family/clan", color: "#fa8072" },
-        30: { name: "Government-agencies", color: "#dda0dd" },
-        31: { name: "Government-LGU", color: "#ff1493" },
-        32: { name: "Tribal leader", color: "#7b68ee" },
-        33: { name: "Indigenous peoples", color: "#ee82ee" },
-        34: { name: "Maute Group", color: "#98fb98" },
-        35: { name: "Ansar Al-Khilafa", color: "#87cefa" },
-        36: { name: "Dawla Islamiya", color: "#7fffd4" },
-        "-99": { name: "undetermined", color: "#ff0000" },
-        "-98": { name: "not applicable", color: "#ff0000" },
-      };
-
-      var specificCause = {
-        1001: "Breach of contract except land related, indebtedness and seizure of properties",
-        1002: "Conflict arising from intoxication",
-        1003: "Damage to properties",
-        1004: "Humiliation and bullying",
-        1007: "Robbery",
-        1008: "Other common crimes",
-        1012: "Child abuse",
-        1013: "Looting - Marawi war 2017",
-        2001: "Competition over non-elective position",
-        2002: "Conflict between and among military and police",
-        2003: "Corruption of public office",
-        2004: "Exclusion/Unequal access to public/welfare goods",
-        2006: "Law enforcements",
-        2007: "Mis-fires and mis-encounters by government security sectors",
-        2008: "Tender-related competitions",
-        2009: "Other governance issues",
-        2010: "Implementation of government decisions and policies",
-        2011: "Implementation of government projects",
-        2013: "Executive and judicial decisions (beginning 2017)",
-        2014: "Executive and judicial positions (beginning 2017)",
-        3001: "Gender-related issues",
-        3003: "Inter and intra-gang rivalries",
-        3004: "Loss of honor",
-        3005: "Personal grudge",
-        3006: "Clan feud",
-        3007: "Other identity issues",
-        3015: "Violent extremism - Identity component (deactivated for 2019 incidents)",
-        3016: "Political identity",
-        3017: "Violent extremism -Identity component (active starting 2019 replacing 3015)",
-        5002: "Conflict between and among rebel groups",
-        5003: "Conflict within and among political parties",
-        5005: "Exercise of democratic freedom",
-        5006: "Mis-fires and mis-encounters by non-state actors",
-        5007: "Political repression",
-        5008: "Rebellion",
-        5009: "Other political issues",
-        5011: "Elections ",
-        5012: "Conflict between and among elected officials",
-        5015: "Conflict between and among member-based groups",
-        5017: "Violent extremism - Political component",
-        7001: "Control over natural resources",
-        7003: "Labor and management ",
-        7004: "Land conflict ",
-        7006: "Water conflict",
-        7007: "Other resource issues",
-        7008: "Conflict over control of non-metallic minerals such as lime, sand, gravel including soil",
-        7009: "Contested property rights",
-        7012: "Resource capture",
-        7015: "Urban resources (beginning 2017)",
-        7016: "Resource predation (beginning 2017)",
-        8001: "Cattle rustling",
-        8002: "Cross-border trade",
-        8003: "Human trafficking",
-        8004: "Illegal drugs",
-        8005: "Illegal gambling",
-        8006: "Illegal logging",
-        8007: "Illicit financial instruments and transactions",
-        8008: "Illicit firearms",
-        8009: "Kidnap-for-ransom ",
-        8010: "Illicit taxes and toll fees including forced pay-offs",
-        8012: "Carjacking",
-        8014: "Other shadow economy activities",
-        8022: "Carjacking - motor vehicle (Violent)",
-        8023: "Carjacking - motorcycle (Violent)",
-        8024: "Carnapping - motor vehicle (Nonviolent)",
-        8025: "Carnapping - motorcycle (Nonviolent)",
-        8026: "Illicit financial instruments and transactions",
-        8028: "Illicit financial instruments and transactions",
-        9001: "Undetermined",
-        "-98": "n/a",
-      };
-
       var incidentPointsLayer = {
         id: "incpoints",
         type: "circle",
         source: "barmmpoints",
-        // 'paint': {
-        //     'circle-radius': 6,
-        //     'circle-color': '#B42222'
-        // },
-
         paint: {
           "circle-radius": {
             stops: [
@@ -758,7 +505,7 @@
 
       map.on("load", function () {
         var json_obj = JSON.parse(
-          Get("https://aldrinjao.github.io/barmm/incidents_new_2.geojson")
+          Get("https://aldrinjao.github.io/barmm/incidents_new.geojson")
         );
         var prov_obj = JSON.parse(
           Get("https://aldrinjao.github.io/barmm/prov_poly.geojson")
@@ -952,7 +699,7 @@
               mag6: ["+", ["case", yearFilter, categoryFilter[6], 0]],
               mag7: ["+", ["case", yearFilter, categoryFilter[7], 0]],
               mag8: ["+", ["case", yearFilter, categoryFilter[8], 0]],
-              mag9: ["+", ["case", yearFilter, categoryFilter[9], 0]]
+              mag9: ["+", ["case", yearFilter, categoryFilter[9], 0]],
             },
           });
 
@@ -988,7 +735,7 @@
               mag6: ["+", ["case", yearFilter, categoryFilter[6], 0]],
               mag7: ["+", ["case", yearFilter, categoryFilter[7], 0]],
               mag8: ["+", ["case", yearFilter, categoryFilter[8], 0]],
-              mag9: ["+", ["case", yearFilter, categoryFilter[9], 0]]
+              mag9: ["+", ["case", yearFilter, categoryFilter[9], 0]],
             },
           });
 
@@ -1050,7 +797,7 @@
 
         var a = document.getElementById("monthSelect_multiSelect");
         a.addEventListener("change", (event) => {
-        console.log(222);
+          console.log(222);
           var startYear = years[Math.round(slider2.noUiSlider.get()[0])];
           var endYear = years[Math.round(slider2.noUiSlider.get()[1])];
 
@@ -1101,6 +848,7 @@
         var incmon = month[e.features[0].properties.incmo];
         var affil = 1;
         var effect = e.features[0].properties.actors_effect1;
+        var actorsNum = e.features[0].properties.actors_count_number;
 
         var popuphtml =
           "<strong>Date:</strong> " +
@@ -1132,6 +880,11 @@
           "<strong>Affiliation</strong>: " +
           affiliation_code[affil].name +
           "<br>";
+        popuphtml =
+          popuphtml +
+          "<strong>Number of Actors</strong>: " +
+          actorsNum +
+          "<br>";
 
         new mapboxgl.Popup()
           .setLngLat(coordinates)
@@ -1159,7 +912,7 @@
           props.mag6,
           props.mag7,
           props.mag8,
-          props.mag9
+          props.mag9,
         ];
 
         var total = 0;
@@ -1206,14 +959,12 @@
           fontSize +
           'px sans-serif; display: block">';
         for (i = 0; i < counts.length; i++) {
-
-
           html += donutSegment(
             offsets[i] / total,
             (offsets[i] + counts[i]) / total,
             r,
             r0,
-            affiliation_code[i+1].color
+            affiliation_code[i + 1].color
           );
         }
 
