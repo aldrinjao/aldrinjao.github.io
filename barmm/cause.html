@@ -150,62 +150,62 @@
           Marker and Cluster Colors
           <div class="legendrow">
             <input type="checkbox" id="cat1" name="cat1" value="cat1" checked />
-            <div class="legendbox" style="background-color: #ff0000"></div>
+            <div class="legendbox" style="background-color: #00a1d6"></div>
             <span>Common Crimes</span>
           </div>
 
           <div class="legendrow">
             <input type="checkbox" id="cat2" name="cat2" value="cat2" checked />
-            <div class="legendbox" style="background-color: #b03060"></div>
+            <div class="legendbox" style="background-color: #8d00bc"></div>
             <span>Governance Issues</span>
           </div>
 
           <div class="legendrow">
             <input type="checkbox" id="cat3" name="cat3" value="cat3" checked />
 
-            <div class="legendbox" style="background-color: #800080"></div>
+            <div class="legendbox" style="background-color: #ffa32b"></div>
             <span>Identity Issues</span>
           </div>
 
           <div class="legendrow" style="display: none">
             <input type="checkbox" id="cat4" name="cat4" value="cat4" checked />
 
-            <div class="legendbox" style="background-color: #8fbc8f"></div>
+            <div class="legendbox" style="background-color: #f82d00"></div>
             <span>Displaced</span>
           </div>
 
           <div class="legendrow">
             <input type="checkbox" id="cat5" name="cat5" value="cat5" checked />
 
-            <div class="legendbox" style="background-color: #00008b"></div>
+            <div class="legendbox" style="background-color: #000000"></div>
             <span>Political Issues</span>
           </div>
 
           <div class="legendrow" style="display: none">
             <input type="checkbox" id="cat6" name="cat6" value="cat6" checked />
 
-            <div class="legendbox" style="background-color: #9acd32"></div>
+            <div class="legendbox" style="background-color: #01a812"></div>
             <span>Kidnapped</span>
           </div>
 
           <div class="legendrow">
             <input type="checkbox" id="cat7" name="cat7" value="cat7" checked />
 
-            <div class="legendbox" style="background-color: #4682b4"></div>
+            <div class="legendbox" style="background-color: #000000"></div>
             <span>Resource Issues</span>
           </div>
 
           <div class="legendrow">
             <input type="checkbox" id="cat8" name="cat8" value="cat8" checked />
 
-            <div class="legendbox" style="background-color: #cd853f"></div>
+            <div class="legendbox" style="background-color: #727272"></div>
             <span>Shadow Economies</span>
           </div>
 
           <div class="legendrow">
             <input type="checkbox" id="cat9" name="cat9" value="cat9" />
 
-            <div class="legendbox" style="background-color: #008080"></div>
+            <div class="legendbox" style="background-color: #ffffff"></div>
             <span>Undetermined</span>
           </div>
         </div>
@@ -317,27 +317,27 @@
             "match",
             ["get", "inc_cat"],
             1,
-            affiliation_code["1"].color,
+            causeColor[0],
             2,
-            affiliation_code["2"].color,
+            causeColor[1],
             3,
-            affiliation_code["3"].color,
+            causeColor[2],
             4,
-            affiliation_code["4"].color,
+            causeColor[3],
             5,
-            affiliation_code["5"].color,
+            causeColor[4],
             6,
-            affiliation_code["6"].color,
+            causeColor[5],
             7,
-            affiliation_code["7"].color,
+            causeColor[6],
             8,
-            affiliation_code["8"].color,
+            causeColor[7],
             9,
-            affiliation_code["9"].color,
+            causeColor[8],
             -99,
-            affiliation_code["1"].color,
+            causeColor[8],
             -98,
-            affiliation_code["1"].color,
+            causeColor[8],
             "#000",
           ],
           "circle-opacity": 0.75,
@@ -964,7 +964,7 @@
             (offsets[i] + counts[i]) / total,
             r,
             r0,
-            affiliation_code[i + 1].color
+            causeColor[i]
           );
         }
 
