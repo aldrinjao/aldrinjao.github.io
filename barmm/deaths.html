@@ -240,7 +240,7 @@
       var years = [2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020];
 
       var munc_code = JSON.parse(
-        Get("https://aldrinjao.github.io/barmm/munc_code.json")
+        Get("https://crc2022-dev.online/maps/munc_code.json")
       );
 
 
@@ -509,19 +509,19 @@
 
       map.on("load", function () {
         var json_obj = JSON.parse(
-          Get("https://aldrinjao.github.io/barmm/incidents_new.geojson")
+          Get("https://crc2022-dev.online/maps/incidents_new.geojson")
         );
         var prov_obj = JSON.parse(
-          Get("https://aldrinjao.github.io/barmm/prov_poly.geojson")
+          Get("https://crc2022-dev.online/maps/prov_poly.geojson")
         );
         var munc_obj = JSON.parse(
-          Get("https://aldrinjao.github.io/barmm/munc_poly.geojson")
+          Get("https://crc2022-dev.online/maps/munc_poly.geojson")
         );
         var clus_obj = JSON.parse(
-          Get("https://aldrinjao.github.io/barmm/deaths_prov.geojson")
+          Get("https://crc2022-dev.online/maps/deaths_prov.geojson")
         );
         var clus2_obj = JSON.parse(
-          Get("https://aldrinjao.github.io/barmm/deaths_munc.geojson")
+          Get("https://crc2022-dev.online/maps/deaths_munc.geojson")
         );
 
         filterByMSource(START_YEAR, END_YEAR, clus_obj, clus2_obj);
