@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>BARMM CA incidents - Deaths</title>
+    <title>CEMS</title>
     <meta
       name="viewport"
       content="initial-scale=1,maximum-scale=1,user-scalable=no"
@@ -95,7 +95,7 @@
 
     <div id="map"></div>
 
-    <div class="map-overlay top">
+    <div class="map-overlay top" style="display:none;">
       <div class="map-overlay-inner">
         <h2>Year: <label id="year"> 2011 - 2020</label></h2>
 
@@ -124,7 +124,7 @@
       </div>
     </div>
 
-    <div class="map-overlay" style="top: 180px">
+    <div class="map-overlay" style="top: 180px; display:none;">
       <div class="map-overlay-inner">
         <h2>Layer Control</h2>
 
@@ -144,15 +144,20 @@
       </div>
     </div>
 
-    <div class="map-overlay" style="top: 300px; min-width: 200px">
+    <div class="map-overlay" style="top: 10px; min-width: 200px">
       <div class="map-overlay-inner left">
         <div class="cbox-left">
-          <h2>Deaths</h2>
-          Cluster Color
+          <h2>CEMS</h2>
+          Marker Color
           <div class="legendrow">
             <input type="checkbox" id="cat1" name="cat1" value="cat1" checked />
-            <div class="legendbox" style="background-color: #ff0000"></div>
-            <span>Deaths</span>
+            <div class="legendbox" style="background-color: #FFD700"></div>
+            <span>Tension</span>
+          </div>
+          <div class="legendrow">
+            <input type="checkbox" id="cat2" name="cat2" value="cat2" checked />
+            <div class="legendbox" style="background-color: #8b0000"></div>
+            <span>Violence</span>
           </div>
 
 
@@ -200,7 +205,13 @@
     <script src="./codes.js" charset="utf-8"></script>
 
     <script>
-      var CATEGORIES = 1;
+
+      var cems_color={
+        "1":"#FFD700",
+        "2":"#8b0000"
+      }
+
+      var CATEGORIES = 2;
       var START_YEAR = 2011;
       var END_YEAR = 2020;
 
@@ -225,17 +236,14 @@
         },
       });
 
-      mapboxgl.accessToken =
-        "pk.eyJ1IjoiY29uZmxpY3RhbGVydCIsImEiOiJja253c3p2Z3AwZ2JxMm5xZHZibTk2cHkzIn0.j29K1BrZjO-gnWDYHE0kiA";
-      var map = new mapboxgl.Map({
-        container: "map",
-        style: "mapbox://styles/conflictalert/cknxzmh1y023r17mphj1p8ng5",
-        center: [122, 7],
-        zoom: 7,
-        minZoom: 7,
-        maxZoom: 12,
+	mapboxgl.accessToken = 'pk.eyJ1IjoicnVtcC1jb25mbGljdGFsZXJ0IiwiYSI6ImNrczRiMjhlbjFvN2gyeXJ3cWVmNGJueWoifQ.4PjwrtDVrh5i919c0hBCTA';
+      const map = new mapboxgl.Map({
+      container: 'map',
+      zoom: 5.4,
+      center: [123, 12],
+      style: 'mapbox://styles/mapbox/light-v10',
+      antialias: true // create the gl context with MSAA antialiasing, so custom layers are antialiased
       });
-
       var zoomThreshold = 9;
       var years = [2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020];
 
@@ -269,81 +277,11 @@
 
           "circle-color": [
             "match",
-            ["get", "actors_affiliation1"],
+            ["get", "Type"],
             1,
-            affiliation_code["1"].color,
+            cems_color["1"],
             2,
-            affiliation_code["1"].color,
-            3,
-            affiliation_code["1"].color,
-            4,
-            affiliation_code["1"].color,
-            5,
-            affiliation_code["1"].color,
-            6,
-            affiliation_code["1"].color,
-            7,
-            affiliation_code["1"].color,
-            8,
-            affiliation_code["1"].color,
-            9,
-            affiliation_code["1"].color,
-            10,
-            affiliation_code["1"].color,
-            11,
-            affiliation_code["1"].color,
-            12,
-            affiliation_code["1"].color,
-            13,
-            affiliation_code["1"].color,
-            14,
-            affiliation_code["1"].color,
-            15,
-            affiliation_code["1"].color,
-            16,
-            affiliation_code["1"].color,
-            19,
-            affiliation_code["1"].color,
-            20,
-            affiliation_code["1"].color,
-            21,
-            affiliation_code["1"].color,
-            22,
-            affiliation_code["1"].color,
-            23,
-            affiliation_code["1"].color,
-            24,
-            affiliation_code["1"].color,
-            25,
-            affiliation_code["1"].color,
-            26,
-            affiliation_code["1"].color,
-            27,
-            affiliation_code["1"].color,
-            28,
-            affiliation_code["1"].color,
-            29,
-            affiliation_code["1"].color,
-            30,
-            affiliation_code["1"].color,
-            31,
-            affiliation_code["1"].color,
-            32,
-            affiliation_code["1"].color,
-            33,
-            affiliation_code["1"].color,
-            34,
-            affiliation_code["1"].color,
-            35,
-            affiliation_code["1"].color,
-            36,
-            affiliation_code["1"].color,
-            37,
-            affiliation_code["1"].color,
-            -99,
-            affiliation_code["1"].color,
-            -98,
-            affiliation_code["1"].color,
+            cems_color["2"],
             "#000",
           ],          "circle-opacity": 0.75,
         },
@@ -436,9 +374,9 @@
 
       function filterBySource(year, json_obj) {
         const newGeoJSON = { ...json_obj };
-        newGeoJSON.features = json_obj.features.filter(
-          (feature) => feature.properties.incyr === years[year]
-        );
+        // newGeoJSON.features = json_obj.features.filter(
+        //   (feature) => feature.properties.incyr === years[year]
+        // );
         map.getSource("barmm").setData(newGeoJSON);
         map.getSource("barmmpoints").setData(newGeoJSON);
       }
@@ -460,28 +398,28 @@
 
       function filterByPSource(syear, eyear, json_obj) {
         var checked = [];
-        var wholeFilter = ["all", ["in", "actors_affiliation1"]];
+        var wholeFilter = ["all", ["in", "Type"]];
         for (let index = 1; index <= CATEGORIES; index++) {
           if (document.getElementById("cat" + index).checked)
             wholeFilter[1].push(index);
         }
 
-        var newGeoJSON = { ...json_obj };
-        newGeoJSON.features = json_obj.features.filter(
-          (feature) =>
-            feature.properties.incyr >= syear &&
-            feature.properties.incyr <= eyear
-        );
+        // var newGeoJSON = { ...json_obj };
+        // newGeoJSON.features = json_obj.features.filter(
+        //   (feature) =>
+        //     feature.properties.incyr >= syear &&
+        //     feature.properties.incyr <= eyear
+        // );
 
-        var selectedMonths = getSelectValues(
-          document.getElementById("monthSelect")
-        );
-        newGeoJSON.features = newGeoJSON.features.filter((feature) =>
-          selectedMonths.includes(feature.properties.incmo.toString())
-        );
+        // var selectedMonths = getSelectValues(
+        //   document.getElementById("monthSelect")
+        // );
+        // newGeoJSON.features = newGeoJSON.features.filter((feature) =>
+        //   selectedMonths.includes(feature.properties.incmo.toString())
+        // );
 
-        map.getSource("barmmpoints").setData(newGeoJSON);
-        // map.setFilter("incpoints", wholeFilter);
+        // map.getSource("barmmpoints").setData(newGeoJSON);
+        map.setFilter("incpoints", wholeFilter);
       }
 
       function createProv(syear, eyear, prov_obj, source) {
@@ -547,11 +485,7 @@
 
         createProv(START_YEAR, END_YEAR, prov_obj, "provSource");
         createProv(START_YEAR, END_YEAR, munc_obj, "muncSource");
-        map.addLayer(provincialFill, "bridge-simple");
-        map.addLayer(municipalFill, "bridge-simple");
-        map.addLayer(provincialOutline, "bridge-simple");
-        map.addLayer(municipalOutline, "bridge-simple");
-
+        
         slider2.noUiSlider.on("slide", function () {
           var startYear = years[Math.round(slider2.noUiSlider.get()[0])];
           var endYear = years[Math.round(slider2.noUiSlider.get()[1])];
@@ -699,19 +633,18 @@
             },
           });
 
-          map.addLayer({
-            id: "clusters",
-            type: "circle",
-            source: "barmm",
-            maxzoom: CLUSTERZOOMTHRESHOLD,
-            filter: [">", ["get", "point_count"], 0],
-            paint: {
-              "circle-opacity": 0,
-            },
-          });
+          // map.addLayer({
+          //   id: "clusters",
+          //   type: "circle",
+          //   source: "barmm",
+          //   maxzoom: CLUSTERZOOMTHRESHOLD,
+          //   filter: [">", ["get", "point_count"], 0],
+          //   paint: {
+          //     "circle-opacity": 0,
+          //   },
+          // });
 
           newGeoJSON = { ...clus2_obj };
-          console.log(newGeoJSON);
           newGeoJSON.features = newGeoJSON.features.filter((feature) =>
             selectedMonths.includes(feature.properties.incmo.toString())
           );
@@ -727,16 +660,16 @@
             },
           });
 
-          map.addLayer({
-            id: "muncclusters",
-            type: "circle",
-            source: "muncbarmm",
-            minzoom: CLUSTERZOOMTHRESHOLD,
-            filter: [">", ["get", "point_count"], 0],
-            paint: {
-              "circle-opacity": 0,
-            },
-          });
+          // map.addLayer({
+          //   id: "muncclusters",
+          //   type: "circle",
+          //   source: "muncbarmm",
+          //   minzoom: CLUSTERZOOMTHRESHOLD,
+          //   filter: [">", ["get", "point_count"], 0],
+          //   paint: {
+          //     "circle-opacity": 0,
+          //   },
+          // });
         }
 
         for (let index = 1; index <= CATEGORIES; index++) {
@@ -792,57 +725,39 @@
       });
 
       map.on("click", "incpoints", function (e) {
+        console.log(e.features[0].properties);
         var coordinates = e.features[0].geometry.coordinates.slice();
-        var year = e.features[0].properties.incyr;
-        var cause = e.features[0].properties.incident_causes_code1;
-        var province =
-          prov_code[e.features[0].properties.province_psgc.toString()];
-        var municpality =
-          munc_code[e.features[0].properties.city_psgc.toString()];
-        var category = e.features[0].properties.cause_category;
-        var incident_title = e.features[0].properties.article_incident_title;
-        var incday = e.features[0].properties.incday;
-        var incmon = month[e.features[0].properties.incmo];
-        var affil = e.features[0].properties.actors_affiliation1;
-        var effect = e.features[0].properties.actors_effect1;
-        var actorsNum = e.features[0].properties.actors_count_number;
 
-        var popuphtml =
-          "<strong>Date:</strong> " +
-          incmon +
-          " " +
-          incday +
-          ", " +
-          year +
-          "<br>";
-        popuphtml =
-          popuphtml + "<strong>Province</strong>: " + province + "<br>";
+        var category = e.features[0].properties["Category 1"];
+        var category2 = e.features[0].properties["Category 2"];
+        var brgy =  e.features[0].properties["Barangay"]===""?"(n/a)":e.features[0].properties["Barangay"];
+        var city =  e.features[0].properties["City"];
+        var munic =  e.features[0].properties["Municipality"];
+        var province =  e.features[0].properties["Province"];
+        var type =   e.features[0].properties["Type"]===1?"Tension":"Violence";
+        
+        
+        var popuphtml;
+        popuphtml = "<strong>Province</strong>: " + province + "<br>";
         popuphtml =
           popuphtml +
           "<strong>City/Municipality</strong>: " +
-          municpality +
-          "<br><br>";
-
-        popuphtml =
-          popuphtml +
-          "<strong>Incident Cause</strong>: " +
-          specificCause[cause] +
-          "<br>";
-
-        popuphtml =
-          popuphtml + "<strong>Incident:</strong>: " + incident_title + "<br>";
-
-        popuphtml =
-          popuphtml +
-          "<strong>Affiliation</strong>: " +
-          affiliation_code[affil].name +
+          munic + city +
           "<br>";
 
         popuphtml =
           popuphtml +
-          "<strong>Number of Actors</strong>: " +
-          actorsNum +
+          "<strong>Barangay</strong>: " +
+          brgy + 
           "<br>";
+
+        popuphtml =
+          popuphtml +
+          "<strong>Type</strong>: " +type +"<br>";
+
+        popuphtml =
+          popuphtml + "<strong>Category :</strong><br> " + category + "<br>"+category2;
+
 
         new mapboxgl.Popup()
           .setLngLat(coordinates)
